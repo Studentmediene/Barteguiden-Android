@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
+
+    <ScrollView
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"
+            >
+        <RelativeLayout android:layout_height="fill_parent"
+                        android:layout_width="fill_parent">
+
+            <TextView android:id="@+id/tab4_label"
+                      android:layout_height="fill_parent"
+                      android:layout_width="fill_parent"
+
+                      android:gravity="center"
+
+                      android:text="SELECT YOUR CATEGORY"/>
+
+            <RelativeLayout
+                    android:layout_height="fill_parent"
+                    android:layout_width="fill_parent"
+                    android:layout_below="@id/tab4_label"
+
+                    android:paddingTop="20dp"
+                    android:paddingLeft="20dp"
+
+                    >
+
+                <CheckBox android:id="@+id/tab4_checkbox_1"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+
+                          android:text="Concerts"
+                          android:onClick="onCheckboxClicked"/>
+
+
+                <CheckBox android:id="@+id/tab4_checkbox_2"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_below="@id/tab4_checkbox_1"
+
+                          android:text="Nightlife(uteliv)"
+                          android:onClick="onCheckboxClicked"/>
+
+                <CheckBox android:id="@+id/tab4_checkbox_3"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_below="@id/tab4_checkbox_2"
+
+                          android:text="Theatre"
+                          android:onClick="onCheckboxClicked"/>
+
+
+                <CheckBox android:id="@+id/tab4_checkbox_4"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_below="@id/tab4_checkbox_3"
+
+                          android:text="Dance"
+                          android:onClick="onCheckboxClicked"/>
+
+                <CheckBox android:id="@+id/tab4_checkbox_5"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_below="@id/tab4_checkbox_4"
+
+                          android:text="Art exibition"
+                          android:onClick="onCheckboxClicked"/>
+
+
+                <CheckBox android:id="@+id/tab4_checkbox_6"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_below="@id/tab4_checkbox_5"
+
+                          android:text="Sports events"
+                          android:onClick="onCheckboxClicked"/>
+
+                <CheckBox android:id="@+id/tab4_checkbox_7"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_below="@id/tab4_checkbox_6"
+
+                          android:text="Presentations"
+                          android:onClick="onCheckboxClicked"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="tab1">Redaksjon</string>
+    <string name="tab2">Hendelser</string>
+    <string name="tab3">Min side</string>
+    <string name="tab4">Innstillinger</string>
+
+</resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        android:id="@+id/welcome_page_view"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#fff">
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+
+            android:gravity="center"
+
+            android:text="@string/str_welcome_page"
+            android:textColor="#123"
+            android:textSize="18sp"
+            android:textStyle="bold"
+
+
+            />
+
+</LinearLayout>

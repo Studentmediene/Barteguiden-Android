@@ -8,15 +8,48 @@
 package com.underdusken.kulturekalendar;
 
 public final class R {
+    public static final class anim {
+        public static final int alpha_in=0x7f040000;
+        public static final int alpha_stay=0x7f040001;
+    }
     public static final class attr {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int ic_tab_important=0x7f020001;
+        public static final int ic_tab_list=0x7f020002;
+        public static final int ic_tab_setup=0x7f020003;
+        public static final int ic_tab_user=0x7f020004;
+    }
+    public static final class id {
+        public static final int realtabcontent=0x7f060009;
+        public static final int tab2_text=0x7f060000;
+        public static final int tab4_checkbox_1=0x7f060002;
+        public static final int tab4_checkbox_2=0x7f060003;
+        public static final int tab4_checkbox_3=0x7f060004;
+        public static final int tab4_checkbox_4=0x7f060005;
+        public static final int tab4_checkbox_5=0x7f060006;
+        public static final int tab4_checkbox_6=0x7f060007;
+        public static final int tab4_checkbox_7=0x7f060008;
+        public static final int tab4_label=0x7f060001;
+        public static final int welcome_page_view=0x7f06000a;
     }
     public static final class layout {
         public static final int main=0x7f030000;
+        public static final int tab2=0x7f030001;
+        public static final int tab3=0x7f030002;
+        public static final int tab4=0x7f030003;
+        public static final int tab_view=0x7f030004;
+        public static final int welcome_page=0x7f030005;
     }
     public static final class string {
-        public static final int app_name=0x7f040000;
+        public static final int app_name=0x7f050001;
+        /** WELCOME PAGE
+         */
+        public static final int str_welcome_page=0x7f050000;
+        public static final int tab1=0x7f050002;
+        public static final int tab2=0x7f050003;
+        public static final int tab3=0x7f050004;
+        public static final int tab4=0x7f050005;
     }
 }
