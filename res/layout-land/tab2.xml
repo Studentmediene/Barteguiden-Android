@@ -4,33 +4,62 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
 
-              android:orientation="vertical"
+              android:orientation="horizontal"
             >
 
 
+    <RelativeLayout
+       android:layout_width="wrap_content"
+       android:layout_height="fill_parent"
+
+       android:background="#6c8d9b"
+       >
+
+        <TextView
+
+            android:id="@+id/view_events_1"
+
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+
+
+            android:text="Events"
+            android:textColor="#fff"
+            android:textSize="20sp"/>
+
     <RadioGroup
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="#6c8d9b"
+                android:orientation="vertical"
+
+                android:layout_below="@id/view_events_1"
+
                 android:gravity="center"
+                android:padding="10dp"
                 >
         <RadioButton android:id="@+id/radio_pirates"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
-                     android:text="All Events"/>
+
+                     android:text="All"/>
 
 
         <RadioButton android:id="@+id/radio_ninjas"
-                     android:layout_marginLeft="50dp"
 
+
+                     android:layout_marginTop="10dp"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
 
-                     android:text="My Events"/>
+                     android:text="My"/>
 
 
     </RadioGroup>
+
+    </RelativeLayout>
 
 
     <TextView android:id="@+id/tab2_text"

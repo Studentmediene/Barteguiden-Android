@@ -19,7 +19,7 @@
 
 
         <activity
-                android:name=".ui.Tab1Fragments"
+                android:name=".ui.MainFragmentActivity"
 
                 android:launchMode="singleTask"
                 android:theme="@android:style/Theme.Black.NoTitleBar"
@@ -27,7 +27,7 @@
 
 
         <activity
-                android:name="MyActivity"
+                android:name=".ui.Tab1Fragments"
 
                 android:launchMode="singleTask"
                 android:theme="@android:style/Theme.Black.NoTitleBar"

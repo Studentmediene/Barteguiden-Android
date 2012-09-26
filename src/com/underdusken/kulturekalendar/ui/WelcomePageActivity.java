@@ -86,7 +86,7 @@ public class WelcomePageActivity extends Activity {
 
     public void startMainActivity() {
         finish();
-        Intent intent = new Intent(this, Tab1Fragments.class);
+        Intent intent = new Intent(this, MainFragmentActivity.class);
         startActivity(intent);
     }
 

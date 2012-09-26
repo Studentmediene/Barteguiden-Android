@@ -20,19 +20,24 @@ public final class R {
         public static final int ic_tab_list=0x7f020002;
         public static final int ic_tab_setup=0x7f020003;
         public static final int ic_tab_user=0x7f020004;
+        public static final int label_welcome_1=0x7f020005;
+        public static final int label_welcome_2=0x7f020006;
     }
     public static final class id {
-        public static final int realtabcontent=0x7f060009;
-        public static final int tab2_text=0x7f060000;
-        public static final int tab4_checkbox_1=0x7f060002;
-        public static final int tab4_checkbox_2=0x7f060003;
-        public static final int tab4_checkbox_3=0x7f060004;
-        public static final int tab4_checkbox_4=0x7f060005;
-        public static final int tab4_checkbox_5=0x7f060006;
-        public static final int tab4_checkbox_6=0x7f060007;
-        public static final int tab4_checkbox_7=0x7f060008;
-        public static final int tab4_label=0x7f060001;
-        public static final int welcome_page_view=0x7f06000a;
+        public static final int radio_ninjas=0x7f060001;
+        public static final int radio_pirates=0x7f060000;
+        public static final int realtabcontent=0x7f06000c;
+        public static final int tab2_text=0x7f060002;
+        public static final int tab4_checkbox_1=0x7f060005;
+        public static final int tab4_checkbox_2=0x7f060006;
+        public static final int tab4_checkbox_3=0x7f060007;
+        public static final int tab4_checkbox_4=0x7f060008;
+        public static final int tab4_checkbox_5=0x7f060009;
+        public static final int tab4_checkbox_6=0x7f06000a;
+        public static final int tab4_checkbox_7=0x7f06000b;
+        public static final int tab4_label=0x7f060004;
+        public static final int view_events_1=0x7f060003;
+        public static final int welcome_page_view=0x7f06000d;
     }
     public static final class layout {
         public static final int main=0x7f030000;

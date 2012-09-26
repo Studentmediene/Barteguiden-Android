@@ -10,33 +10,26 @@
         <option name="theme" value="Theme" />
       </GlobalState>
     </option>
+    <device-configurations>
+      <entry key="file://$PROJECT_DIR$/res/layout-land/tab4.xml" value="Portrait" />
+    </device-configurations>
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_LOG_LEVEL" value="ERROR" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4fa0ad5a-eb63-4b36-86a8-819e9e4690c4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/android_support_v4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/tab2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/tab3.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/tab4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/tab_view.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/welcome_page.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/values-nb/tabString.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/values/tabString.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab1Fragments.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab2Fragments.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab3Fragments.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab4Fragments.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/WelcomePageActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout-land/tab2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout-land/tab4.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/MyActivity.java" afterPath="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab1Fragments.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab1Fragments.java" afterPath="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/MainFragmentActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Kulturkalender-Android.iml" afterPath="$PROJECT_DIR$/Kulturkalender-Android.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gen/com/underdusken/kulturekalendar/R.java" afterPath="$PROJECT_DIR$/gen/com/underdusken/kulturekalendar/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.properties" afterPath="$PROJECT_DIR$/project.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/MyActivity.java" afterPath="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/MyActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/tab2.xml" afterPath="$PROJECT_DIR$/res/layout/tab2.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/tab4.xml" afterPath="$PROJECT_DIR$/res/layout/tab4.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/welcome_page.xml" afterPath="$PROJECT_DIR$/res/layout/welcome_page.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/WelcomePageActivity.java" afterPath="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/WelcomePageActivity.java" />
     </list>
     <ignored path="Kulturkalender-Android.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -94,42 +87,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="tabString.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/values-nb/tabString.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="29" selection-start="85" selection-end="85" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MyActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/underdusken/kulturekalendar/MyActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="23" selection-start="225" selection-end="513" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Tab2Fragments.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab2Fragments.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="45" selection-start="693" selection-end="693" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Tab3Fragments.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab3Fragments.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="45" selection-start="692" selection-end="692" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Tab4Fragments.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab4Fragments.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -139,10 +96,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Tab1Fragments.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab1Fragments.java">
+      <file leaf-file-name="MainFragmentActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/MainFragmentActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="101" column="5" selection-start="3518" selection-end="3518" vertical-scroll-proportion="0.55411255">
+            <state line="50" column="52" selection-start="1828" selection-end="1828" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tab2.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/tab2.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="40" selection-start="755" selection-end="755" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="welcome_page.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/welcome_page.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="29" column="79" selection-start="803" selection-end="803" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -151,7 +126,7 @@
       <file leaf-file-name="R.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gen/com/underdusken/kulturekalendar/R.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="52" selection-start="1044" selection-end="1044" vertical-scroll-proportion="0.0">
+            <state line="38" column="52" selection-start="1684" selection-end="1684" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -169,7 +144,25 @@
       <file leaf-file-name="tab4.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/layout/tab4.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="38" selection-start="1090" selection-end="1090" vertical-scroll-proportion="0.0">
+            <state line="20" column="54" selection-start="730" selection-end="730" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tab4.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout-land/tab4.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="42" selection-start="1026" selection-end="1026" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tab2.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/res/layout-land/tab2.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="37" column="68" selection-start="1017" selection-end="1017" vertical-scroll-proportion="0.59302324">
               <folding />
             </state>
           </provider>
@@ -178,7 +171,7 @@
       <file leaf-file-name="WelcomePageActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/WelcomePageActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="70" column="0" selection-start="2454" selection-end="2984" vertical-scroll-proportion="0.0">
+            <state line="70" column="0" selection-start="2454" selection-end="2991" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -197,30 +190,30 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/TabActivityLayout.java" />
-        <option value="$PROJECT_DIR$/res/layout/tab_view.xml" />
-        <option value="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/FragmentActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/WelcomePageActivity.java" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/MyActivity.java" />
-        <option value="$PROJECT_DIR$/res/layout/tab2.xml" />
         <option value="$PROJECT_DIR$/res/layout/tab3.xml" />
         <option value="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab2Fragments.java" />
         <option value="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab3Fragments.java" />
         <option value="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/FragmentTab.java" />
         <option value="$PROJECT_DIR$/res/values/tabString.xml" />
         <option value="$PROJECT_DIR$/res/values-no/tabString.xml" />
-        <option value="$PROJECT_DIR$/res/layout/tab4.xml" />
         <option value="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab4Fragments.java" />
         <option value="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab1Fragments.java" />
+        <option value="$PROJECT_DIR$/res/layout/welcome_page.xml" />
+        <option value="$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/MainFragmentActivity.java" />
+        <option value="$PROJECT_DIR$/res/layout/tab2.xml" />
+        <option value="$PROJECT_DIR$/res/layout/tab4.xml" />
+        <option value="$PROJECT_DIR$/res/layout-port/tab4.xml" />
+        <option value="$PROJECT_DIR$/res/layout-land/tab4.xml" />
+        <option value="$PROJECT_DIR$/res/layout-land/tab2.xml" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="4" />
     <option name="y" value="22" />
-    <option name="width" value="1276" />
-    <option name="height" value="778" />
+    <option name="width" value="1916" />
+    <option name="height" value="1178" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -248,16 +241,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -287,28 +270,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kulturekalendar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Kulturkalender-Android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Kulturkalender-Android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kulturekalendar" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -366,6 +327,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="layout-land" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Kulturkalender-Android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Kulturkalender-Android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -404,6 +383,16 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -434,8 +423,14 @@
     <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/res/layout-land" />
+      <recent name="$PROJECT_DIR$/res/layout-port" />
+    </key>
   </component>
   <component name="RunManager" selected="Android Application.Kulturkalender-Android">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -483,24 +478,6 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -526,6 +503,24 @@
       <envs />
       <properties />
       <listeners />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -599,7 +594,7 @@
     </configuration>
     <configuration default="false" name="Kulturkalender-Android" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="Kulturkalender-Android" />
-      <option name="ACTIVITY_CLASS" value="com.underdusken.kulturekalendar.MyActivity" />
+      <option name="ACTIVITY_CLASS" value="com.underdusken.kulturekalendar.ui.Tab1Fragments" />
       <option name="MODE" value="default_activity" />
       <option name="DEPLOY" value="true" />
       <option name="TARGET_SELECTION_MODE" value="USB_DEVICE" />
@@ -632,26 +627,26 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="4" y="22" width="1276" height="778" extended-state="0" />
+    <frame x="4" y="22" width="1916" height="1178" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32899022" sideWeight="0.7777778" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32869378" sideWeight="0.77861875" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32923368" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49010655" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24918567" sideWeight="0.7777778" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22222222" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16381156" sideWeight="0.77861875" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22138126" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -719,106 +714,100 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="46" selection-start="122" selection-end="122" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../android-sdk-macosx/platforms/android-15/android.jar!/android/app/Activity.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="65" selection-start="2716" selection-end="2763" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/welcome_page.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="33" selection-start="632" selection-end="632" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/main.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/tab2.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="214" selection-end="424" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/values/tabString.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="35" selection-start="90" selection-end="90" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="3" column="35" selection-start="90" selection-end="90" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values-nb/tabString.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="29" selection-start="85" selection-end="85" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="3" column="29" selection-start="85" selection-end="85" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/underdusken/kulturekalendar/MyActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab1Fragments.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="23" selection-start="225" selection-end="513" vertical-scroll-proportion="0.0">
+        <state line="9" column="26" selection-start="273" selection-end="561" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab2Fragments.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="45" selection-start="693" selection-end="693" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="21" column="45" selection-start="693" selection-end="693" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab3Fragments.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="45" selection-start="692" selection-end="692" vertical-scroll-proportion="0.0">
+        <state line="21" column="45" selection-start="692" selection-end="692" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab4Fragments.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="76" column="20" selection-start="756" selection-end="2457" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gen/com/underdusken/kulturekalendar/R.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="52" selection-start="1684" selection-end="1684" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/tab3.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="32" selection-start="428" selection-end="428" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="12" column="32" selection-start="428" selection-end="428" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/WelcomePageActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="0" selection-start="2454" selection-end="2984" vertical-scroll-proportion="0.0">
+        <state line="70" column="0" selection-start="2454" selection-end="2991" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/welcome_page.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="79" selection-start="803" selection-end="803" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/MainFragmentActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="52" selection-start="1828" selection-end="1828" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/tab2.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="40" selection-start="755" selection-end="755" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/tab4.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="38" selection-start="1090" selection-end="1090" vertical-scroll-proportion="0.0">
+        <state line="20" column="54" selection-start="730" selection-end="730" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gen/com/underdusken/kulturekalendar/R.java">
+    <entry file="file://$PROJECT_DIR$/res/layout-land/tab4.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="52" selection-start="1044" selection-end="1044" vertical-scroll-proportion="0.0">
+        <state line="27" column="42" selection-start="1026" selection-end="1026" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab4Fragments.java">
+    <entry file="file://$PROJECT_DIR$/res/layout-land/tab2.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="20" selection-start="756" selection-end="2457" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/underdusken/kulturekalendar/ui/Tab1Fragments.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="5" selection-start="3518" selection-end="3518" vertical-scroll-proportion="0.55411255">
+        <state line="37" column="68" selection-start="1017" selection-end="1017" vertical-scroll-proportion="0.59302324">
           <folding />
         </state>
       </provider>
