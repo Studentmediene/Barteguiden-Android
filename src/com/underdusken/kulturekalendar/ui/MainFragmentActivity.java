@@ -45,6 +45,10 @@ public class MainFragmentActivity extends FragmentActivity {
         mTabManager.addTab(mTabHost.newTabSpec("tab4").setIndicator(getString(R.string.tab4)),
                 Tab4Fragments.class, null);
 
+
+
+
+
         int imageViewIndex = 1;
         if (Build.VERSION.SDK_INT >= 15) {
             imageViewIndex = 0;
@@ -68,10 +72,14 @@ public class MainFragmentActivity extends FragmentActivity {
         imageView.setImageResource(R.drawable.ic_tab_setup);
 
 
+
         if (savedInstanceState != null) {
             mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
         }
     }
+
+
+
 
     public void onCheckboxClicked(View view) {
         // Is the view now checked?

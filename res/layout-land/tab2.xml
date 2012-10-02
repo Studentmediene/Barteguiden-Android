@@ -40,21 +40,21 @@
                 android:gravity="center"
                 android:padding="10dp"
                 >
-        <RadioButton android:id="@+id/radio_pirates"
+        <RadioButton android:id="@+id/tab2_check_all_events"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
 
-                     android:text="All"/>
+                     android:text="@string/tab2_check_all_events"/>
 
 
-        <RadioButton android:id="@+id/radio_ninjas"
+        <RadioButton android:id="@+id/tab2_check_my_events"
 
 
                      android:layout_marginTop="10dp"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
 
-                     android:text="My"/>
+                     android:text="@string/tab2_check_my_events"/>
 
 
     </RadioGroup>
@@ -62,12 +62,23 @@
     </RelativeLayout>
 
 
-    <TextView android:id="@+id/tab2_text"
+    <ListView
+            android:id="@+id/tab2_events_list"
+
             android:layout_height="fill_parent"
             android:layout_width="fill_parent"
 
-            android:gravity="center"
+            />
 
-            android:text="TAB2"/>
+
+    <!--When the list is empty we use this textView to inform about this-->
+    <TextView android:id="@+id/tab2_text"
+              android:layout_height="fill_parent"
+              android:layout_width="fill_parent"
+
+              android:gravity="center"
+              android:visibility="gone"
+
+              android:text="TAB2"/>
 
 </LinearLayout>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="tab2_check_all_events">All</string>
+    <string name="tab2_check_my_events">My</string>
+
     <!--WELCOME PAGE-->
     <string name="str_welcome_page">WELCOME!!!</string>
 
