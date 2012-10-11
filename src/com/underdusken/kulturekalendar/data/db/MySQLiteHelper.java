@@ -20,22 +20,24 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     // TABLE EVENTS
     public static final String TABLE_EVENTS = "events";
-    public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_ID =  "_id";
     public static final String COLUMN_EVENTS_NAME = "_name";
     public static final String COLUMN_EVENTS_TYPE = "_type";
     public static final String COLUMN_EVENTS_ADDRESS = "_address";
     public static final String COLUMN_EVENTS_GEO_LAT = "_geo_lat";
     public static final String COLUMN_EVENTS_GEO_LON = "_geo_lon";
-    public static final String COLUMN_EVENTS_DATE = "_date";
+    public static final String COLUMN_EVENTS_DATE_START = "_date_start";
+    public static final String COLUMN_EVENTS_DATE_END = "_date_end";
     public static final String COLUMN_EVENTS_PRICE = "_price";
     public static final String COLUMN_EVENTS_AGE_LIMITS = "_age_limits";
     public static final String COLUMN_EVENTS_FAVORITE = "_favorite";
     public static final String COLUMN_EVENTS_BEER_PRICE = "_beer_price";
-    public static final String COLUMN_EVENTS_DESCRIPTION_ENG = "_desc_end";
+    public static final String COLUMN_EVENTS_DESCRIPTION_ENG = "_desc_eng";
     public static final String COLUMN_EVENTS_DESCRIPTION_NO = "_desc_no";
     public static final String COLUMN_EVENTS_PICTURE = "_picture";
     public static final String COLUMN_EVENTS_SMALL_PICTURE = "_small_picture";
-    public static final String COLUMN_EVENTS_WEEKEND_RECOMMENDATION = "_weekend_recommendation";
+    public static final String COLUMN_EVENTS_WEEKEND_RECOMMENDATION_ENGLISH = "_weekend_recom_eng";
+    public static final String COLUMN_EVENTS_WEEKEND_RECOMMENDATION_NORWEGIAN = "_weekend_recom_nor";
     public static final String COLUMN_EVENTS_NOTIFICATION_ID = "_notification_id";
 
 
@@ -47,7 +49,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + COLUMN_EVENTS_ADDRESS + " text, "
             + COLUMN_EVENTS_GEO_LAT + " integer, "
             + COLUMN_EVENTS_GEO_LON + " integer, "
-            + COLUMN_EVENTS_DATE + " text, "
+            + COLUMN_EVENTS_DATE_START+ " text, "
+            + COLUMN_EVENTS_DATE_END + " text, "
             + COLUMN_EVENTS_PRICE + " integer, "
             + COLUMN_EVENTS_AGE_LIMITS + " integer, "
             + COLUMN_EVENTS_FAVORITE + " integer, "
@@ -56,7 +59,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + COLUMN_EVENTS_DESCRIPTION_NO + " text, "
             + COLUMN_EVENTS_PICTURE + " text, "
             + COLUMN_EVENTS_SMALL_PICTURE + " text, "
-            + COLUMN_EVENTS_WEEKEND_RECOMMENDATION + " text, "
+            + COLUMN_EVENTS_WEEKEND_RECOMMENDATION_ENGLISH + " text, "
+            + COLUMN_EVENTS_WEEKEND_RECOMMENDATION_NORWEGIAN + " text, "
             + COLUMN_EVENTS_NOTIFICATION_ID + " integer);";
 
 

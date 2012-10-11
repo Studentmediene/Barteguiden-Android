@@ -2,11 +2,13 @@ package com.underdusken.kulturekalendar.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.ui.Adapter.AdapterEventsItem;
@@ -25,10 +27,11 @@ public class Tab2Fragments extends Fragment {
 
     private AdapterEventsItem adapterEventsItem = null;
     private List<EventsItem> eventsItemList = null;
+    private List<EventsItem> filterEventsItem = new ArrayList<EventsItem>();
 
-
+    // ui
     private ListView lvEvents = null;
-
+    private EditText etSearch = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,27 +45,41 @@ public class Tab2Fragments extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        RadioButton radioButton = (RadioButton) getActivity().findViewById(R.id.tab2_check_all_events);
+        lvEvents = (ListView) getActivity().findViewById(R.id.tab2_events_list);
+        etSearch = (EditText) getActivity().findViewById(R.id.tab2_search_field);
 
-        radioButton.setText(R.string.tab2_check_all_events);
+        etSearch.addTextChangedListener(new TextWatcher() {
 
-        radioButton = (RadioButton) getActivity().findViewById(R.id.tab2_check_my_events);
-        radioButton.setText(R.string.tab2_check_my_events);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // TODO Auto-generated method stub
+            }
 
-        lvEvents = (ListView)getActivity().findViewById(R.id.tab2_events_list);
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateFilter();
+                adapterEventsItem = new AdapterEventsItem(Tab2Fragments.this.getActivity(), 0, filterEventsItem);
+                lvEvents.setAdapter(adapterEventsItem);
+            }
+        });
 
         //TODO Only for test !!!
         createTestList();
 
+        // update filter list
+        updateFilter();
         // load events
         loadEvents();
-
-
-
     }
 
-
-    private void createTestList(){
+    //TODO use this only for test
+    private void createTestList() {
         eventsItemList = new ArrayList<EventsItem>();
 
         eventsItemList.add(new EventsItem("Event 1", "12.10.2012"));
@@ -77,8 +94,18 @@ public class Tab2Fragments extends Fragment {
     }
 
 
-    private void loadEvents(){
-        adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, eventsItemList);
+    private void updateFilter(){
+        filterEventsItem.clear();
+        String searchText = etSearch.getText().toString().toLowerCase();
+        for(EventsItem eventsItem: eventsItemList){
+                if(eventsItem.getName().toLowerCase().contains(searchText))
+                    filterEventsItem.add(eventsItem);
+        }
+    }
+
+
+    private void loadEvents() {
+        adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, filterEventsItem);
         lvEvents.setAdapter(adapterEventsItem);
     }
 
