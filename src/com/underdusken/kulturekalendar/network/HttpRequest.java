@@ -291,7 +291,7 @@ public class HttpRequest extends AsyncTask<Void, Void, String> {
                 onLoadListener.onLoadError(result, errorStatusCode.getStatusCode(), null);
             } else {
                 if(errorStatusCode.getStatusCode()==1){
-                    onLoadListener.onLoadError( "Отсутствует соединение", errorStatusCode.getStatusCode(), "Отсутствует соединение");
+                    onLoadListener.onLoadError( "Connection is absent", errorStatusCode.getStatusCode(), "Connection is absent");
                 }if(errorStatusCode.getStatusCode()!=200)
                     onLoadListener.onLoadError(result, errorStatusCode.getStatusCode(), result);
                 else

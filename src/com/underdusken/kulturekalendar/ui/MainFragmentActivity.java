@@ -71,11 +71,11 @@ public class MainFragmentActivity extends FragmentActivity {
         imageView = (ImageView) idView.getChildAt(imageViewIndex);
         imageView.setImageResource(R.drawable.ic_tab_setup);
 
-
-
         if (savedInstanceState != null) {
             mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
         }
+
+
     }
 
 
