@@ -1,5 +1,6 @@
 package com.underdusken.kulturekalendar.json;
 
+import android.util.Log;
 import com.underdusken.kulturekalendar.data.EventsItem;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +18,7 @@ import java.util.List;
  * return null if something wrong
  */
 public class JsonParseEvents {
-    public List<EventsItem> parse(String input){
+    static public List<EventsItem> parse(String input){
         if(input==null)
             return null;
 
@@ -38,9 +39,9 @@ public class JsonParseEvents {
                 JSONObject eventObject = eventsArray.getJSONObject(i);
 
                 try{
-                    eventsItem.setId(eventObject.getString("id"));
+                    eventsItem.setEventsId(eventObject.getString("id"));
                 }catch (Exception e){
-                    eventsItem.setId("0");
+                    eventsItem.setEventsId("0");
                 }
                 try{
                     eventsItem.setName(eventObject.getString("name"));
@@ -122,18 +123,13 @@ public class JsonParseEvents {
                 }catch (Exception e){
                     eventsItem.setWeekendRecommendationNorwegian("");
                 }
-                try{
-                    eventsItem.setNotificationId(eventObject.getInt("notificationId"));
-                }catch (Exception e){
-                    eventsItem.setNotificationId(0);
-                }
 
                 eventsList.add(eventsItem);
-
             }
             return eventsList;
 
         } catch (JSONException e) {
+            Log.i("kultkal", e.getMessage());
             return null;
         }
 

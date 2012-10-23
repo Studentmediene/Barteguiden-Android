@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import com.underdusken.kulturekalendar.R;
+import com.underdusken.kulturekalendar.mainhandler.MainHandler;
 
 import java.util.HashMap;
 
@@ -76,7 +77,23 @@ public class MainFragmentActivity extends FragmentActivity {
         }
 
 
+
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MainHandler.getInstance(this).onStartApplication();
+    }
+    @Override
+    protected void onPause() {
+       super.onPause();
+       MainHandler.getInstance(this).onCloseApplication();
+    }
+
+
+
 
 
 

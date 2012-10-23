@@ -8,7 +8,8 @@ package com.underdusken.kulturekalendar.data;
  *  Event item
  */
 public class EventsItem {
-    private String id = "0";
+    private long id = 0;
+    private String eventsId = "0";
     private String name = "";
     private String type = "";
     private String address = "";
@@ -45,7 +46,10 @@ public class EventsItem {
 
 
     // Set methods
-    public void setId(String id){
+    public void setEventsId(String eventsId){
+        this.eventsId = eventsId;
+    }
+    public void setId(long id){
         this.id = id;
     }
     public void setName(String name){
@@ -111,8 +115,11 @@ public class EventsItem {
 
 
     // Get methods
-    public String getId(){
+    public long getId(){
         return this.id;
+    }
+    public String getEventsId(){
+        return this.eventsId;
     }
     public String getName(){
         return this.name;

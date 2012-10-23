@@ -1,6 +1,7 @@
 package com.underdusken.kulturekalendar.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventsItem;
+import com.underdusken.kulturekalendar.data.db.ManageDataBase;
 import com.underdusken.kulturekalendar.ui.Adapter.AdapterMyEventsItem;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +25,8 @@ import java.util.List;
  */
 public class Tab3Fragments extends Fragment {
 
+    // UI handlers
+    Handler activityHandler = null;
 
     private AdapterMyEventsItem adapterEventsItem = null;
     private List<EventsItem> eventsItemList = null;
@@ -43,28 +48,39 @@ public class Tab3Fragments extends Fragment {
 
         lvEvents = (ListView)getActivity().findViewById(R.id.tab3_events_list);
 
-        //TODO Only for test !!!
-        createTestList();
+        loadEventsFromDb();
 
-        // load events
-        loadEvents();
-
+        setListViewAdapter();
 
 
     }
 
 
-    private void createTestList(){
-        eventsItemList = new ArrayList<EventsItem>();
+    private void loadEventsFromDb(){
+        ManageDataBase manageDataBase = new ManageDataBase(getActivity());
+        try {
+            manageDataBase.open();
+            eventsItemList = new ArrayList<EventsItem>();
+            List<EventsItem> newEventsItemList = manageDataBase.getAllEventsFavorites();
 
-        eventsItemList.add(new EventsItem("Event 1", "12.10.2012"));
-        eventsItemList.add(new EventsItem("Event 2", "13.10.2012"));
+            if(newEventsItemList!=null)
+                if(newEventsItemList.size()>0){
+                    eventsItemList.addAll(newEventsItemList);
+                }
+            manageDataBase.close();
+        } catch (SQLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
     }
 
-
-    private void loadEvents(){
+    private void setListViewAdapter(){
         adapterEventsItem = new AdapterMyEventsItem(this.getActivity(), 0, eventsItemList);
         lvEvents.setAdapter(adapterEventsItem);
     }
+
+    private void updateView(){
+        adapterEventsItem.notifyDataSetChanged();
+    }
+
 }

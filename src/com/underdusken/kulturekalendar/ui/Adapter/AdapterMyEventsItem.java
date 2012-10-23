@@ -41,13 +41,13 @@ public class AdapterMyEventsItem extends ArrayAdapter<EventsItem> {
 
         if (position >= 0 && position < items.size()) {
 
-            EventsItem eventsItem = items.get(position);
+            EventsItem eventsItem = items.get(items.size() - position - 1);
 
             TextView tvName = (TextView) v.findViewById(R.id.events_text);
             TextView tvDate = (TextView) v.findViewById(R.id.events_date);
 
-            tvName.setText(eventsItem.name);
-            tvDate.setText(eventsItem.date);
+            tvName.setText(eventsItem.getId() + eventsItem.getName());
+            tvDate.setText(eventsItem.getDateStart());
         }
 
         return v;

@@ -26,13 +26,11 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
-public class HttpRequest extends AsyncTask<Void, Void, String> {
+public class NetworkRequest extends AsyncTask<Void, Void, String> {
 
     private static Activity activity = null;
 
@@ -53,15 +51,15 @@ public class HttpRequest extends AsyncTask<Void, Void, String> {
     private String asyncBaseAuth;
     private HttpStatusCode asyncStatusCode;
 
-    private HttpStatusCode errorStatusCode =  new HttpStatusCode();
+    private HttpStatusCode errorStatusCode = new HttpStatusCode();
 
-    public static void setActivity(Activity activity){
-        HttpRequest.activity = activity;
+    public static void setActivity(Activity activity) {
+        NetworkRequest.activity = activity;
     }
 
-    public void noInternet(){
-        if(activity!=null){
-            activity.runOnUiThread(new Runnable(){
+    public void noInternet() {
+        if (activity != null) {
+            activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Toast.makeText(activity, R.string.internet_connection_error, Toast.LENGTH_SHORT).show();
@@ -70,7 +68,7 @@ public class HttpRequest extends AsyncTask<Void, Void, String> {
         }
     }
 
-    public HttpRequest(){
+    public NetworkRequest() {
         HttpParams myParams = new BasicHttpParams();
 
         HttpConnectionParams.setConnectionTimeout(myParams, 120000);
@@ -94,13 +92,13 @@ public class HttpRequest extends AsyncTask<Void, Void, String> {
         }
     }
 
-    public HttpRequest setOnLoadListener(OnLoadListener onLoadListener){
+    public NetworkRequest setOnLoadListener(OnLoadListener onLoadListener) {
         this.onLoadListener = onLoadListener;
 
         return this;
     }
 
-    public HttpRequest setAsyncPost(String url, ArrayList<NameValuePair> data, String contentType, String baseAuth, HttpStatusCode statusCode){
+    public NetworkRequest setAsyncPost(String url, ArrayList<NameValuePair> data, String contentType, String baseAuth, HttpStatusCode statusCode) {
         asyncUrl = url;
         asyncData = data;
         asyncContentType = contentType;
@@ -110,7 +108,7 @@ public class HttpRequest extends AsyncTask<Void, Void, String> {
         return this;
     }
 
-    public  HttpRequest setAsyncPost(String url, ArrayList<NameValuePair> data, HttpStatusCode statusCode){
+    public NetworkRequest setAsyncPost(String url, ArrayList<NameValuePair> data, HttpStatusCode statusCode) {
         asyncUrl = url;
         asyncData = data;
         asyncStatusCode = statusCode;
@@ -118,7 +116,7 @@ public class HttpRequest extends AsyncTask<Void, Void, String> {
         return this;
     }
 
-    public HttpRequest setAsyncPost(String url, ArrayList<NameValuePair> data, String baseAuth, HttpStatusCode statusCode){
+    public NetworkRequest setAsyncPost(String url, ArrayList<NameValuePair> data, String baseAuth, HttpStatusCode statusCode) {
         asyncUrl = url;
         asyncData = data;
         asyncBaseAuth = baseAuth;
@@ -135,7 +133,6 @@ public class HttpRequest extends AsyncTask<Void, Void, String> {
     public String sendJSONPost(String url, ArrayList<NameValuePair> data, HttpStatusCode statusCode) {
         return sendPost(url, data, "application/json", statusCode);
     }
-
 
 
     public String sendPost(String url, ArrayList<NameValuePair> data, String contentType, HttpStatusCode statusCode) {
@@ -159,7 +156,7 @@ public class HttpRequest extends AsyncTask<Void, Void, String> {
             httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
         }
 
-        if(data!=null){
+        if (data != null) {
 
             try {
                 httpPost.setEntity(new UrlEncodedFormEntity(data, HTTP.UTF_8));
@@ -167,31 +164,31 @@ public class HttpRequest extends AsyncTask<Void, Void, String> {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
             Log.d("Your App Name Here", url + "?" + data);
-        }else{
+        } else {
             Log.d("Your App Name Here", url);
         }
 
         try {
-            response = httpClient.execute(httpPost,localContext);
+            response = httpClient.execute(httpPost, localContext);
 
             if (response != null) {
                 errorStatusCode.setStatusCode(response.getStatusLine().getStatusCode());
-                if(statusCode!=null)
+                if (statusCode != null)
                     statusCode.setStatusCode(response.getStatusLine().getStatusCode());
 
                 ret = EntityUtils.toString(response.getEntity());
             }
-        } catch (ConnectTimeoutException e){
+        } catch (ConnectTimeoutException e) {
             errorStatusCode.setStatusCode(1);
-        }catch (SocketTimeoutException e){
+        } catch (SocketTimeoutException e) {
             errorStatusCode.setStatusCode(1);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
         String resultString = "";
-        if(ret==null){
-            if(!haveNetworkConnection()){
+        if (ret == null) {
+            if (!haveNetworkConnection()) {
                 noInternet();
             }
             return null;
@@ -199,11 +196,13 @@ public class HttpRequest extends AsyncTask<Void, Void, String> {
         try {
             resultString = URLDecoder.decode(ret, HTTP.UTF_8);
         } catch (UnsupportedEncodingException e) {
-            resultString =  null;
+            resultString = null;
         }
         return resultString;
     }
 
+
+    // Testing for internet connection
     private boolean haveNetworkConnection() {
         boolean haveConnectedWifi = false;
         boolean haveConnectedMobile = false;
@@ -241,12 +240,60 @@ public class HttpRequest extends AsyncTask<Void, Void, String> {
 
         String result = null;
         try {
-            result = new StringEntity(ret,HTTP.UTF_8).toString();
+            result = new StringEntity(ret, HTTP.UTF_8).toString();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
         return result;
+    }
+
+    public static String convertStreamToString(InputStream is) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String result = sb.toString();
+        return result;
+    }
+
+    public String getInputStreamFromUrl(String url) {
+        InputStream is = null;
+        URLConnection connection = null;
+        try {
+            URL aURL = new URL(url);
+            connection = aURL.openConnection();
+
+            connection.addRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml");
+
+            is = connection.getInputStream();
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String result = convertStreamToString(is);
+        return result;
+
     }
 
     public InputStream getHttpStream(String urlString) throws IOException {
@@ -259,7 +306,7 @@ public class HttpRequest extends AsyncTask<Void, Void, String> {
         if (!(conn instanceof HttpURLConnection))
             throw new IOException("Not an HTTP connection");
 
-        try{
+        try {
             HttpURLConnection httpConn = (HttpURLConnection) conn;
             httpConn.setAllowUserInteraction(false);
             httpConn.setInstanceFollowRedirects(true);
@@ -280,19 +327,20 @@ public class HttpRequest extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... voids) {
-        String result =  sendPost(asyncUrl, asyncData, asyncContentType, errorStatusCode);
+        String result = sendPost(asyncUrl, asyncData, asyncContentType, errorStatusCode);
         return result;
     }
 
     @Override
     protected void onPostExecute(String result) {
-        if(onLoadListener!=null)
+        if (onLoadListener != null)
             if (result == null) {
                 onLoadListener.onLoadError(result, errorStatusCode.getStatusCode(), null);
             } else {
-                if(errorStatusCode.getStatusCode()==1){
-                    onLoadListener.onLoadError( "Connection is absent", errorStatusCode.getStatusCode(), "Connection is absent");
-                }if(errorStatusCode.getStatusCode()!=200)
+                if (errorStatusCode.getStatusCode() == 1) {
+                    onLoadListener.onLoadError("Connection is absent", errorStatusCode.getStatusCode(), "Connection is absent");
+                }
+                if (errorStatusCode.getStatusCode() != 200)
                     onLoadListener.onLoadError(result, errorStatusCode.getStatusCode(), result);
                 else
                     onLoadListener.onLoad(result, (String) result);

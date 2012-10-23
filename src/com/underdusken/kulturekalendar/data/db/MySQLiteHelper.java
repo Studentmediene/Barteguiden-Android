@@ -21,6 +21,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     // TABLE EVENTS
     public static final String TABLE_EVENTS = "events";
     public static final String COLUMN_ID =  "_id";
+    public static final String COLUMN_EVENTS_ID = "_events_id";
     public static final String COLUMN_EVENTS_NAME = "_name";
     public static final String COLUMN_EVENTS_TYPE = "_type";
     public static final String COLUMN_EVENTS_ADDRESS = "_address";
@@ -36,19 +37,20 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_EVENTS_DESCRIPTION_NO = "_desc_no";
     public static final String COLUMN_EVENTS_PICTURE = "_picture";
     public static final String COLUMN_EVENTS_SMALL_PICTURE = "_small_picture";
-    public static final String COLUMN_EVENTS_WEEKEND_RECOMMENDATION_ENGLISH = "_weekend_recom_eng";
-    public static final String COLUMN_EVENTS_WEEKEND_RECOMMENDATION_NORWEGIAN = "_weekend_recom_nor";
+    public static final String COLUMN_EVENTS_WEEKEND_RECOMMENDATION_ENGLISH = "_weekend_recommendation_eng";
+    public static final String COLUMN_EVENTS_WEEKEND_RECOMMENDATION_NORWEGIAN = "_weekend_recommendation_nor";
     public static final String COLUMN_EVENTS_NOTIFICATION_ID = "_notification_id";
 
 
     private static final String TABLE_EVENTS_CREATE = "create table "
             + TABLE_EVENTS + "("
             + COLUMN_ID + " integer primary key autoincrement, "
+            + COLUMN_EVENTS_ID + " text, "
             + COLUMN_EVENTS_NAME + " text, "
             + COLUMN_EVENTS_TYPE + " text, "
             + COLUMN_EVENTS_ADDRESS + " text, "
-            + COLUMN_EVENTS_GEO_LAT + " integer, "
-            + COLUMN_EVENTS_GEO_LON + " integer, "
+            + COLUMN_EVENTS_GEO_LAT + " real, "
+            + COLUMN_EVENTS_GEO_LON + " real, "
             + COLUMN_EVENTS_DATE_START+ " text, "
             + COLUMN_EVENTS_DATE_END + " text, "
             + COLUMN_EVENTS_PRICE + " integer, "

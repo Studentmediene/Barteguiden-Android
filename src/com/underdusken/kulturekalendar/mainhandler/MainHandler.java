@@ -3,6 +3,14 @@ package com.underdusken.kulturekalendar.mainhandler;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.widget.Toast;
+import com.underdusken.kulturekalendar.data.EventsItem;
+import com.underdusken.kulturekalendar.data.db.ManageDataBase;
+import com.underdusken.kulturekalendar.json.JsonParseEvents;
+import com.underdusken.kulturekalendar.network.NetworkRequest;
+
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  *  Class for update network data
@@ -10,7 +18,7 @@ import android.os.AsyncTask;
 public class MainHandler {
     private Activity activity = null;
 
-    static private final int UPDATE_TIME = 20000;
+    static private final int UPDATE_TIME = 5000;
     static private final int WAIT_INTERNET_CONNECTION = 5000;
     static private final int WAIT_UPDATE_DATA_BASE = 1000;
 
@@ -88,6 +96,18 @@ public class MainHandler {
                 //TODO try to load throw the internet
                 // if something happened
                 // progress
+
+                // For test internet connection
+                NetworkRequest networkRequest = new NetworkRequest();
+                NetworkRequest.setActivity(activity);
+                String result = networkRequest.getInputStreamFromUrl("http://oscilloscope2005.narod.ru/events.json");
+
+                if(result!=null){
+                    blockThread = true;
+                    publishProgress(result);
+                }
+
+                // waiting while we add new data to dataBase
                 while(blockThread){
                     try{
                         Thread.sleep(WAIT_UPDATE_DATA_BASE);
@@ -112,19 +132,32 @@ public class MainHandler {
 
         @Override
         protected void onProgressUpdate(String... values) {
-            blockThread = true;
-           // get results from DB
-           if(values != null){
-               // TODO update database and send broadcast
-               /*ManageDataBase manageDataBase = new ManageDataBase(activity);
-               manageDataBase.open();
-               tablePaymentItemList = manageDataBase.addEvent();
-               manageDataBase.close();*/
 
+            //TODO delete it
+            Toast.makeText(activity, "Update information", Toast.LENGTH_SHORT).show();
 
-               Intent i = new Intent(BroadcastNames.BROADCAST_NEW_DATA);
-               activity.sendBroadcast(i);
-           }
+           if(values != null)
+
+               if(values.length > 0){
+
+               List<EventsItem> newEventsList = JsonParseEvents.parse(values[0]);   // parse incoming events
+
+               if(newEventsList!=null){
+                    for(EventsItem eventsItem: newEventsList){              // add information to DB
+                        ManageDataBase manageDataBase = new ManageDataBase(activity);
+                        try {
+                            manageDataBase.open();
+                            EventsItem checkEventItem = manageDataBase.addEventItem(eventsItem);
+                            manageDataBase.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        }
+
+                    }
+                   Intent i = new Intent(BroadcastNames.BROADCAST_NEW_DATA);
+                   activity.sendBroadcast(i);
+               }
+            }
             blockThread = false;
         }
 
@@ -134,7 +167,5 @@ public class MainHandler {
         }
 
     }
-
-
 
 }
