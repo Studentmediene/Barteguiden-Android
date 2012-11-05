@@ -5,13 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventsItem;
-import com.underdusken.kulturekalendar.data.db.ManageDataBase;
+import com.underdusken.kulturekalendar.utils.ServiceLoadImage;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -25,35 +25,92 @@ public class AdapterEventsItem extends ArrayAdapter<EventsItem> {
 
     private Context context = null;
     private List<EventsItem> items;
+    private LayoutInflater vi = null;
+    // Image Loader handler
+    private ServiceLoadImage serviceLoadImage = null;
 
     public AdapterEventsItem(Context context, int textViewResourceId,
                               List<EventsItem> objects) {
         super(context, textViewResourceId, objects);
         this.items = objects;
         this.context = context;
+        this.vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    public void setServiceLoadImage(ServiceLoadImage serviceLoadImage){
+        this.serviceLoadImage = serviceLoadImage;
+    }
+
+
+    private static class ViewHolder{
+        RelativeLayout headerLayout;
+        TextView tvName;
+        TextView tvDate;
+        TextView tvPrice;
+        TextView tvPlace;
+        ImageView ivPicture;
     }
 
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
+        ViewHolder viewHolder = null;
 
         if (v == null) {
-            LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = vi.inflate(R.layout.events_item, null);
+            viewHolder = new ViewHolder();
+            viewHolder.headerLayout = (RelativeLayout)v.findViewById(R.id.events_header);
+            viewHolder.tvName = (TextView) v.findViewById(R.id.events_title);
+            viewHolder.tvDate = (TextView) v.findViewById(R.id.events_date);
+            viewHolder.tvPrice = (TextView)v.findViewById(R.id.events_price);
+            viewHolder.tvPlace = (TextView)v.findViewById(R.id.events_place);
+            viewHolder.ivPicture = (ImageView)v.findViewById(R.id.events_image);
+            v.setTag(viewHolder);
+        }else{
+            viewHolder = (ViewHolder)v.getTag();
         }
 
         if (position >= 0 && position < items.size()) {
 
             final EventsItem eventsItem = items.get(items.size() - position - 1);
 
-            TextView tvName = (TextView) v.findViewById(R.id.events_text);
-            TextView tvDate = (TextView) v.findViewById(R.id.events_date);
+            // Set group header (Date)
+            boolean _header;
+            if(position == 0)
+                _header = true;
+            else{
+                EventsItem eventsItemPrev = items.get(items.size() - position);
+                _header = !eventsItemPrev.getDateStart().equalsIgnoreCase(eventsItem.getDateStart());
+            }
 
-            tvName.setText(eventsItem.getId() + eventsItem.getName());
-            tvDate.setText(eventsItem.getDateStart());
+            if(_header){
+                viewHolder.headerLayout.setVisibility(View.VISIBLE);
+                viewHolder.tvDate.setText(eventsItem.getDateStart());
+            }else{
+                viewHolder.headerLayout.setVisibility(View.GONE);
+            }
 
-            // Check adding to favorites
+
+            viewHolder.tvName.setText(eventsItem.getId() + eventsItem.getName());
+
+            // Set price for event
+            if(eventsItem.getPrice()==0){
+                viewHolder.tvPrice.setText("Free");
+            }else{
+                viewHolder.tvPrice.setText((int)(eventsItem.getPrice()) + " Kr");
+            }
+
+            // Set events place
+            viewHolder.tvPlace.setText(eventsItem.getAddress());
+
+
+            // Set Image
+            if(serviceLoadImage!=null){
+                serviceLoadImage.loadImage(eventsItem.getSmallPicture(), viewHolder.ivPicture, R.drawable.ic_article);
+            }
+
+            /*// Check adding to favorites
             CheckBox chkFavorite = (CheckBox) v.findViewById(R.id.events_item_favorite_add);
             chkFavorite.setChecked(eventsItem.getFavorite());
             chkFavorite.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +139,7 @@ public class AdapterEventsItem extends ArrayAdapter<EventsItem> {
                         }
                     }
                 }
-            });
+            });*/
 
         }
 

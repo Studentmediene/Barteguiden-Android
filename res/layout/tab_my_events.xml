@@ -9,34 +9,48 @@
 
     <!--Search region-->
     <RelativeLayout
-            android:id="@+id/tab4_search_region"
+            android:id="@+id/tab3_search_region"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
+        <Button
+                android:id="@+id/tab3_user_filter"
+
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+
+                android:layout_alignParentRight="true"
+
+                android:text="s"/>
+
+
         <EditText
-                android:id="@+id/tab4_search_field"
+                android:id="@+id/tab3_search_field"
+
+                android:layout_toLeftOf="@id/tab3_user_filter"
 
                 android:layout_height="40dp"
                 android:layout_width="fill_parent"
 
+                android:paddingRight="45dp"
 
                 android:singleLine="true"/>
 
         <Button
-                android:id="@+id/tab4_search_clear"
+                android:id="@+id/tab3_search_clear"
 
                 android:layout_height="40dp"
                 android:layout_width="40dp"
 
-                android:layout_alignParentRight="true"
+                android:layout_toLeftOf="@id/tab3_user_filter"
                 />
     </RelativeLayout>
 
 
     <ListView
-            android:id="@+id/tab4_events_list"
+            android:id="@+id/tab3_events_list"
 
-            android:layout_below="@id/tab4_search_region"
+            android:layout_below="@id/tab3_search_region"
 
             android:layout_height="fill_parent"
             android:layout_width="fill_parent"
@@ -45,15 +59,15 @@
 
 
     <!--When the list is empty we use this textView to inform about this-->
-    <TextView android:id="@+id/tab4_text"
+    <TextView android:id="@+id/tab3_text"
               android:layout_height="fill_parent"
               android:layout_width="fill_parent"
 
-              android:layout_below="@id/tab4_search_region"
+              android:layout_below="@id/tab3_search_region"
 
               android:gravity="center"
               android:visibility="gone"
 
-              android:text="TAB4"/>
+              android:text="TAB3"/>
 
 </RelativeLayout>

@@ -127,6 +127,26 @@ public class ManageDataBase {
     }
 
     //Get All Events from Data Base from Id
+    public List<EventsItem> getAllEventsByName(long id, String name){
+        List<EventsItem> eventsItemList = new ArrayList<EventsItem>();
+
+        name = name.toLowerCase();
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS,
+                allColumnsEvents, "lower("+MySQLiteHelper.COLUMN_EVENTS_NAME + ") LIKE '%" +name +"%' AND " + MySQLiteHelper.COLUMN_ID + ">" + id , null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            EventsItem eventsItem = cursorToEventsItem(cursor);
+            eventsItemList.add(eventsItem);
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+
+        return eventsItemList;
+    }
+
+    //Get All Events from Data Base from Id
     public List<EventsItem> getAllEventsItemFromId(long id) {
         List<EventsItem> eventsItemList = new ArrayList<EventsItem>();
 
@@ -143,6 +163,38 @@ public class ManageDataBase {
         cursor.close();
 
         return eventsItemList;
+    }
+
+    public List<EventsItem> getAllEventsFavoritesFromId(long id){
+        List<EventsItem> eventsItemList = new ArrayList<EventsItem>();
+
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS,
+                allColumnsEvents, MySQLiteHelper.COLUMN_EVENTS_FAVORITE + "='1' AND " + MySQLiteHelper.COLUMN_ID + ">" + id , null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            EventsItem eventsItem = cursorToEventsItem(cursor);
+            eventsItemList.add(eventsItem);
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+
+        return eventsItemList;
+
+    }
+
+    public EventsItem getEventsItemById(long id){
+        EventsItem eventsItem = null;
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS,
+                allColumnsEvents, MySQLiteHelper.COLUMN_ID + " = " + id, null,
+                null, null, null);
+        cursor.moveToFirst();
+
+        eventsItem = cursorToEventsItem(cursor);
+
+        cursor.close();
+        return eventsItem;
     }
 
     public EventsItem addEventItem(EventsItem eventsItem){

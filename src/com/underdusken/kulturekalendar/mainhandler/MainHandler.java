@@ -1,9 +1,9 @@
 package com.underdusken.kulturekalendar.mainhandler;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.Toast;
 import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.data.db.ManageDataBase;
 import com.underdusken.kulturekalendar.json.JsonParseEvents;
@@ -16,7 +16,7 @@ import java.util.List;
  *  Class for update network data
  */
 public class MainHandler {
-    private Activity activity = null;
+    private Context context = null;
 
     static private final int UPDATE_TIME = 5000;
     static private final int WAIT_INTERNET_CONNECTION = 5000;
@@ -25,8 +25,8 @@ public class MainHandler {
     // loading data thread
     private UpdateDataThread updateDataThread = null;
 
-    private MainHandler(Activity activity) {
-        this.activity = activity;
+    private MainHandler(Context context) {
+        this.context = context;
     }
 
     private static MainHandler mainHandler = null;
@@ -35,12 +35,12 @@ public class MainHandler {
      * Get instance of class
      *
      */
-     public static MainHandler getInstance(Activity activity) {
+     public static MainHandler getInstance(Context context) {
         if (mainHandler == null)
-            if (activity == null)
+            if (context == null)
                 return null;
             else
-                mainHandler = new MainHandler(activity);
+                mainHandler = new MainHandler(context);
         return mainHandler;
     }
 
@@ -99,7 +99,7 @@ public class MainHandler {
 
                 // For test internet connection
                 NetworkRequest networkRequest = new NetworkRequest();
-                NetworkRequest.setActivity(activity);
+                NetworkRequest.setActivity(context);
                 String result = networkRequest.getInputStreamFromUrl("http://oscilloscope2005.narod.ru/events.json");
 
                 if(result!=null){
@@ -133,8 +133,6 @@ public class MainHandler {
         @Override
         protected void onProgressUpdate(String... values) {
 
-            //TODO delete it
-            Toast.makeText(activity, "Update information", Toast.LENGTH_SHORT).show();
 
            if(values != null)
 
@@ -144,7 +142,7 @@ public class MainHandler {
 
                if(newEventsList!=null){
                     for(EventsItem eventsItem: newEventsList){              // add information to DB
-                        ManageDataBase manageDataBase = new ManageDataBase(activity);
+                        ManageDataBase manageDataBase = new ManageDataBase(context);
                         try {
                             manageDataBase.open();
                             EventsItem checkEventItem = manageDataBase.addEventItem(eventsItem);
@@ -155,7 +153,7 @@ public class MainHandler {
 
                     }
                    Intent i = new Intent(BroadcastNames.BROADCAST_NEW_DATA);
-                   activity.sendBroadcast(i);
+                   context.sendBroadcast(i);
                }
             }
             blockThread = false;

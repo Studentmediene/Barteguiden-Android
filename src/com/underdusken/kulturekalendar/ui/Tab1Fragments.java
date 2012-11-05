@@ -10,13 +10,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.data.db.ManageDataBase;
 import com.underdusken.kulturekalendar.mainhandler.BroadcastNames;
 import com.underdusken.kulturekalendar.ui.Adapter.AdapterEventsItem;
+import com.underdusken.kulturekalendar.utils.ServiceLoadImage;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,9 +26,9 @@ import java.util.List;
 public class Tab1Fragments extends Fragment {
 
     // UI handlers
-    Handler activityHandler = null;
+    private Handler activityHandler = null;
     // private recievers
-    NotificationUpdateReciever notificationUpdateReciever = new NotificationUpdateReciever();
+    private NotificationUpdateReciever notificationUpdateReciever = new NotificationUpdateReciever();
 
 
     private AdapterEventsItem adapterEventsItem = null;
@@ -38,6 +39,9 @@ public class Tab1Fragments extends Fragment {
 
     //data
     private long lastEventsId = 0;
+
+    //Image service
+    private ServiceLoadImage serviceLoadImage = null;
 
 
     @Override
@@ -56,11 +60,10 @@ public class Tab1Fragments extends Fragment {
 
         loadEventsFromDb();
 
+        activityHandler = new Handler();
+
         //Initialization adapter for ListView
         setListViewAdapter();
-
-
-        activityHandler = new Handler();
     }
 
 
@@ -73,6 +76,12 @@ public class Tab1Fragments extends Fragment {
         IntentFilter intentFilterNotificationUpdate = new IntentFilter(BroadcastNames.BROADCAST_NEW_DATA);
 
         getActivity().registerReceiver(notificationUpdateReciever, intentFilterNotificationUpdate);
+
+        //Start Image loader
+        serviceLoadImage = new ServiceLoadImage(getActivity());
+
+        adapterEventsItem.setServiceLoadImage(serviceLoadImage);
+
     }
 
     @Override
@@ -80,6 +89,10 @@ public class Tab1Fragments extends Fragment {
         super.onPause();
 
         getActivity().unregisterReceiver(notificationUpdateReciever);
+        adapterEventsItem.setServiceLoadImage(serviceLoadImage);
+        if(serviceLoadImage!=null){
+            serviceLoadImage.exit();
+        }
 
     }
 
@@ -92,7 +105,12 @@ public class Tab1Fragments extends Fragment {
 
             if(newEventsItemList!=null)
                 if(newEventsItemList.size()>0){
-                    eventsItemList.addAll(newEventsItemList);
+                    for(EventsItem eventsItem: newEventsItemList){
+                      if(!eventsItem.getWeekendRecommendationEnglish().equals("") ||
+                               !eventsItem.getWeekendRecommendationNorwegian().equals("")){
+                             eventsItemList.add(eventsItem);
+                      }
+                    }
                     lastEventsId = newEventsItemList.get(newEventsItemList.size()-1).getId();
                 }
             manageDataBase.close();
@@ -104,7 +122,20 @@ public class Tab1Fragments extends Fragment {
 
     private void setListViewAdapter(){
         adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, eventsItemList);
+
         lvEvents.setAdapter(adapterEventsItem);
+        // Open event description
+
+        lvEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(Tab1Fragments.this.getActivity(), EventsDescription.class);
+
+                intent.putExtra("events_id", eventsItemList.get(eventsItemList.size() - i - 1).getId());
+
+                startActivityForResult(intent, 1);
+            }
+        });
     }
 
     private void updateView(){
@@ -119,7 +150,6 @@ public class Tab1Fragments extends Fragment {
             activityHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getActivity(), "BroadCastReciever", Toast.LENGTH_SHORT).show();
                     // update screen information
                     loadEventsFromDb();
                     updateView();

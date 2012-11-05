@@ -37,12 +37,33 @@ public class ImageLoader {
 
 
     public void DisplayImage(String url, Activity activity, ImageView imageView, int resourceDraw) {
+        if(!url.equalsIgnoreCase("")){
         if (cache.containsKey(url))
             imageView.setImageBitmap(cache.get(url));
         else {
-            if(url!=null )
+
+            if(url!=null ){
                 queuePhoto(url, activity, imageView);
 
+                String filename = String.valueOf(url.hashCode());
+                File f = new File(cacheDir, filename);
+
+                //from SD cache
+                Bitmap b = decodeFile(f);
+                if (b != null){
+                    imageView.setImageBitmap(b);
+                    return;
+                }
+
+                if(url!=null )
+                    queuePhoto(url, activity, imageView);
+            }
+
+
+
+            if(resourceDraw!=-1)
+                imageView.setImageResource(resourceDraw);
+        }}else{
             if(resourceDraw!=-1)
                 imageView.setImageResource(resourceDraw);
         }
@@ -196,7 +217,7 @@ public class ImageLoader {
                         Bitmap bmp = getBitmap(photoToLoad.url);
                         if(bmp==null)
                             continue;
-                        cache.put(photoToLoad.url, bmp);
+                        //cache.put(photoToLoad.url, bmp);
                         if (((String) photoToLoad.imageView.getTag()).equals(photoToLoad.url)) {
                             BitmapDisplayer bd = new BitmapDisplayer(bmp, photoToLoad.imageView);
                             Activity a = (Activity) photoToLoad.imageView.getContext();

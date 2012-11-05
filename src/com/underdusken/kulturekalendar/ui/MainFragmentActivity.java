@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.Toast;
 import com.underdusken.kulturekalendar.R;
-import com.underdusken.kulturekalendar.mainhandler.MainHandler;
 
 import java.util.HashMap;
 
@@ -84,14 +84,26 @@ public class MainFragmentActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MainHandler.getInstance(this).onStartApplication();
+        Toast.makeText(this.getApplicationContext(), "Main onResume .. ", Toast.LENGTH_SHORT).show();
+
     }
     @Override
     protected void onPause() {
        super.onPause();
-       MainHandler.getInstance(this).onCloseApplication();
+        Toast.makeText(this.getApplicationContext(), "Main onPause .. ", Toast.LENGTH_SHORT).show();
+
     }
 
+    @Override
+    protected void onStop(){
+        super.onStop();
+        Toast.makeText(this.getApplicationContext(), "Main onStop .. ", Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        Toast.makeText(this.getApplicationContext(), "Main onDestroy .. ", Toast.LENGTH_SHORT).show();
+    }
 
 
 

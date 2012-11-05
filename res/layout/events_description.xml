@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+    <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+    <TextView
+            android:id="@+id/event_name"
+
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+
+            android:text="NAME"
+
+            android:textSize="24sp"
+            android:textStyle="bold"
+
+
+            android:gravity="center"
+            />
+
+
+    <!--DATE-->
+    <TextView
+            android:id="@+id/lb_date_start"
+
+            android:layout_below="@id/event_name"
+
+            android:layout_marginTop="10dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="DateStart :"/>
+
+    <TextView
+            android:id="@+id/lb_date_end"
+
+            android:layout_below="@id/lb_date_start"
+
+            android:layout_marginTop="10dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="DateEnd :"/>
+
+    <TextView
+            android:id="@+id/date_start"
+
+            android:layout_below="@id/event_name"
+            android:layout_toRightOf="@id/lb_date_start"
+
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="10.02.1929"/>
+
+    <TextView
+            android:id="@+id/date_end"
+
+            android:layout_below="@id/lb_date_start"
+            android:layout_toRightOf="@id/lb_date_start"
+
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="adsfasdf"/>
+
+
+    <!--ADDRESS-->
+    <RelativeLayout
+
+            android:id="@+id/field_address"
+
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+
+            android:layout_below="@id/lb_date_end"
+
+            android:visibility="visible">
+
+
+    <TextView
+            android:id="@+id/lb_address"
+
+
+            android:layout_marginTop="10dp"
+
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:paddingLeft="10dp"
+
+            android:background="#ffffff"
+            android:textColor="#002200"
+
+            android:text="Address "/>
+
+
+
+    <TextView
+            android:id="@+id/address"
+
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="70dp"
+
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+
+            android:layout_below="@+id/lb_address"
+
+
+            android:text="asdfhasdjfhalkjsdhflkajsdhadsfasdfadfasdfadsfasdfflkjashdflkjahsdflkjhasdlakjdhfalkjsdhflkajsdhf"
+            />
+
+     <Button
+         android:id="@+id/bt_show_on_map"
+
+         android:layout_width="50dp"
+         android:layout_height="50dp"
+
+         android:layout_marginRight="10dp"
+         android:layout_marginTop="10dp"
+
+         android:layout_below="@+id/lb_address"
+         android:layout_alignParentRight="true"
+
+         android:text="Map"/>
+
+
+     </RelativeLayout>
+
+
+    <!--DESCRIPTION-->
+
+    <TextView
+            android:id="@+id/lb_description"
+
+            android:layout_below="@id/field_address"
+
+            android:layout_marginTop="10dp"
+
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:paddingLeft="10dp"
+
+            android:background="#ffffff"
+            android:textColor="#002200"
+
+            android:text="Description "/>
+
+    <TextView
+            android:id="@+id/description"
+
+            android:padding="10dp"
+
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+
+            android:layout_below="@+id/lb_description"
+
+
+            android:text="asdfhasdjfhalkjsdhflkajsdhadsfasdfadfasdfadsfasdfflkjashdflkjahsdflkjhasdlakjdhfalkjsdhflkajsdhf"
+            />
+
+
+    <!--RECOMMENDATION-->
+
+    <RelativeLayout
+
+            android:id="@+id/field_recommendation"
+
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+
+            android:layout_below="@id/description"
+
+            android:visibility="visible">
+
+        <TextView
+                android:id="@+id/lb_recommendation"
+
+                android:layout_marginTop="10dp"
+
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:paddingLeft="10dp"
+
+                android:background="#ffffff"
+                android:textColor="#002200"
+
+                android:text="Recommendation "/>
+
+        <TextView
+                android:id="@+id/recommendation"
+
+                android:padding="10dp"
+
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+
+                android:layout_below="@+id/lb_recommendation"
+
+
+                android:text="asdfhasdjfhalkjsdhflkajsdhadsfasdfadfasdfadsfasdfflkjashdflkjahsdflkjhasdlakjdhfalkjsdhflkajsdhf"
+                />
+
+    </RelativeLayout>
+
+</RelativeLayout>
+</ScrollView>

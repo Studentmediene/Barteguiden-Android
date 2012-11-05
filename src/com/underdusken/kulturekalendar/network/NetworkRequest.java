@@ -1,13 +1,10 @@
 package com.underdusken.kulturekalendar.network;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
-import com.underdusken.kulturekalendar.R;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -32,7 +29,7 @@ import java.util.ArrayList;
 
 public class NetworkRequest extends AsyncTask<Void, Void, String> {
 
-    private static Activity activity = null;
+    private static Context context = null;
 
     private OnLoadListener onLoadListener = null;
 
@@ -53,20 +50,20 @@ public class NetworkRequest extends AsyncTask<Void, Void, String> {
 
     private HttpStatusCode errorStatusCode = new HttpStatusCode();
 
-    public static void setActivity(Activity activity) {
-        NetworkRequest.activity = activity;
+    public static void setActivity(Context context) {
+        NetworkRequest.context = context;
     }
-
+/*}
     public void noInternet() {
-        if (activity != null) {
-            activity.runOnUiThread(new Runnable() {
+        if (context != null) {
+            context.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(activity, R.string.internet_connection_error, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.internet_connection_error, Toast.LENGTH_SHORT).show();
                 }
             });
-        }
-    }
+        }*/
+
 
     public NetworkRequest() {
         HttpParams myParams = new BasicHttpParams();
@@ -188,9 +185,9 @@ public class NetworkRequest extends AsyncTask<Void, Void, String> {
 
         String resultString = "";
         if (ret == null) {
-            if (!haveNetworkConnection()) {
+            /*if (!haveNetworkConnection()) {
                 noInternet();
-            }
+            }*/
             return null;
         }
         try {
@@ -207,7 +204,7 @@ public class NetworkRequest extends AsyncTask<Void, Void, String> {
         boolean haveConnectedWifi = false;
         boolean haveConnectedMobile = false;
 
-        ConnectivityManager cm = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo[] netInfo = cm.getAllNetworkInfo();
         for (NetworkInfo ni : netInfo) {
             if (ni.getTypeName().equalsIgnoreCase("WIFI"))
@@ -249,6 +246,8 @@ public class NetworkRequest extends AsyncTask<Void, Void, String> {
     }
 
     public static String convertStreamToString(InputStream is) {
+        if(is==null)
+            return null;
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
 

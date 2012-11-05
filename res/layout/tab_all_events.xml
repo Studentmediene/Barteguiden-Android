@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+
+        >
+
+
+    <!--Search region-->
+    <RelativeLayout
+            android:id="@+id/tab2_search_region"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <EditText
+                android:id="@+id/tab2_search_field"
+
+                android:layout_height="40dp"
+                android:layout_width="fill_parent"
+
+                android:paddingRight="45dp"
+
+                android:singleLine="true"/>
+
+        <Button
+                android:id="@+id/tab2_search_clear"
+
+                android:layout_height="40dp"
+                android:layout_width="40dp"
+
+                android:layout_alignParentRight="true"
+                />
+    </RelativeLayout>
+
+
+    <!--Filter Region-->
+    <RelativeLayout
+            android:id="@+id/tab2_filter_region"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_below="@id/tab2_search_region">
+
+           <LinearLayout
+               android:layout_width="fill_parent"
+               android:layout_height="fill_parent"
+               android:orientation="horizontal"
+               android:paddingLeft="10dp"
+               android:paddingRight="10dp"
+               android:weightSum="3">
+
+                <Button
+                    android:id="@+id/tab2_button_all"
+
+                    android:layout_height="40dp"
+                    android:layout_width="0dp"
+
+                    android:layout_weight="1"
+
+                    android:text="all"/>
+
+               <Button
+                       android:id="@+id/tab2_button_paid"
+
+                       android:layout_height="40dp"
+                       android:layout_width="0dp"
+
+                       android:layout_weight="1"
+
+                       android:text="paid"/>
+
+               <Button
+                       android:id="@+id/tab2_button_free"
+
+                       android:layout_height="40dp"
+                       android:layout_width="0dp"
+
+                       android:layout_weight="1"
+
+                       android:text="free"/>
+
+
+               </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <ListView
+            android:id="@+id/tab2_events_list"
+
+            android:layout_below="@id/tab2_filter_region"
+
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"
+
+            />
+
+
+    <!--When the list is empty we use this textView to inform about this-->
+    <TextView android:id="@+id/tab2_text"
+              android:layout_height="fill_parent"
+              android:layout_width="fill_parent"
+
+              android:layout_below="@id/tab2_search_field"
+
+              android:gravity="center"
+              android:visibility="gone"
+
+              android:text="TAB2"/>
+
+</RelativeLayout>
