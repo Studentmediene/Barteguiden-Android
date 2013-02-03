@@ -13,6 +13,7 @@ public class EventsItem {
     private String name = "";
     private String type = "";
     private String address = "";
+    private boolean isGeo = true;
     private float geoLatitude = 0.0f;
     private float geoLongitude = 0.0f;
     private String dateStart = "";

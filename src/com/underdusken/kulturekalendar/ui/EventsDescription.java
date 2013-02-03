@@ -1,7 +1,10 @@
 package com.underdusken.kulturekalendar.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventsItem;
@@ -18,7 +21,17 @@ import java.sql.SQLException;
  */
 public class EventsDescription extends Activity{
 
+    // UI
+    private TextView tvName;
+    private TextView tvDateStart;
+    private TextView tvDateEnd;
+    private TextView tvAddress;
+    private TextView tvDescription;
+    private TextView tvRecommendation;
+
     private EventsItem eventsItem = null;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +57,35 @@ public class EventsDescription extends Activity{
         if(eventsItem == null)
             finish();
 
-        TextView tvName = (TextView)findViewById(R.id.event_name);
-        TextView tvDateStart = (TextView)findViewById(R.id.date_start);
-        TextView tvDateEnd = (TextView)findViewById(R.id.date_end);
-        TextView tvAddress = (TextView)findViewById(R.id.address);
-        TextView tvDescription = (TextView)findViewById(R.id.description);
-        TextView tvRecommendation = (TextView)findViewById(R.id.recommendation);
+        // initialization UI
+        initUI();
 
+        // set data to UI
+        setData(eventsItem);
 
+    }
+
+    // initialization UI
+    private void initUI(){
+        Button btMap = (Button) findViewById(R.id.bt_show_on_map);
+        btMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EventsDescription.this, EventsMap.class);
+                startActivity(intent);
+            }
+        });
+
+        tvName = (TextView)findViewById(R.id.event_name);
+        tvDateStart = (TextView)findViewById(R.id.date_start);
+        tvDateEnd = (TextView)findViewById(R.id.date_end);
+        tvAddress = (TextView)findViewById(R.id.address);
+        tvDescription = (TextView)findViewById(R.id.description);
+        tvRecommendation = (TextView)findViewById(R.id.recommendation);
+    }
+
+    // set data to UI
+    private void setData(EventsItem eventsItem){
         tvName.setText(eventsItem.getName());
         tvDateStart.setText(eventsItem.getDateStart());
         tvDateEnd.setText(eventsItem.getDateEnd());

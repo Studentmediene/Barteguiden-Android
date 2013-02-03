@@ -38,19 +38,19 @@ public class MainFragmentActivity extends FragmentActivity {
 
 
         mTabManager.addTab(mTabHost.newTabSpec("Featured").setIndicator(getString(R.string.tab1)),
-                Tab1Fragments.class, null);
+                TabFeatured.class, null);
         mTabManager.addTab(mTabHost.newTabSpec("All").setIndicator(getString(R.string.tab2)),
-                Tab2Fragments.class, null);
+                TabAll.class, null);
         mTabManager.addTab(mTabHost.newTabSpec("Free").setIndicator(getString(R.string.tab3)),
-                Tab3Fragments.class, null);
+                TabFree.class, null);
         mTabManager.addTab(mTabHost.newTabSpec("My").setIndicator(getString(R.string.tab4)),
-                Tab4Fragments.class, null);
+                TabMy.class, null);
         mTabManager.addTab(mTabHost.newTabSpec("Favorites").setIndicator(getString(R.string.tab5)),
-                Tab4Fragments.class, null);
+                TabMy.class, null);
 
 
 
-        int imageViewIndex = 1;
+        int imageViewIndex = 0;
         if (Build.VERSION.SDK_INT >= 15) {
             imageViewIndex = 0;
         }

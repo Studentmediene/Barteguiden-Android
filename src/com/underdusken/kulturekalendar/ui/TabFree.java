@@ -35,7 +35,7 @@ import java.util.List;
  * Time: 8:09 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Tab3Fragments extends Fragment {
+public class TabFree extends Fragment {
 
     // private receivers
     private NotificationUpdateReceiver notificationUpdateReceiver = null;
@@ -85,7 +85,7 @@ public class Tab3Fragments extends Fragment {
         btSetup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Tab3Fragments.this.getActivity(), UserFilter.class);
+                Intent intent = new Intent(TabFree.this.getActivity(), UserFilter.class);
                 startActivity(intent);
             }
         });
@@ -290,7 +290,7 @@ public class Tab3Fragments extends Fragment {
         lvEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(Tab3Fragments.this.getActivity(), EventsDescription.class);
+                Intent intent = new Intent(TabFree.this.getActivity(), EventsDescription.class);
                 intent.putExtra("events_id", filterEventsItem.get(filterEventsItem.size() - i - 1).getId());
                 startActivityForResult(intent, 1);
             }

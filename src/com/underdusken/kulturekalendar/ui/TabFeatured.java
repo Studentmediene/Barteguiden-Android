@@ -23,7 +23,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tab1Fragments extends Fragment {
+public class TabFeatured extends Fragment {
 
     // UI handlers
     private Handler activityHandler = null;
@@ -129,7 +129,7 @@ public class Tab1Fragments extends Fragment {
         lvEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(Tab1Fragments.this.getActivity(), EventsDescription.class);
+                Intent intent = new Intent(TabFeatured.this.getActivity(), EventsDescription.class);
 
                 intent.putExtra("events_id", eventsItemList.get(eventsItemList.size() - i - 1).getId());
 

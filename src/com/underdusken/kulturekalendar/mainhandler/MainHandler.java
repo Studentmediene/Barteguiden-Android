@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.widget.Toast;
 import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.data.db.ManageDataBase;
 import com.underdusken.kulturekalendar.json.JsonParseEvents;
@@ -105,6 +106,9 @@ public class MainHandler {
                 if(result!=null){
                     blockThread = true;
                     publishProgress(result);
+
+                    // TODO delete test!! delete after
+                    return null;
                 }
 
                 // waiting while we add new data to dataBase
@@ -154,6 +158,9 @@ public class MainHandler {
                     }
                    Intent i = new Intent(BroadcastNames.BROADCAST_NEW_DATA);
                    context.sendBroadcast(i);
+
+                   //TODO delete test!!!
+                   Toast.makeText(context, "New data", Toast.LENGTH_SHORT).show();
                }
             }
             blockThread = false;
