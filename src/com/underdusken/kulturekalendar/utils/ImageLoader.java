@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 
 import java.io.*;
+import java.lang.ref.SoftReference;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -17,8 +18,8 @@ public class ImageLoader {
 
     private static final String STORE_PLACE = "/Android/data/com.underdusken.kulturekalendar";
 
-    //the simplest in-memory cache implementation. This should be replaced with something like SoftReference or BitmapOptions.inPurgeable(since 1.6)
-    private HashMap<String, Bitmap> cache = new HashMap<String, Bitmap>();
+    //private HashMap<String, Bitmap> cache = new HashMap<String, Bitmap>();
+    private HashMap<String, SoftReference<Bitmap>> cache=new HashMap<String, SoftReference<Bitmap>>();
 
     private File cacheDir;
 
@@ -38,9 +39,18 @@ public class ImageLoader {
 
     public void DisplayImage(String url, Activity activity, ImageView imageView, int resourceDraw) {
         if(!url.equalsIgnoreCase("")){
-        if (cache.containsKey(url))
-            imageView.setImageBitmap(cache.get(url));
-        else {
+        if (cache.containsKey(url)){
+            //imageView.setImageBitmap(cache.get(url));
+            SoftReference<Bitmap> softRef = cache.get(url);
+            Bitmap bitmap = softRef.get();
+            if(bitmap==null){
+                queuePhoto(url, activity, imageView);
+                imageView.setImageResource(resourceDraw);
+            }else{
+                imageView.setImageBitmap(softRef.get());
+                //TODO Maybe check that get reference already NULL =)
+            }
+        }else{
 
             if(url!=null ){
                 queuePhoto(url, activity, imageView);
@@ -83,19 +93,14 @@ public class ImageLoader {
             photoLoaderThread.start();
     }
 
-    private InputStream getInpytStreamFromUrl(String url) {
+    private InputStream getInputStreamFromUrl(String url) {
         InputStream is = null;
         URLConnection connection = null;
         try {
             URL aURL = new URL(url);
             connection = aURL.openConnection();
-
             connection.addRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml");
-
-
-
             is = connection.getInputStream();
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;
@@ -105,7 +110,6 @@ public class ImageLoader {
             e.printStackTrace();
         }
         return is;
-
     }
 
     private Bitmap getBitmap(String url) {
@@ -123,10 +127,11 @@ public class ImageLoader {
         //from web
         try {
             Bitmap bitmap = null;
-            InputStream is = getInpytStreamFromUrl(url);
+            InputStream is = getInputStreamFromUrl(url);
             OutputStream os = new FileOutputStream(f);
             CopyStream(is, os);
             os.close();
+            is.close();
             bitmap = decodeFile(f);
             return bitmap;
         } catch (Exception ex) {
@@ -217,8 +222,11 @@ public class ImageLoader {
                         Bitmap bmp = getBitmap(photoToLoad.url);
                         if(bmp==null)
                             continue;
-                        //cache.put(photoToLoad.url, bmp);
-                        if (((String) photoToLoad.imageView.getTag()).equals(photoToLoad.url)) {
+
+                        cache.put(photoToLoad.url, new SoftReference<Bitmap>(bmp));
+                        Object tag = photoToLoad.imageView.getTag();
+
+                        if (tag!=null && ((String)tag).equals(photoToLoad.url)) {
                             BitmapDisplayer bd = new BitmapDisplayer(bmp, photoToLoad.imageView);
                             Activity a = (Activity) photoToLoad.imageView.getContext();
                             a.runOnUiThread(bd);

@@ -1,14 +1,12 @@
 package com.underdusken.kulturekalendar.ui;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.Toast;
@@ -17,9 +15,7 @@ import com.underdusken.kulturekalendar.R;
 import java.util.HashMap;
 
 /**
- * This demonstrates how you can implement switching between the tabs of a
- * TabHost through fragments.  It uses a trick (see the code below) to allow
- * the tabs to switch between fragments instead of simple views.
+ *
  */
 public class MainFragmentActivity extends FragmentActivity {
     TabHost mTabHost;
@@ -41,19 +37,20 @@ public class MainFragmentActivity extends FragmentActivity {
                 TabFeatured.class, null);
         mTabManager.addTab(mTabHost.newTabSpec("All").setIndicator(getString(R.string.tab2)),
                 TabAll.class, null);
-        mTabManager.addTab(mTabHost.newTabSpec("Free").setIndicator(getString(R.string.tab3)),
+        mTabManager.addTab(mTabHost.newTabSpec("My").setIndicator(getString(R.string.tab3)),
                 TabFree.class, null);
-        mTabManager.addTab(mTabHost.newTabSpec("My").setIndicator(getString(R.string.tab4)),
-                TabMy.class, null);
-        mTabManager.addTab(mTabHost.newTabSpec("Favorites").setIndicator(getString(R.string.tab5)),
-                TabMy.class, null);
+        mTabManager.addTab(mTabHost.newTabSpec("Favorites").setIndicator(getString(R.string.tab4)),
+                TabFavorite.class, null);
+        mTabManager.addTab(mTabHost.newTabSpec("Setup").setIndicator(getString(R.string.tab5)),
+                TabFavorite.class, null);
 
 
 
         int imageViewIndex = 0;
+        /*
         if (Build.VERSION.SDK_INT >= 15) {
             imageViewIndex = 0;
-        }
+        }*/
 
         // Set tabs Image
         ViewGroup idView = (ViewGroup) mTabHost.getTabWidget().getChildAt(0);
@@ -68,16 +65,13 @@ public class MainFragmentActivity extends FragmentActivity {
         imageView = (ImageView) idView.getChildAt(imageViewIndex);
         imageView.setImageResource(R.drawable.ic_tab_user);
 
-        idView = (ViewGroup) mTabHost.getTabWidget().getChildAt(3);
+        idView = (ViewGroup) mTabHost.getTabWidget().getChildAt(4);
         imageView = (ImageView) idView.getChildAt(imageViewIndex);
         imageView.setImageResource(R.drawable.ic_tab_setup);
 
         if (savedInstanceState != null) {
             mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
         }
-
-
-
     }
 
 
@@ -110,7 +104,7 @@ public class MainFragmentActivity extends FragmentActivity {
 
 
 
-    public void onCheckboxClicked(View view) {
+    /*public void onCheckboxClicked(View view) {
         // Is the view now checked?
         boolean checked = ((CheckBox) view).isChecked();
 
@@ -161,7 +155,7 @@ public class MainFragmentActivity extends FragmentActivity {
 
         }
     }
-
+*/
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

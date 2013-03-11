@@ -9,6 +9,7 @@ import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.data.db.ManageDataBase;
 import com.underdusken.kulturekalendar.json.JsonParseEvents;
 import com.underdusken.kulturekalendar.network.NetworkRequest;
+import com.underdusken.kulturekalendar.utils.NetworkLinks;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -75,14 +76,14 @@ public class MainHandler {
     }
 
 
-    private class UpdateDataThread extends AsyncTask<Void, String, Void> {
+    private class UpdateDataThread extends AsyncTask<Void, String, String> {
 
         private boolean blockThread = false;
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected String doInBackground(Void... voids) {
 
-            while (true) {
+            //while (true) {
 
                 // If no internet connection
                 /*
@@ -101,24 +102,22 @@ public class MainHandler {
                 // For test internet connection
                 NetworkRequest networkRequest = new NetworkRequest();
                 NetworkRequest.setActivity(context);
-                String result = networkRequest.getInputStreamFromUrl("http://oscilloscope2005.narod.ru/events.json");
+                String result = networkRequest.getInputStreamFromUrl(NetworkLinks.JSON_DATA);
 
                 if(result!=null){
                     blockThread = true;
-                    publishProgress(result);
-
-                    // TODO delete test!! delete after
-                    return null;
+                    return result;
+                    //publishProgress(result);
                 }
 
                 // waiting while we add new data to dataBase
-                while(blockThread){
+                /*while(blockThread){
                     try{
                         Thread.sleep(WAIT_UPDATE_DATA_BASE);
                     }catch(InterruptedException e){
                         return null;
                     }
-                }
+                }*/
 
 
                 if (isCancelled())
@@ -129,15 +128,16 @@ public class MainHandler {
                 }catch(InterruptedException e){
                     return null;
                 }
+                return null;
 
-            }
+           // }
         }
 
 
         @Override
         protected void onProgressUpdate(String... values) {
 
-
+/*
            if(values != null)
 
                if(values.length > 0){
@@ -163,12 +163,36 @@ public class MainHandler {
                    Toast.makeText(context, "New data", Toast.LENGTH_SHORT).show();
                }
             }
-            blockThread = false;
+            blockThread = false;*/
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(String values) {
 
+            if(values != null){
+
+                    List<EventsItem> newEventsList = JsonParseEvents.parse(values);   // parse incoming events
+
+                    if(newEventsList!=null){
+                        for(EventsItem eventsItem: newEventsList){              // add information to DB
+                            ManageDataBase manageDataBase = new ManageDataBase(context);
+                            try {
+                                manageDataBase.open();
+                                EventsItem checkEventItem = manageDataBase.addEventItem(eventsItem);
+                                manageDataBase.close();
+                            } catch (SQLException e) {
+                                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            }
+
+                        }
+                        Intent i = new Intent(BroadcastNames.BROADCAST_NEW_DATA);
+                        context.sendBroadcast(i);
+
+                        //TODO delete test!!!
+                        Toast.makeText(context, "New data", Toast.LENGTH_SHORT).show();
+                    }
+            }
+            blockThread = false;
         }
 
     }

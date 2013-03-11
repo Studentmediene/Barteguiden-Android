@@ -1,7 +1,6 @@
 package com.underdusken.kulturekalendar.ui;
 
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -10,11 +9,13 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.data.db.ManageDataBase;
-import com.underdusken.kulturekalendar.mainhandler.BroadcastNames;
 import com.underdusken.kulturekalendar.ui.Adapter.AdapterEventsItem;
 import com.underdusken.kulturekalendar.ui.Receiver.NotificationUpdateReceiver;
 import com.underdusken.kulturekalendar.utils.ServiceLoadImage;
@@ -31,7 +32,7 @@ import java.util.List;
  * Time: 8:09 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TabMy extends Fragment {
+public class TabFavorite extends Fragment {
     // private receivers
     private NotificationUpdateReceiver notificationUpdateReceiver = null;
 
@@ -104,13 +105,18 @@ public class TabMy extends Fragment {
     public void onResume() {
         super.onResume();
 
-        // Reciever for update notifications
+        /*// Reciever for update notifications
         IntentFilter intentFilterNotificationUpdate = new IntentFilter(BroadcastNames.BROADCAST_NEW_DATA);
         getActivity().registerReceiver(notificationUpdateReceiver, intentFilterNotificationUpdate);
-
+*/
         //Start Image loader
         serviceLoadImage = new ServiceLoadImage(getActivity());
         adapterEventsItem.setServiceLoadImage(serviceLoadImage);
+
+        //
+        loadEventsFromDb();
+        updateFilter();
+        updateView();
     }
 
     @Override
@@ -118,7 +124,7 @@ public class TabMy extends Fragment {
         super.onPause();
 
         // unregister reciever
-        getActivity().unregisterReceiver(notificationUpdateReceiver);
+        /// getActivity().unregisterReceiver(notificationUpdateReceiver);
 
         if(serviceLoadImage!=null){
             serviceLoadImage.exit();
@@ -171,15 +177,16 @@ public class TabMy extends Fragment {
         ManageDataBase manageDataBase = new ManageDataBase(getActivity());
         try {
             manageDataBase.open();
-            List<EventsItem> newEventsItemList = manageDataBase.getAllEventsFavoritesFromId(lastEventsId);
-
-            if(newEventsItemList!=null)
+            List<EventsItem> newEventsItemList = manageDataBase.getAllEventsFavorites();
+            eventsItemList.clear();
+            if(newEventsItemList!=null){
                 if(newEventsItemList.size()>0){
                     for(EventsItem eventsItem: newEventsItemList){
                         eventsItemList.add(eventsItem);
                     }
                     lastEventsId = newEventsItemList.get(newEventsItemList.size()-1).getId();
                 }
+            }
             manageDataBase.close();
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -199,7 +206,7 @@ public class TabMy extends Fragment {
         lvEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(TabMy.this.getActivity(), EventsDescription.class);
+                Intent intent = new Intent(TabFavorite.this.getActivity(), EventsDescription.class);
 
                 intent.putExtra("events_id", filterEventsItem.get(filterEventsItem.size() - i - 1).getId());
 

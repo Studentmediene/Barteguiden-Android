@@ -25,6 +25,37 @@
             android:gravity="center"
             />
 
+     <!--BUTTONS-->
+        <!--FAVORITES-->
+        <Button
+                android:id="@+id/bt_add_to_favorites"
+
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+
+                android:layout_alignParentRight="true"
+
+                android:text="FAV"/>
+
+        <!--NOTIFICATION-->
+        <Button
+                android:id="@+id/bt_add_notifications"
+
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+
+                android:layout_below="@id/bt_add_to_favorites"
+
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+
+                android:layout_alignParentRight="true"
+
+                android:text="ARM"/>
+
 
     <!--DATE-->
     <TextView
@@ -88,7 +119,7 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
 
-            android:layout_below="@id/lb_date_end"
+            android:layout_below="@id/bt_add_notifications"
 
             android:visibility="visible">
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.utils.ServiceLoadImage;
+import com.underdusken.kulturekalendar.utils.SimpleTimeFormat;
 
 import java.util.List;
 
@@ -75,18 +76,25 @@ public class AdapterEventsItem extends ArrayAdapter<EventsItem> {
 
             final EventsItem eventsItem = items.get(items.size() - position - 1);
 
+            String datePrevHeader = "";
+            SimpleTimeFormat dateNow = null;
+            String dateNowHeader = "";
+
             // Set group header (Date)
             boolean _header;
-            if(position == 0)
+            dateNow = new SimpleTimeFormat(eventsItem.getDateStart());
+            dateNowHeader = dateNow.getUserHeaderDate();
+            if(position == 0){
                 _header = true;
-            else{
+            }else{
                 EventsItem eventsItemPrev = items.get(items.size() - position);
-                _header = !eventsItemPrev.getDateStart().equalsIgnoreCase(eventsItem.getDateStart());
+                datePrevHeader = new SimpleTimeFormat(eventsItemPrev.getDateStart()).getUserHeaderDate();
+                _header = !datePrevHeader.equalsIgnoreCase(dateNowHeader);
             }
 
             if(_header){
                 viewHolder.headerLayout.setVisibility(View.VISIBLE);
-                viewHolder.tvDate.setText(eventsItem.getDateStart());
+                viewHolder.tvDate.setText(dateNowHeader);
             }else{
                 viewHolder.headerLayout.setVisibility(View.GONE);
             }
@@ -102,7 +110,7 @@ public class AdapterEventsItem extends ArrayAdapter<EventsItem> {
             }
 
             // Set events place
-            viewHolder.tvPlace.setText(eventsItem.getAddress());
+            viewHolder.tvPlace.setText(dateNow.getUserTimeDate()+ "  " + eventsItem.getAddress());
 
 
             // Set Image
