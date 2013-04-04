@@ -1,6 +1,7 @@
 package com.underdusken.kulturekalendar.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -26,7 +27,8 @@ public class MainFragmentActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
 
         // start welcome page
-
+        Intent intent = new Intent(this, WelcomePageActivity.class);
+        startActivity(intent);
 
 
         setContentView(R.layout.tab_view);

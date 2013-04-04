@@ -10,7 +10,7 @@
         <RelativeLayout android:id="@+id/events_header"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="#407222">
+                        android:background="@drawable/bg_item_title_9">
 
 
             <TextView
@@ -19,8 +19,20 @@
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
 
-                    android:text="sadfas219348091283091283df"
-                    />
+                android:paddingLeft="15dp"
+
+                android:text="Date"
+
+                    android:textColor="#542522"
+                    android:textStyle="bold"
+
+                    android:shadowColor="#c76d69"
+                    android:shadowRadius="1"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+
+
+                />
 
 
         </RelativeLayout>
@@ -71,7 +83,7 @@
                 android:layout_marginLeft="60dp"
                 android:layout_toLeftOf="@id/events_field_radio_button"
 
-
+                android:background="@drawable/bg_item_general_9"
                 >
 
             <TextView
@@ -81,7 +93,9 @@
 
                 android:layout_alignParentRight="true"
 
-                android:text="Free"/>
+                android:text="Free"
+
+                android:textColor="#484848"/>
 
             <TextView
                     android:id="@+id/events_title"
@@ -91,12 +105,12 @@
 
                     android:layout_toLeftOf="@id/events_price"
 
-                    android:text="dfassdfdasdfasdfas"
+                    android:text="Turboneger"
 
                     android:singleLine="true"
-                    android:textColor="#fff"
+                    android:textColor="#000000"
                     android:textStyle="bold"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     />
             <TextView
                     android:id="@+id/events_place"
@@ -105,11 +119,11 @@
                     android:layout_height="wrap_content"
 
 
+
                     android:text="Events place..."
 
                     android:singleLine="true"
-                    android:textColor="#fff"
-                    android:textStyle="bold"
+                    android:textColor="#484848"
                     />
 
         </RelativeLayout>
@@ -125,10 +139,11 @@
 
                     android:scaleType="centerInside"
 
-                    android:padding="0dp"
+                    android:padding="2px"
 
-                    android:background="#f00"/>
-         </RelativeLayout>
+                    android:background="#7d7d7d"/>
+
+        </RelativeLayout>
 
 
 </RelativeLayout>

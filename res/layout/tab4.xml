@@ -41,6 +41,14 @@
             android:layout_height="fill_parent"
             android:layout_width="fill_parent"
 
+            android:drawSelectorOnTop="false"
+
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0px"
+
+            android:padding="0dip"
+            android:layout_margin="0dip"
+
             />
 
 
