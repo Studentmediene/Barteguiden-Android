@@ -25,6 +25,10 @@ public class MainFragmentActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // start welcome page
+
+
+
         setContentView(R.layout.tab_view);
         mTabHost = (TabHost)findViewById(android.R.id.tabhost);
         mTabHost.setup();

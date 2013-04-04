@@ -24,13 +24,25 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
 
-    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher"
+    <application android:label="@string/app_name"
+                 android:icon="@drawable/ic_launcher"
+                 android:theme="@android:style/Theme.NoTitleBar"
                  android:name=".ui.KulturkalendarApplication">
         <!--WELCOME PAGE-->
         <activity android:name=".ui.WelcomePageActivity"
                   android:launchMode="singleTask"
-                  android:theme="@android:style/Theme.Black.NoTitleBar"
-                  android:label="@string/app_name">
+                  android:screenOrientation="portrait">
+        </activity>
+
+
+        <!--Tabs activity-->
+        <activity
+                android:name=".ui.MainFragmentActivity"
+                android:label="@string/app_name"
+                android:alwaysRetainTaskState="true"
+                android:screenOrientation="portrait"
+                >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -38,36 +50,24 @@
         </activity>
 
 
-        <activity
-                android:name=".ui.MainFragmentActivity"
-
-                android:launchMode="singleTask"
-                android:theme="@android:style/Theme.Black.NoTitleBar"
-                android:label="@string/app_name"></activity>
-
-
-
+        <!-- Events description -->
         <activity android:name=".ui.EventsDescription"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="stateHidden"/>
 
-                  android:launchMode="singleTask"
-                  android:windowSoftInputMode="stateHidden"
-                  android:theme="@android:style/Theme.Black.NoTitleBar"/>
-
+        <!--User filter-->
         <activity android:name=".ui.UserFilter"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="stateHidden"/>
 
-                  android:launchMode="singleTask"
-                  android:windowSoftInputMode="stateHidden"
-                  android:theme="@android:style/Theme.Black.NoTitleBar"/>
-
+        <!--Map-->
         <activity android:name=".ui.EventsMap"
-
-                  android:launchMode="singleTask"
-                  android:windowSoftInputMode="stateHidden"
-                  android:theme="@android:style/Theme.Black.NoTitleBar"/>
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="stateHidden"/>
 
 
         <!--Adding Google Maps Certificate-->
-            <!--Debug certificate-->
+        <!--Debug certificate-->
         <meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
                 android:value="AIzaSyDPSkJI8wErLdkDHoBFieVLLTrIqrGYZvM"/>

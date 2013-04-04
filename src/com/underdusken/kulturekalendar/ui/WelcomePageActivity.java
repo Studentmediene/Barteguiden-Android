@@ -1,7 +1,6 @@
 package com.underdusken.kulturekalendar.ui;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -52,7 +51,7 @@ public class WelcomePageActivity extends Activity {
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         if (!touchClick)
-                            startMainActivity();
+                            finishWelcomePage();
                     }
 
                     @Override
@@ -75,7 +74,7 @@ public class WelcomePageActivity extends Activity {
         layout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                startMainActivity();
+                finishWelcomePage();
                 layout.clearAnimation();
                 return true;
             }
@@ -84,13 +83,7 @@ public class WelcomePageActivity extends Activity {
 
     }
 
-    public void startMainActivity() {
+    public void finishWelcomePage() {
         finish();
-        Intent intent = new Intent(this, MainFragmentActivity.class);
-        startActivity(intent);
     }
-
-
-
-
 }
