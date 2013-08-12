@@ -23,24 +23,25 @@ public class ManageDataBase {
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
 
-    private String[] allColumnsEvents = {MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_EVENTS_ID,
-        MySQLiteHelper.COLUMN_EVENTS_NAME,
-        MySQLiteHelper.COLUMN_EVENTS_TYPE,
+    private String[] allColumnsEvents = {MySQLiteHelper.COLUMN_ID,
+        MySQLiteHelper.COLUMN_EVENTS_ID,
+        MySQLiteHelper.COLUMN_EVENTS_TITLE,
+        MySQLiteHelper.COLUMN_EVENTS_CATEGORY_ID,
         MySQLiteHelper.COLUMN_EVENTS_ADDRESS,
         MySQLiteHelper.COLUMN_EVENTS_GEO_LAT,
         MySQLiteHelper.COLUMN_EVENTS_GEO_LON,
         MySQLiteHelper.COLUMN_EVENTS_DATE_START,
-        MySQLiteHelper.COLUMN_EVENTS_DATE_END,
         MySQLiteHelper.COLUMN_EVENTS_PRICE,
-        MySQLiteHelper.COLUMN_EVENTS_AGE_LIMITS,
+        MySQLiteHelper.COLUMN_EVENTS_AGE_LIMIT,
+        MySQLiteHelper.COLUMN_EVENTS_PLACE_NAME,
+        MySQLiteHelper.COLUMN_EVENTS_SHOW_DATE,
         MySQLiteHelper.COLUMN_EVENTS_FAVORITE,
         MySQLiteHelper.COLUMN_EVENTS_BEER_PRICE,
         MySQLiteHelper.COLUMN_EVENTS_DESCRIPTION_ENG,
         MySQLiteHelper.COLUMN_EVENTS_DESCRIPTION_NO,
-        MySQLiteHelper.COLUMN_EVENTS_PICTURE,
-        MySQLiteHelper.COLUMN_EVENTS_SMALL_PICTURE,
-        MySQLiteHelper.COLUMN_EVENTS_WEEKEND_RECOMMENDATION_ENGLISH,
-        MySQLiteHelper.COLUMN_EVENTS_WEEKEND_RECOMMENDATION_NORWEGIAN,
+        MySQLiteHelper.COLUMN_EVENTS_IMAGE_URL,
+        MySQLiteHelper.COLUMN_EVENTS_EVENTS_URL,
+        MySQLiteHelper.COLUMN_EVENTS_IS_RECOMMENDED,
         MySQLiteHelper.COLUMN_EVENTS_NOTIFICATION_ID};
 
     public ManageDataBase(Context context) {
@@ -66,23 +67,23 @@ public class ManageDataBase {
 
         eventsItem.setId(cursor.getLong(0));
         eventsItem.setEventsId(cursor.getString(1));
-        eventsItem.setName(cursor.getString(2));
-        eventsItem.setType(cursor.getString(3));
+        eventsItem.setTitle(cursor.getString(2));
+        eventsItem.setCategoryID(cursor.getString(3));
         eventsItem.setAddress(cursor.getString(4));
         eventsItem.setGeoLatitude(cursor.getFloat(5));
         eventsItem.setGeoLongitude(cursor.getFloat(6));
         eventsItem.setDateStart(cursor.getString(7));
-        eventsItem.setDateEnd(cursor.getString(8));
-        eventsItem.setPrice(cursor.getInt(9));
-        eventsItem.setAgeLimit(cursor.getInt(10));
-        eventsItem.setFavorite(cursor.getInt(11)==0?false:true);
-        eventsItem.setBeerPrice(cursor.getInt(12));
-        eventsItem.setDescriptionEnglish(cursor.getString(13));
-        eventsItem.setDescriptionNorwegian(cursor.getString(14));
-        eventsItem.setPicture(cursor.getString(15));
-        eventsItem.setSmallPicture(cursor.getString(16));
-        eventsItem.setWeekendRecommendationEnglish(cursor.getString(17));
-        eventsItem.setWeekendRecommendationNorwegian(cursor.getString(18));
+        eventsItem.setPrice(cursor.getInt(8));
+        eventsItem.setAgeLimit(cursor.getInt(9));
+        eventsItem.setPlaceName(cursor.getString(10));
+        eventsItem.setShowDate(cursor.getString(11));
+        eventsItem.setFavorite(cursor.getInt(12)==0?false:true);
+        eventsItem.setBeerPrice(cursor.getInt(13));
+        eventsItem.setDescriptionEnglish(cursor.getString(14));
+        eventsItem.setDescriptionNorwegian(cursor.getString(15));
+        eventsItem.setImageURL(cursor.getString(16));
+        eventsItem.setEventURL(cursor.getString(17));
+        eventsItem.setisRecomended(cursor.getInt(18)==0?false:true);
         eventsItem.setNotificationId(cursor.getInt(19));
 
         return eventsItem;
@@ -132,7 +133,7 @@ public class ManageDataBase {
 
         name = name.toLowerCase();
         Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS,
-                allColumnsEvents, "lower("+MySQLiteHelper.COLUMN_EVENTS_NAME + ") LIKE '%" +name +"%' AND " + MySQLiteHelper.COLUMN_ID + ">" + id , null, null, null, null);
+                allColumnsEvents, "lower("+MySQLiteHelper.COLUMN_EVENTS_TITLE + ") LIKE '%" +name +"%' AND " + MySQLiteHelper.COLUMN_ID + ">" + id , null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -203,23 +204,23 @@ public class ManageDataBase {
 
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_EVENTS_ID, eventsItem.getEventsId());
-        values.put(MySQLiteHelper.COLUMN_EVENTS_NAME, eventsItem.getName());
-        values.put(MySQLiteHelper.COLUMN_EVENTS_TYPE, eventsItem.getType());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_TITLE, eventsItem.getTitle());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_CATEGORY_ID, eventsItem.getCategoryID());
         values.put(MySQLiteHelper.COLUMN_EVENTS_ADDRESS, eventsItem.getAddress());
         values.put(MySQLiteHelper.COLUMN_EVENTS_GEO_LAT, eventsItem.getGeoLatitude());
         values.put(MySQLiteHelper.COLUMN_EVENTS_GEO_LON, eventsItem.getGeoLongitude());
         values.put(MySQLiteHelper.COLUMN_EVENTS_DATE_START, eventsItem.getDateStart());
-        values.put(MySQLiteHelper.COLUMN_EVENTS_DATE_END, eventsItem.getDateEnd());
         values.put(MySQLiteHelper.COLUMN_EVENTS_PRICE, eventsItem.getPrice());
-        values.put(MySQLiteHelper.COLUMN_EVENTS_AGE_LIMITS, eventsItem.getAgeLimit());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_AGE_LIMIT, eventsItem.getAgeLimit());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_PLACE_NAME, eventsItem.getPlaceName());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_SHOW_DATE, eventsItem.getShowDate());
         values.put(MySQLiteHelper.COLUMN_EVENTS_FAVORITE, eventsItem.getFavorite());
         values.put(MySQLiteHelper.COLUMN_EVENTS_BEER_PRICE, eventsItem.getBeerPrice());
         values.put(MySQLiteHelper.COLUMN_EVENTS_DESCRIPTION_ENG, eventsItem.getDescriptionEnglish());
         values.put(MySQLiteHelper.COLUMN_EVENTS_DESCRIPTION_NO, eventsItem.getDescriptionNorwegian());
-        values.put(MySQLiteHelper.COLUMN_EVENTS_PICTURE, eventsItem.getPicture());
-        values.put(MySQLiteHelper.COLUMN_EVENTS_SMALL_PICTURE, eventsItem.getSmallPicture());
-        values.put(MySQLiteHelper.COLUMN_EVENTS_WEEKEND_RECOMMENDATION_ENGLISH, eventsItem.getWeekendRecommendationEnglish());
-        values.put(MySQLiteHelper.COLUMN_EVENTS_WEEKEND_RECOMMENDATION_NORWEGIAN, eventsItem.getWeekendRecommendationNorwegian());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_IMAGE_URL, eventsItem.getImageURL());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_EVENTS_URL, eventsItem.getEventURL());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_IS_RECOMMENDED, eventsItem.getIsRecommended());
         values.put(MySQLiteHelper.COLUMN_EVENTS_NOTIFICATION_ID, eventsItem.getNotificationId());
 
         long insertId = database.insert(MySQLiteHelper.TABLE_EVENTS, null, values);
@@ -241,23 +242,23 @@ public class ManageDataBase {
     public void updateEventsItem(long id, EventsItem eventsItem){
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_EVENTS_ID, eventsItem.getEventsId());
-        values.put(MySQLiteHelper.COLUMN_EVENTS_NAME, eventsItem.getName());
-        values.put(MySQLiteHelper.COLUMN_EVENTS_TYPE, eventsItem.getType());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_TITLE, eventsItem.getTitle());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_CATEGORY_ID, eventsItem.getCategoryID());
         values.put(MySQLiteHelper.COLUMN_EVENTS_ADDRESS, eventsItem.getAddress());
         values.put(MySQLiteHelper.COLUMN_EVENTS_GEO_LAT, eventsItem.getGeoLatitude());
         values.put(MySQLiteHelper.COLUMN_EVENTS_GEO_LON, eventsItem.getGeoLongitude());
         values.put(MySQLiteHelper.COLUMN_EVENTS_DATE_START, eventsItem.getDateStart());
-        values.put(MySQLiteHelper.COLUMN_EVENTS_DATE_END, eventsItem.getDateEnd());
         values.put(MySQLiteHelper.COLUMN_EVENTS_PRICE, eventsItem.getPrice());
-        values.put(MySQLiteHelper.COLUMN_EVENTS_AGE_LIMITS, eventsItem.getAgeLimit());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_AGE_LIMIT, eventsItem.getAgeLimit());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_PLACE_NAME, eventsItem.getPlaceName());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_SHOW_DATE, eventsItem.getShowDate());
         values.put(MySQLiteHelper.COLUMN_EVENTS_FAVORITE, eventsItem.getFavorite());
         values.put(MySQLiteHelper.COLUMN_EVENTS_BEER_PRICE, eventsItem.getBeerPrice());
         values.put(MySQLiteHelper.COLUMN_EVENTS_DESCRIPTION_ENG, eventsItem.getDescriptionEnglish());
         values.put(MySQLiteHelper.COLUMN_EVENTS_DESCRIPTION_NO, eventsItem.getDescriptionNorwegian());
-        values.put(MySQLiteHelper.COLUMN_EVENTS_PICTURE, eventsItem.getPicture());
-        values.put(MySQLiteHelper.COLUMN_EVENTS_SMALL_PICTURE, eventsItem.getSmallPicture());
-        values.put(MySQLiteHelper.COLUMN_EVENTS_WEEKEND_RECOMMENDATION_ENGLISH, eventsItem.getWeekendRecommendationEnglish());
-        values.put(MySQLiteHelper.COLUMN_EVENTS_WEEKEND_RECOMMENDATION_NORWEGIAN, eventsItem.getWeekendRecommendationNorwegian());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_IMAGE_URL, eventsItem.getImageURL());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_EVENTS_URL, eventsItem.getEventURL());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_IS_RECOMMENDED, eventsItem.getIsRecommended());
         values.put(MySQLiteHelper.COLUMN_EVENTS_NOTIFICATION_ID, eventsItem.getNotificationId());
 
         database.update(MySQLiteHelper.TABLE_EVENTS, values, MySQLiteHelper.COLUMN_ID + " = '" + id + "'", null);
@@ -281,209 +282,5 @@ public class ManageDataBase {
 
         return checkEventsItem;
     }
-
-    /*
-
-    public EventsItem addDashboardItem(String type, String label, String icon, int page, int index, String json) {
-
-        if (testEventsItem(json, type))
-            return null;
-
-        ContentValues values = new ContentValues();
-        values.put(MySQLiteHelper.COLUMN_DASHBOARD_TYPE, type);
-        values.put(MySQLiteHelper.COLUMN_DASHBOARD_LABEL, label);
-        values.put(MySQLiteHelper.COLUMN_DASHBOARD_ICON, icon);
-        values.put(MySQLiteHelper.COLUMN_DASHBOARD_PAGE, page);
-        values.put(MySQLiteHelper.COLUMN_DASHBOARD_INDEX, index);
-        values.put(MySQLiteHelper.COLUMN_DASHBOARD_JSON_DATA, json);
-
-        long insertId = database.insert(MySQLiteHelper.TABLE_DASHBOARD, null,
-                values);
-
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_DASHBOARD,
-                allColumnsDashboard, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
-                null, null, null);
-        cursor.moveToFirst();
-
-        TableDashboardItem tableDashboardItem = cursorToTableDashboardItem(cursor);
-        cursor.close();
-
-        return tableDashboardItem;
-    }
-
-
-
-
-    public void updateDashboardJson(long id, String jsonData){
-        ContentValues values = new ContentValues();
-        values.put(MySQLiteHelper.COLUMN_DASHBOARD_JSON_DATA, jsonData);
-
-        database.update(MySQLiteHelper.TABLE_DASHBOARD, values, MySQLiteHelper.COLUMN_ID + " = '" + id + "'", null);
-    }
-
-    public void updateDashboardIconPosition(long id, int page, int index) {
-        ContentValues values = new ContentValues();
-        values.put(MySQLiteHelper.COLUMN_DASHBOARD_PAGE, page);
-        values.put(MySQLiteHelper.COLUMN_DASHBOARD_INDEX, index);
-
-        database.update(MySQLiteHelper.TABLE_DASHBOARD, values, MySQLiteHelper.COLUMN_ID + " = '" + id + "'", null);
-
-    }
-
-    public void deleteDashboardItem(TableDashboardItem dashboardItem) {
-        long id = dashboardItem.getId();
-        System.out.println("Dashboard item deleted with id: " + id);
-        database.delete(MySQLiteHelper.TABLE_DASHBOARD, MySQLiteHelper.COLUMN_ID
-                + " = " + id, null);
-    }
-
-    public void deleteDashboardItem(long id) {
-        System.out.println("Dashboard item deleted with id: " + id);
-        database.delete(MySQLiteHelper.TABLE_DASHBOARD, MySQLiteHelper.COLUMN_ID
-                + " = " + id, null);
-    }
-
-
-
-
-    // PAYMENT
-    private String[] allColumnsPayment = {MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_PAYMENT_TYPE, MySQLiteHelper.COLUMN_PAYMENT_TO, MySQLiteHelper.COLUMN_PAYMENT_FROM,
-            MySQLiteHelper.COLUMN_PAYMENT_STATUS, MySQLiteHelper.COLUMN_PAYMENT_DATE, MySQLiteHelper.COLUMN_PAYMENT_AMOUNT,
-            MySQLiteHelper.COLUMN_PAYMENT_REAL_ID, MySQLiteHelper.COLUMN_PAYMENT_JSON, MySQLiteHelper.COLUMN_PAYMENT_CONTRACT};
-
-
-    public TablePaymentItem addPayment(String type, String to, String from, String status, String date, float amount,
-                                       String realPaymentId, String json, String contract) {
-        ContentValues values = new ContentValues();
-        values.put(MySQLiteHelper.COLUMN_PAYMENT_TYPE, type);
-        values.put(MySQLiteHelper.COLUMN_PAYMENT_TO, to);
-        values.put(MySQLiteHelper.COLUMN_PAYMENT_FROM, from);
-        values.put(MySQLiteHelper.COLUMN_PAYMENT_STATUS, status);
-        values.put(MySQLiteHelper.COLUMN_PAYMENT_DATE, date);
-        values.put(MySQLiteHelper.COLUMN_PAYMENT_AMOUNT, amount);
-        values.put(MySQLiteHelper.COLUMN_PAYMENT_REAL_ID, realPaymentId);
-        values.put(MySQLiteHelper.COLUMN_PAYMENT_JSON, json);
-        values.put(MySQLiteHelper.COLUMN_PAYMENT_CONTRACT, contract);
-
-        long insertId = database.insert(MySQLiteHelper.TABLE_PAYMENT, null,
-                values);
-
-
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_PAYMENT,
-                allColumnsPayment, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
-                null, null, null);
-        cursor.moveToFirst();
-
-        TablePaymentItem tablePaymentItem = cursorToTablePaymentItem(cursor);
-        cursor.close();
-
-        return tablePaymentItem;
-    }
-
-    public void updatePayment(String id, String status, String resource) {
-        ContentValues values = new ContentValues();
-        values.put(MySQLiteHelper.COLUMN_PAYMENT_STATUS, status);
-        if (resource != null)
-            values.put(MySQLiteHelper.COLUMN_PAYMENT_CONTRACT, resource);
-
-        database.update(MySQLiteHelper.TABLE_PAYMENT, values, MySQLiteHelper.COLUMN_PAYMENT_REAL_ID + " = '" + id + "'", null);
-
-    }
-
-    public void updatePayment(long id, String status) {
-        ContentValues values = new ContentValues();
-        values.put(MySQLiteHelper.COLUMN_PAYMENT_STATUS, status);
-        database.update(MySQLiteHelper.TABLE_PAYMENT, values, MySQLiteHelper.COLUMN_ID + " = " + id, null);
-
-    }
-
-    private TablePaymentItem cursorToTablePaymentItem(Cursor cursor) {
-        TablePaymentItem tablePaymentItem = new TablePaymentItem();
-
-        tablePaymentItem.setId(cursor.getLong(0));
-        tablePaymentItem.setType(cursor.getString(1));
-        tablePaymentItem.setTo(cursor.getString(2));
-        tablePaymentItem.setFrom(cursor.getString(3));
-        tablePaymentItem.setStatus(cursor.getString(4));
-        tablePaymentItem.setDate(cursor.getString(5));
-        tablePaymentItem.setAmount(cursor.getFloat(6));
-        tablePaymentItem.setRealId(cursor.getString(7));
-        tablePaymentItem.setReserved(cursor.getString(8));
-        tablePaymentItem.setContract(cursor.getString(9));
-
-
-        return tablePaymentItem;
-    }
-
-    public void deletePaymentItemWhereStatus(String status) {
-        database.delete(MySQLiteHelper.TABLE_PAYMENT, MySQLiteHelper.COLUMN_PAYMENT_STATUS
-                + "=" + status, null);
-    }
-
-    public void deletePaymentItem(String id) {
-        database.delete(MySQLiteHelper.TABLE_PAYMENT, MySQLiteHelper.COLUMN_PAYMENT_REAL_ID
-                + "= " + id, null);
-    }
-
-    public void deletePaymentItem(long id) {
-        database.delete(MySQLiteHelper.TABLE_PAYMENT, MySQLiteHelper.COLUMN_ID
-                + "= " + id, null);
-    }
-
-    public void deletePaymentItem(TablePaymentItem paymentItem) {
-        long id = paymentItem.getId();
-        System.out.println("Dashboard item deleted with id: " + id);
-        database.delete(MySQLiteHelper.TABLE_PAYMENT, MySQLiteHelper.COLUMN_ID
-                + " = " + id, null);
-    }
-
-    public List<TablePaymentItem> getAllPaymentItem() {
-        List<TablePaymentItem> paymentItems = new ArrayList<TablePaymentItem>();
-
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_PAYMENT,
-                allColumnsPayment, null, null, null, null, MySQLiteHelper.COLUMN_ID + " DESC");
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            TablePaymentItem paymentItem = cursorToTablePaymentItem(cursor);
-            paymentItems.add(paymentItem);
-            cursor.moveToNext();
-        }
-        // Make sure to close the cursor
-        cursor.close();
-
-        return paymentItems;
-    }
-
-    public List<TablePaymentItem> getAllPaymentItemConfirmed() {
-        List<TablePaymentItem> paymentItems = new ArrayList<TablePaymentItem>();
-
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_PAYMENT,
-                allColumnsPayment, MySQLiteHelper.COLUMN_PAYMENT_STATUS + " = 'confirmed'", null, null, null, null);
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            TablePaymentItem paymentItem = cursorToTablePaymentItem(cursor);
-            paymentItems.add(paymentItem);
-            cursor.moveToNext();
-        }
-        // Make sure to close the cursor
-        cursor.close();
-
-        cursor = database.query(MySQLiteHelper.TABLE_PAYMENT,
-                allColumnsPayment, MySQLiteHelper.COLUMN_PAYMENT_STATUS + " = 'inprogress'", null, null, null, null);
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            TablePaymentItem paymentItem = cursorToTablePaymentItem(cursor);
-            paymentItems.add(paymentItem);
-            cursor.moveToNext();
-        }
-        // Make sure to close the cursor
-        cursor.close();
-
-        return paymentItems;
-    }*/
 
 }

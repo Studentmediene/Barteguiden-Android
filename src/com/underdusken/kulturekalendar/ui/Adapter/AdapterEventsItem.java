@@ -114,40 +114,11 @@ public class AdapterEventsItem extends ArrayAdapter<EventsItem> {
 
 
             // Set Image
+            /*
             if(serviceLoadImage!=null){
                 serviceLoadImage.loadImage(eventsItem.getSmallPicture(), viewHolder.ivPicture, R.drawable.ic_article);
-            }
+            } */
 
-            /*// Check adding to favorites
-            CheckBox chkFavorite = (CheckBox) v.findViewById(R.id.events_item_favorite_add);
-            chkFavorite.setChecked(eventsItem.getFavorite());
-            chkFavorite.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    if (((CheckBox) v).isChecked()) {
-                        ManageDataBase manageDataBase = new ManageDataBase(context);
-                        eventsItem.setFavorite(true);
-                        try {
-                            manageDataBase.open();
-                            EventsItem testEventsItem = manageDataBase.updateEventsItemFavorites(eventsItem.getId(), true);
-                            manageDataBase.close();
-                        } catch (SQLException e) {
-
-                        }
-                    }else{
-                        ManageDataBase manageDataBase = new ManageDataBase(context);
-                        eventsItem.setFavorite(false);
-                        try {
-                            manageDataBase.open();
-                            manageDataBase.updateEventsItemFavorites(eventsItem.getId(), false);
-                            manageDataBase.close();
-                        } catch (SQLException e) {
-
-                        }
-                    }
-                }
-            });*/
 
         }
 

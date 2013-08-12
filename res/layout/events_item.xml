@@ -6,73 +6,74 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
 
+    <!-- Item title -->
 
-        <RelativeLayout android:id="@+id/events_header"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_item_title_9">
+    <RelativeLayout android:id="@+id/events_header"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:background="@drawable/bg_list_title_9">
 
 
-            <TextView
-                    android:id="@+id/events_date"
+        <TextView
+                android:id="@+id/events_date"
 
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
 
-                android:paddingLeft="15dp"
+                android:paddingLeft="10dp"
 
                 android:text="Date"
 
-                    android:textColor="#542522"
-                    android:textStyle="bold"
-
-                    android:shadowColor="#c76d69"
-                    android:shadowRadius="1"
-                    android:shadowDx="1"
-                    android:shadowDy="1"
+                android:textColor="#555555"
+                android:textStyle="bold"
 
 
                 />
+    </RelativeLayout>
 
 
-        </RelativeLayout>
+    <RelativeLayout android:id="@+id/content"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+
+                    android:layout_below="@id/events_header"
+                    android:background="#fff"
+            >
 
 
-        <RelativeLayout android:id="@+id/content"
-                         android:layout_height="wrap_content"
-                         android:layout_width="fill_parent"
+        <ImageView
+                android:id="@+id/events_field_arrow"
 
-                         android:layout_below="@id/events_header"
-                    >
+                android:layout_height="15dp"
+                android:layout_width="15dp"
 
+                android:layout_marginRight="10dp"
 
+                android:src="@drawable/list_item_arrow"
 
-
-
-        <RelativeLayout
-                android:id="@+id/events_field_radio_button"
-
-                android:layout_height="60dp"
-                android:layout_width="60dp"
+                android:layout_centerVertical="true"
 
                 android:layout_alignParentRight="true"
 
-                android:background="#fff"
-                android:visibility="gone"
-                >
+               />
 
 
-            <CheckBox
-                    android:id="@+id/events_item_favorite_add"
-                    android:layout_height="50dp"
-                    android:layout_width="50dp"
-                    android:layout_centerInParent="true"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:button="@drawable/button_check_star"/>
+        <ImageView
+                android:id="@+id/events_image"
+                android:layout_height="25dp"
+                android:layout_width="25dp"
 
-        </RelativeLayout>
+                android:layout_marginLeft="10dp"
 
+                android:src="@drawable/category_debate"
+
+                android:adjustViewBounds="true"
+
+                android:scaleType="centerInside"
+
+                android:layout_centerVertical="true"
+
+                />
 
         <RelativeLayout
                 android:id="@+id/event_item_content"
@@ -80,22 +81,21 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
 
-                android:layout_marginLeft="60dp"
-                android:layout_toLeftOf="@id/events_field_radio_button"
+                android:layout_toRightOf="@id/events_image"
+                android:layout_toLeftOf="@id/events_field_arrow"
 
-                android:background="@drawable/bg_item_general_9"
                 >
 
             <TextView
-                android:id="@+id/events_price"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
+                    android:id="@+id/events_price"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
 
-                android:layout_alignParentRight="true"
+                    android:layout_alignParentRight="true"
 
-                android:text="Free"
+                    android:text="Free"
 
-                android:textColor="#484848"/>
+                    android:textColor="#484848"/>
 
             <TextView
                     android:id="@+id/events_title"
@@ -119,31 +119,18 @@
                     android:layout_height="wrap_content"
 
 
-
                     android:text="Events place..."
+                    android:textSize="11sp"
 
                     android:singleLine="true"
-                    android:textColor="#484848"
+                    android:textColor="#9da2aa"
                     />
 
         </RelativeLayout>
 
-            <ImageView
-                    android:id="@+id/events_image"
-                    android:layout_height="wrap_content"
-                    android:layout_width="60dp"
 
-                    android:layout_alignBottom="@id/event_item_content"
-                    android:layout_alignTop="@id/event_item_content"
-                    android:adjustViewBounds="true"
 
-                    android:scaleType="centerInside"
-
-                    android:padding="2px"
-
-                    android:background="#7d7d7d"/>
-
-        </RelativeLayout>
+    </RelativeLayout>
 
 
 </RelativeLayout>

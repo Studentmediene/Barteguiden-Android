@@ -10,28 +10,27 @@ package com.underdusken.kulturekalendar.data;
 public class EventsItem {
     private long id = 0;
     private String eventsId = "0";
-    private String name = "";
-    private String type = "";
+    private String title = "";
+
+    private String categoryID = "";
     private String address = "";
     private boolean isGeo = true;
     private float geoLatitude = 0.0f;
     private float geoLongitude = 0.0f;
     private String dateStart = "";
-    private String dateEnd = "";
+    private int price =  0;
+    private String placeName = "";
     private String showDate = "";   // date witch would show to user,  some events have period and because of this we must some times calculate date witch we want to show
-    private float price =  0.0f;
     private int ageLimit = 0;
+
     private boolean favorite = false;
     private float beerPrice = 0.0f;
     private String descriptionEnglish = "";
     private String descriptionNorwegian = "";
     // Images
-    private String picture = "";
-    private String smallPicture = "";
-
-    private String weekendRecommendationEnglish = "";
-    private String weekendRecommendationNorwegian = "";
-
+    private String imageURL = "";
+    private String eventURL = "";
+    public boolean isRecommended = false;
     private int notificationId = 0;
 
 
@@ -40,24 +39,39 @@ public class EventsItem {
 
     }
 
-    public EventsItem(String name, String date){
-        this.name = name;
+    public EventsItem(String title, String date){
+        this.title = title;
         this.dateStart = date;
     }
 
 
     // Set methods
+    public void setPlaceName(String placeName){
+        this.placeName = placeName;
+    }
+    public void setisRecomended(boolean isRecomended){
+        this.isRecommended = isRecomended;
+    }
     public void setEventsId(String eventsId){
         this.eventsId = eventsId;
+    }
+    public void setEventURL(String eventURL){
+        this.eventURL = eventURL;
     }
     public void setId(long id){
         this.id = id;
     }
-    public void setName(String name){
-        this.name = name;
+    public void setImageURL(String imageURL){
+        this.imageURL = imageURL;
     }
-    public void setType(String type){
-        this.type = type;
+    public void setTitle(String name){
+        this.title = name;
+    }
+    public void setCategoryID(String categoryID){
+        this.categoryID = categoryID;
+    }
+    public void setIsGeo(boolean isGeo){
+        this.isGeo = isGeo;
     }
     public void setAddress(String address){
         this.address = address;
@@ -75,10 +89,7 @@ public class EventsItem {
     public void setShowDate(String date){
         this.showDate = date;
     }
-    public void setDateEnd(String date){
-        this.dateEnd = date;
-    }
-    public void setPrice(float price){
+    public void setPrice(int price){
         this.price = price;
     }
     public void setAgeLimit(int ageLimit){
@@ -96,18 +107,6 @@ public class EventsItem {
     public void setDescriptionNorwegian(String descriptionNorwegian){
         this.descriptionNorwegian = descriptionNorwegian;
     }
-    public void setPicture(String picture){
-        this.picture = picture;
-    }
-    public void setSmallPicture(String smallPicture){
-        this.smallPicture = smallPicture;
-    }
-    public void setWeekendRecommendationEnglish(String weekendRecommendationEnglish){
-        this.weekendRecommendationEnglish = weekendRecommendationEnglish;
-    }
-    public void setWeekendRecommendationNorwegian(String weekendRecommendationNorwegian){
-        this.weekendRecommendationNorwegian = weekendRecommendationNorwegian;
-    }
 
     public void setNotificationId(int notificationId){
         this.notificationId = notificationId;
@@ -116,17 +115,32 @@ public class EventsItem {
 
 
     // Get methods
+    public boolean getIsRecommended(){
+        return this.isRecommended;
+    }
+    public String getPlaceName(){
+        return this.placeName;
+    }
+    public String getEventURL(){
+        return this.eventURL;
+    }
     public long getId(){
         return this.id;
+    }
+    public boolean getIsGeo(){
+        return this.isGeo;
+    }
+    public String getImageURL(){
+        return this.imageURL;
     }
     public String getEventsId(){
         return this.eventsId;
     }
-    public String getName(){
-        return this.name;
+    public String getTitle(){
+        return this.title;
     }
-    public String getType(){
-        return this.type;
+    public String getCategoryID(){
+        return this.categoryID;
     }
     public String getAddress(){
         return this.address;
@@ -139,9 +153,6 @@ public class EventsItem {
     }
     public String getDateStart(){
         return this.dateStart;
-    }
-    public String getDateEnd(){
-        return this.dateEnd;
     }
     public String getShowDate(){
         return this.showDate;
@@ -164,18 +175,7 @@ public class EventsItem {
     public String getDescriptionNorwegian(){
         return this.descriptionNorwegian;
     }
-    public String getPicture(){
-        return this.picture;
-    }
-    public String getSmallPicture(){
-        return this.smallPicture;
-    }
-    public String getWeekendRecommendationEnglish(){
-        return this.weekendRecommendationEnglish;
-    }
-    public String getWeekendRecommendationNorwegian(){
-        return this.weekendRecommendationNorwegian;
-    }
+
     public int getNotificationId(){
         return this.notificationId;
     }

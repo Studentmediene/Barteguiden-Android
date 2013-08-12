@@ -8,6 +8,6 @@ package com.underdusken.kulturekalendar.utils;
  * To change this template use File | Settings | File Templates.
  */
 public class NetworkLinks {
-    static final public String JSON_DATA = "http://oscilloscope2005.narod.ru/events.json";
+    static final public String JSON_DATA = "http://barteguiden.no/v1/events";
 
 }

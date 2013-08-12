@@ -33,57 +33,54 @@
     </RelativeLayout>
 
 
-
-
     <!--Filter Region-->
-    <RelativeLayout
+
+
+    <LinearLayout
             android:id="@+id/tab2_filter_region"
             android:layout_width="fill_parent"
-            android:layout_height="45dp"
-            android:layout_alignParentBottom="true">
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:background="@drawable/bg_nav_bar"
+            android:weightSum="3">
 
-        <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:weightSum="3">
+        <Button
+                android:id="@+id/tab2_button_all"
 
-            <Button
-                    android:id="@+id/tab2_button_all"
+                android:layout_height="40dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
 
-                    android:layout_height="40dp"
-                    android:layout_width="0dp"
+                android:text="all"/>
 
-                    android:layout_weight="1"
+        <Button
+                android:id="@+id/tab2_button_paid"
 
-                    android:text="all"/>
+                android:layout_height="40dp"
+                android:layout_width="0dp"
 
-            <Button
-                    android:id="@+id/tab2_button_paid"
+                android:layout_weight="1"
 
-                    android:layout_height="40dp"
-                    android:layout_width="0dp"
+                android:text="paid"/>
 
-                    android:layout_weight="1"
+        <Button
+                android:id="@+id/tab2_button_free"
 
-                    android:text="paid"/>
+                android:layout_height="40dp"
+                android:layout_width="0dp"
 
-            <Button
-                    android:id="@+id/tab2_button_free"
+                android:layout_weight="1"
 
-                    android:layout_height="40dp"
-                    android:layout_width="0dp"
-
-                    android:layout_weight="1"
-
-                    android:text="free"/>
+                android:text="free"/>
 
 
-        </LinearLayout>
+    </LinearLayout>
 
-    </RelativeLayout>
 
     <ListView
             android:id="@+id/tab2_events_list"
@@ -96,8 +93,8 @@
 
             android:drawSelectorOnTop="false"
 
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0px"
+            android:divider="#caced4"
+            android:dividerHeight="1px"
 
             android:padding="0dip"
             android:layout_margin="0dip"

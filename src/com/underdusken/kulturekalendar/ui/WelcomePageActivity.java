@@ -68,7 +68,7 @@ public class WelcomePageActivity extends Activity {
         });
 
 
-        layout.clearAnimation();
+        //layout.clearAnimation();
         layout.startAnimation(a);
 
         layout.setOnTouchListener(new View.OnTouchListener() {

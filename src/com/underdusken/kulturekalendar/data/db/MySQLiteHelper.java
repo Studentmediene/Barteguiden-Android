@@ -15,30 +15,34 @@ import android.util.Log;
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "kulturkalender.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
 
     // TABLE EVENTS
     public static final String TABLE_EVENTS = "events";
     public static final String COLUMN_ID =  "_id";
     public static final String COLUMN_EVENTS_ID = "_events_id";
-    public static final String COLUMN_EVENTS_NAME = "_name";
-    public static final String COLUMN_EVENTS_TYPE = "_type";
+    public static final String COLUMN_EVENTS_TITLE = "_title";
+    public static final String COLUMN_EVENTS_CATEGORY_ID = "_category_id";
     public static final String COLUMN_EVENTS_ADDRESS = "_address";
     public static final String COLUMN_EVENTS_GEO_LAT = "_geo_lat";
     public static final String COLUMN_EVENTS_GEO_LON = "_geo_lon";
     public static final String COLUMN_EVENTS_DATE_START = "_date_start";
-    public static final String COLUMN_EVENTS_DATE_END = "_date_end";
     public static final String COLUMN_EVENTS_PRICE = "_price";
-    public static final String COLUMN_EVENTS_AGE_LIMITS = "_age_limits";
+    public static final String COLUMN_EVENTS_AGE_LIMIT = "_age_limit";
+
+    public static final String COLUMN_EVENTS_PLACE_NAME = "_place_name";
+    public static final String COLUMN_EVENTS_SHOW_DATE = "_show_date";
+
     public static final String COLUMN_EVENTS_FAVORITE = "_favorite";
     public static final String COLUMN_EVENTS_BEER_PRICE = "_beer_price";
     public static final String COLUMN_EVENTS_DESCRIPTION_ENG = "_desc_eng";
     public static final String COLUMN_EVENTS_DESCRIPTION_NO = "_desc_no";
-    public static final String COLUMN_EVENTS_PICTURE = "_picture";
-    public static final String COLUMN_EVENTS_SMALL_PICTURE = "_small_picture";
-    public static final String COLUMN_EVENTS_WEEKEND_RECOMMENDATION_ENGLISH = "_weekend_recommendation_eng";
-    public static final String COLUMN_EVENTS_WEEKEND_RECOMMENDATION_NORWEGIAN = "_weekend_recommendation_nor";
+
+    public static final String COLUMN_EVENTS_IMAGE_URL = "_image_url";
+    public static final String COLUMN_EVENTS_EVENTS_URL = "_events_url";
+    public static final String COLUMN_EVENTS_IS_RECOMMENDED = "_is_recommended";
+
     public static final String COLUMN_EVENTS_NOTIFICATION_ID = "_notification_id";
 
 
@@ -46,23 +50,23 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + TABLE_EVENTS + "("
             + COLUMN_ID + " integer primary key autoincrement, "
             + COLUMN_EVENTS_ID + " text, "
-            + COLUMN_EVENTS_NAME + " text, "
-            + COLUMN_EVENTS_TYPE + " text, "
+            + COLUMN_EVENTS_TITLE + " text, "
+            + COLUMN_EVENTS_CATEGORY_ID + " text, "
             + COLUMN_EVENTS_ADDRESS + " text, "
             + COLUMN_EVENTS_GEO_LAT + " real, "
             + COLUMN_EVENTS_GEO_LON + " real, "
             + COLUMN_EVENTS_DATE_START+ " text, "
-            + COLUMN_EVENTS_DATE_END + " text, "
             + COLUMN_EVENTS_PRICE + " integer, "
-            + COLUMN_EVENTS_AGE_LIMITS + " integer, "
+            + COLUMN_EVENTS_AGE_LIMIT + " integer, "
+            + COLUMN_EVENTS_PLACE_NAME + " text, "
+            + COLUMN_EVENTS_SHOW_DATE + " text, "
             + COLUMN_EVENTS_FAVORITE + " integer, "
             + COLUMN_EVENTS_BEER_PRICE + " integer, "
             + COLUMN_EVENTS_DESCRIPTION_ENG + " text, "
             + COLUMN_EVENTS_DESCRIPTION_NO + " text, "
-            + COLUMN_EVENTS_PICTURE + " text, "
-            + COLUMN_EVENTS_SMALL_PICTURE + " text, "
-            + COLUMN_EVENTS_WEEKEND_RECOMMENDATION_ENGLISH + " text, "
-            + COLUMN_EVENTS_WEEKEND_RECOMMENDATION_NORWEGIAN + " text, "
+            + COLUMN_EVENTS_IMAGE_URL + " text, "
+            + COLUMN_EVENTS_EVENTS_URL + " text, "
+            + COLUMN_EVENTS_IS_RECOMMENDED + " integer, "
             + COLUMN_EVENTS_NOTIFICATION_ID + " integer);";
 
 

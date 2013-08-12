@@ -6,10 +6,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.underdusken.kulturekalendar.R;
 
@@ -39,46 +40,43 @@ public class MainFragmentActivity extends FragmentActivity {
 
 
 
-        mTabManager.addTab(mTabHost.newTabSpec("Featured").setIndicator(getString(R.string.tab1)),
+        //mTabManager.addTab(mTabHost.newTabSpec("Featured").setIndicator(getString(R.string.tab1)),
+          //      TabFeatured.class, null);
+
+        mTabManager.addTab(configureTab("Featured", R.drawable.tab_1_selector),
                 TabFeatured.class, null);
-        mTabManager.addTab(mTabHost.newTabSpec("All").setIndicator(getString(R.string.tab2)),
+        mTabManager.addTab(configureTab("All Events",  R.drawable.tab_2_selector),
                 TabAll.class, null);
-        mTabManager.addTab(mTabHost.newTabSpec("My").setIndicator(getString(R.string.tab3)),
+        mTabManager.addTab(configureTab("My Filter",  R.drawable.tab_3_selector),
                 TabFree.class, null);
-        mTabManager.addTab(mTabHost.newTabSpec("Favorites").setIndicator(getString(R.string.tab4)),
+        mTabManager.addTab(configureTab("Favorites",  R.drawable.tab_4_selector),
                 TabFavorite.class, null);
-        mTabManager.addTab(mTabHost.newTabSpec("Setup").setIndicator(getString(R.string.tab5)),
+        mTabManager.addTab(configureTab("Settings",  R.drawable.tab_5_selector),
                 TabFavorite.class, null);
-
-
-
-        int imageViewIndex = 0;
-        /*
-        if (Build.VERSION.SDK_INT >= 15) {
-            imageViewIndex = 0;
-        }*/
-
-        // Set tabs Image
-        ViewGroup idView = (ViewGroup) mTabHost.getTabWidget().getChildAt(0);
-        ImageView imageView = (ImageView) idView.getChildAt(imageViewIndex);
-        imageView.setImageResource(R.drawable.ic_tab_important);
-
-        idView = (ViewGroup) mTabHost.getTabWidget().getChildAt(1);
-        imageView = (ImageView) idView.getChildAt(imageViewIndex);
-        imageView.setImageResource(R.drawable.ic_tab_list);
-
-        idView = (ViewGroup) mTabHost.getTabWidget().getChildAt(2);
-        imageView = (ImageView) idView.getChildAt(imageViewIndex);
-        imageView.setImageResource(R.drawable.ic_tab_user);
-
-        idView = (ViewGroup) mTabHost.getTabWidget().getChildAt(4);
-        imageView = (ImageView) idView.getChildAt(imageViewIndex);
-        imageView.setImageResource(R.drawable.ic_tab_setup);
 
         if (savedInstanceState != null) {
             mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
         }
     }
+
+
+    private TabHost.TabSpec configureTab(final String tag, final int imageResource) {
+        View tabview = createTabView(mTabHost.getContext(), tag, imageResource);
+        TabHost.TabSpec setContent = mTabHost.newTabSpec(tag).setIndicator(tabview);
+        //.setContent(new TabHost.TabContentFactory() { public View createTabContent(String tag) {return view;}});
+        return setContent;
+    }
+
+    private static View createTabView(final Context context, final String text, final int imageResourse) {
+        View view = LayoutInflater.from(context).inflate(R.layout.tabs_bg, null);
+        TextView tv = (TextView) view.findViewById(R.id.tabsText);
+        tv.setText(text);
+        ImageView iv = (ImageView)view.findViewById(R.id.tabsIcon);
+        iv.setImageResource(imageResourse);
+        return view;
+    }
+
+
 
 
     @Override
@@ -109,59 +107,6 @@ public class MainFragmentActivity extends FragmentActivity {
 
 
 
-
-    /*public void onCheckboxClicked(View view) {
-        // Is the view now checked?
-        boolean checked = ((CheckBox) view).isChecked();
-
-        // Check which checkbox was clicked
-        switch(view.getId()) {
-            case R.id.tab4_checkbox_1:
-                if (checked){
-                    // Put some meat on the sandwich
-                }else{
-                    // Remove the meat
-                    break;}
-            case R.id.tab4_checkbox_2:
-                if (checked){
-                    // Put some meat on the sandwich
-                }else{
-                    // Remove the meat
-                    break;}
-            case R.id.tab4_checkbox_3:
-                if (checked){
-                    // Put some meat on the sandwich
-                }else{
-                    // Remove the meat
-                    break;}
-            case R.id.tab4_checkbox_4:
-                if (checked){
-                    // Put some meat on the sandwich
-                }else{
-                    // Remove the meat
-                    break;}
-            case R.id.tab4_checkbox_5:
-                if (checked){
-                    // Put some meat on the sandwich
-                }else{
-                    // Remove the meat
-                    break;}
-            case R.id.tab4_checkbox_6:
-                if (checked){
-                    // Put some meat on the sandwich
-                }else{
-                    // Remove the meat
-                    break;}
-            case R.id.tab4_checkbox_7:
-                if (checked){
-                    // Put some meat on the sandwich
-                }else{
-                    // Remove the meat
-                    break;}
-
-        }
-    }
-*/
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

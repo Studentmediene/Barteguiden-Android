@@ -39,19 +39,19 @@ public class JsonParseEvents {
                 JSONObject eventObject = eventsArray.getJSONObject(i);
 
                 try {
-                    eventsItem.setEventsId(eventObject.getString("id"));
+                    eventsItem.setEventsId(eventObject.getString("eventID"));
                 } catch (Exception e) {
                     eventsItem.setEventsId("0");
                 }
                 try {
-                    eventsItem.setName(eventObject.getString("name"));
+                    eventsItem.setCategoryID(eventObject.getString("categoryID"));
                 } catch (Exception e) {
-                    eventsItem.setName("");
+                    eventsItem.setTitle("");
                 }
                 try {
-                    eventsItem.setType(eventObject.getString("type"));
+                    eventsItem.setCategoryID(eventObject.getString("categoryID"));
                 } catch (Exception e) {
-                    eventsItem.setType("");
+                    eventsItem.setCategoryID("");
                 }
                 try {
                     eventsItem.setAddress(eventObject.getString("address"));
@@ -59,69 +59,90 @@ public class JsonParseEvents {
                     eventsItem.setAddress("");
                 }
                 try {
-                    eventsItem.setGeoLatitude((float) eventObject.getDouble("geo_latitude"));
+                    eventsItem.setGeoLatitude((float) eventObject.getDouble("latitude"));
                 } catch (Exception e) {
                     eventsItem.setGeoLatitude(0.0f);
                 }
                 try {
-                    eventsItem.setGeoLongitude((float) eventObject.getDouble("geo_longitude"));
+                    eventsItem.setGeoLongitude((float) eventObject.getDouble("longitude"));
                 } catch (Exception e) {
                     eventsItem.setGeoLongitude(0.0f);
                 }
                 try {
-                    eventsItem.setDateStart(eventObject.getString("date_start"));
+                    eventsItem.setDateStart(eventObject.getString("startAt"));
                 } catch (Exception e) {
                     eventsItem.setDateStart("");
                 }
+
                 try {
-                    eventsItem.setDateEnd(eventObject.getString("date_end"));
+                    eventsItem.setPrice(eventObject.getInt("price"));
                 } catch (Exception e) {
-                    eventsItem.setDateEnd("");
+                    eventsItem.setPrice(0);
                 }
                 try {
-                    eventsItem.setPrice((float) eventObject.getDouble("price"));
-                } catch (Exception e) {
-                    eventsItem.setPrice(0.0f);
-                }
-                try {
-                    eventsItem.setAgeLimit((int) eventObject.getInt("ageLimit"));
+                    eventsItem.setAgeLimit(eventObject.getInt("ageLimit"));
                 } catch (Exception e) {
                     eventsItem.setAgeLimit(0);
                 }
+                /*
                 try {
                     eventsItem.setBeerPrice((float) eventObject.getDouble("beerPrice"));
                 } catch (Exception e) {
                     eventsItem.setBeerPrice(0.0f);
-                }
+                }*/
+
+
+                JSONArray descriptionArray = null;
                 try {
-                    eventsItem.setDescriptionEnglish(eventObject.getString("descriptionEnglish"));
+                    descriptionArray = object.getJSONArray("descriptions");
                 } catch (Exception e) {
                     eventsItem.setDescriptionEnglish("");
-                }
-                try {
-                    eventsItem.setDescriptionNorwegian(eventObject.getString("descriptionNorwegian"));
-                } catch (Exception e) {
                     eventsItem.setDescriptionNorwegian("");
                 }
-                try {
-                    eventsItem.setPicture(eventObject.getString("picture"));
-                } catch (Exception e) {
-                    eventsItem.setPicture("");
+
+                for (int j = 0; j < descriptionArray.length(); j++) {
+                    JSONObject descriptionObject = eventsArray.getJSONObject(j);
+
+                    String language = "";
+                    try {
+                        language = descriptionObject.getString("language");
+                    } catch (Exception e) {
+                    }
+                    String text = "";
+                    try {
+                        text = descriptionObject.getString("text");
+                    } catch (Exception e) {
+                    }
+
+                    if (language.equals("en")){
+                        eventsItem.setDescriptionEnglish(text);
+                    }else if(language.equals("nb")){
+                        eventsItem.setDescriptionNorwegian(text);
+                    }
                 }
-                try {
-                    eventsItem.setSmallPicture(eventObject.getString("smallPicture"));
-                } catch (Exception e) {
-                    eventsItem.setSmallPicture("");
+
+                try{
+                    eventsItem.setPlaceName(eventObject.getString("placeName"));
+                }catch(Exception e){
+                    eventsItem.setPlaceName("");
                 }
-                try {
-                    eventsItem.setWeekendRecommendationEnglish(eventObject.getString("weekendRecommendationEnglish"));
-                } catch (Exception e) {
-                    eventsItem.setWeekendRecommendationEnglish("");
+
+                try{
+                    eventsItem.setisRecomended(eventObject.getBoolean("isRecommended"));
+                }catch(Exception e){
+                    eventsItem.setisRecomended(false);
                 }
-                try {
-                    eventsItem.setWeekendRecommendationNorwegian(eventObject.getString("weekendRecommendationNorwegian"));
-                } catch (Exception e) {
-                    eventsItem.setWeekendRecommendationNorwegian("");
+
+                try{
+                    eventsItem.setImageURL(eventObject.getString("imageURL"));
+                }catch (Exception e){
+                    eventsItem.setImageURL("");
+                }
+
+                try{
+                    eventsItem.setEventURL(eventObject.getString("eventURL"));
+                }catch(Exception e){
+                    eventsItem.setEventURL("");
                 }
 
                 eventsList.add(eventsItem);
@@ -134,113 +155,6 @@ public class JsonParseEvents {
         }
     }
 
-    static public EventsItem getEventFromJson(String json) {
-
-
-        JSONObject eventObject = null;
-        EventsItem eventsItem = new EventsItem();
-        try {
-            eventObject = new JSONObject(json);
-            try {
-                eventsItem.setId(eventObject.getInt("id"));
-            } catch (Exception e) {
-                eventsItem.setId(0);
-            }
-            try {
-                eventsItem.setEventsId(eventObject.getString("eventsId"));
-            } catch (Exception e) {
-                eventsItem.setEventsId("0");
-            }
-            try {
-                eventsItem.setName(eventObject.getString("name"));
-            } catch (Exception e) {
-                eventsItem.setName("");
-            }
-            try {
-                eventsItem.setType(eventObject.getString("type"));
-            } catch (Exception e) {
-                eventsItem.setType("");
-            }
-            try {
-                eventsItem.setAddress(eventObject.getString("address"));
-            } catch (Exception e) {
-                eventsItem.setAddress("");
-            }
-            try {
-                eventsItem.setGeoLatitude((float) eventObject.getDouble("geo_latitude"));
-            } catch (Exception e) {
-                eventsItem.setGeoLatitude(0.0f);
-            }
-            try {
-                eventsItem.setGeoLongitude((float) eventObject.getDouble("geo_longitude"));
-            } catch (Exception e) {
-                eventsItem.setGeoLongitude(0.0f);
-            }
-            try {
-                eventsItem.setDateStart(eventObject.getString("date_start"));
-            } catch (Exception e) {
-                eventsItem.setDateStart("");
-            }
-            try {
-                eventsItem.setDateEnd(eventObject.getString("date_end"));
-            } catch (Exception e) {
-                eventsItem.setDateEnd("");
-            }
-            try {
-                eventsItem.setPrice((float) eventObject.getDouble("price"));
-            } catch (Exception e) {
-                eventsItem.setPrice(0.0f);
-            }
-            try {
-                eventsItem.setAgeLimit((int) eventObject.getInt("ageLimit"));
-            } catch (Exception e) {
-                eventsItem.setAgeLimit(0);
-            }
-            try {
-                eventsItem.setBeerPrice((float) eventObject.getDouble("beerPrice"));
-            } catch (Exception e) {
-                eventsItem.setBeerPrice(0.0f);
-            }
-            try {
-                eventsItem.setDescriptionEnglish(eventObject.getString("descriptionEnglish"));
-            } catch (Exception e) {
-                eventsItem.setDescriptionEnglish("");
-            }
-            try {
-                eventsItem.setDescriptionNorwegian(eventObject.getString("descriptionNorwegian"));
-            } catch (Exception e) {
-                eventsItem.setDescriptionNorwegian("");
-            }
-            try {
-                eventsItem.setPicture(eventObject.getString("picture"));
-            } catch (Exception e) {
-                eventsItem.setPicture("");
-            }
-            try {
-                eventsItem.setSmallPicture(eventObject.getString("smallPicture"));
-            } catch (Exception e) {
-                eventsItem.setSmallPicture("");
-            }
-            try {
-                eventsItem.setWeekendRecommendationEnglish(eventObject.getString("weekendRecommendationEnglish"));
-            } catch (Exception e) {
-                eventsItem.setWeekendRecommendationEnglish("");
-            }
-            try {
-                eventsItem.setWeekendRecommendationNorwegian(eventObject.getString("weekendRecommendationNorwegian"));
-            } catch (Exception e) {
-                eventsItem.setWeekendRecommendationNorwegian("");
-            }
-            try {
-                eventsItem.setNotificationId(eventObject.getInt("notificationId"));
-            } catch (Exception e) {
-                eventsItem.setNotificationId(0);
-            }
-
-            return eventsItem;
-        } catch (JSONException e) {
-            return null;
-        }
-    }
 
 }
+
