@@ -68,7 +68,10 @@ public class EventsDescription extends Activity{
         initUI();
 
         // set data to UI
-        setData(eventsItem);
+
+        //TODO  Check langugage
+        String curLangugage = "nbk";
+        setData(eventsItem, curLangugage);
     }
 
     // initialization UI
@@ -122,7 +125,7 @@ public class EventsDescription extends Activity{
                 Intent intent = new Intent(EventsDescription.this, EventsMap.class);
                 intent.putExtra("events_latitude", eventsItem.getGeoLatitude());
                 intent.putExtra("events_longitude", eventsItem.getGeoLongitude());
-                intent.putExtra("events_title", eventsItem.getName());
+                intent.putExtra("events_title", eventsItem.getTitle());
                 intent.putExtra("events_description", eventsItem.getAddress());
 
                 startActivity(intent);
@@ -138,28 +141,32 @@ public class EventsDescription extends Activity{
     }
 
     // set data to UI
-    private void setData(EventsItem eventsItem){
-        tvName.setText(eventsItem.getName());
+    private void setData(EventsItem eventsItem, String language){
+        tvName.setText(eventsItem.getTitle());
         tvDateStart.setText(new SimpleTimeFormat(eventsItem.getDateStart()).getUserFullDate());
-        tvDateEnd.setText(new SimpleTimeFormat(eventsItem.getDateEnd()).getUserFullDate());
+        //tvDateEnd.setText(new SimpleTimeFormat(eventsItem.getDateEnd()).getUserFullDate());
         tvAddress.setText(eventsItem.getAddress());
-        tvDescription.setText(eventsItem.getDescriptionEnglish());
-        tvRecommendation.setText(eventsItem.getWeekendRecommendationEnglish());
+        if (language.equals("nbk")){
+            tvDescription.setText(eventsItem.getDescriptionNorwegian());
+        }else{
+            tvDescription.setText(eventsItem.getDescriptionEnglish());
+        }
+
     }
 
     private void addToCalendar(){
 
         long eventStartTime =  new SimpleTimeFormat(eventsItem.getDateStart()).getMs();
-        long eventEndTime = new SimpleTimeFormat(eventsItem.getDateEnd()).getMs();
+        //long eventEndTime = new SimpleTimeFormat(eventsItem.getDateEnd()).getMs();
         Calendar cal = Calendar.getInstance();
         Intent intent = new Intent(Intent.ACTION_EDIT);
         intent.setType("vnd.android.cursor.item/event");
         intent.putExtra("beginTime", eventStartTime);
-        if(eventEndTime >= eventStartTime){
-            intent.putExtra("endTime", eventEndTime);
-        }else{
-            intent.putExtra("endTime", eventStartTime + 1000*60*60);
-        }
+        //if(eventEndTime >= eventStartTime){
+        //   intent.putExtra("endTime", eventEndTime);
+        //}else{
+        intent.putExtra("endTime", eventStartTime + 1000*60*60);
+        //}
         intent.putExtra("title", "A Test Event from android app");
         intent.putExtra("description", "pablo.test://rest");
         startActivity(intent);

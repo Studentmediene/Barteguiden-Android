@@ -14,7 +14,7 @@ import java.util.Date;
 public class SimpleTimeFormat {
 
     // 2012-10-09T19:00:00+0200
-    public static String serverDateFormat = "yyyy-MM-dd'T'HH:mm:ssZ";
+    public static String serverDateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
     // Tuesday, 23 may 2013, 13:45
     public static String userDateFullFormat = "E, d MMMMM yyyy, HH:mm";
     // 24 may 2013
@@ -25,9 +25,13 @@ public class SimpleTimeFormat {
     private Date date = null;
 
     public SimpleTimeFormat(String serverDate){
+        String parseTime = serverDate;
+        if(serverDate.contains("Z"))
+            parseTime = serverDate.substring(0,23);
+            parseTime += "+0000";
         SimpleDateFormat format = new SimpleDateFormat(serverDateFormat);
         try {
-            date = format.parse(serverDate);
+            date = format.parse(parseTime);
         } catch (ParseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

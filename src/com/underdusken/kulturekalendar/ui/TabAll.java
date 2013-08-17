@@ -174,7 +174,7 @@ public class TabAll extends Fragment {
                 filterEventsItem.addAll(eventsItemList);
             }else{
                 for(EventsItem eventsItem:eventsItemList){
-                    if(eventsItem.getName().toLowerCase().contains(searchText)){
+                    if(eventsItem.getTitle().toLowerCase().contains(searchText)){
                         if(priceInclude==-1){
                             filterEventsItem.add(eventsItem);
                         }else if(priceInclude==0){

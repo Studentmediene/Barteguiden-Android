@@ -89,7 +89,10 @@ public class AdapterEventsItem extends ArrayAdapter<EventsItem> {
             }else{
                 EventsItem eventsItemPrev = items.get(items.size() - position);
                 datePrevHeader = new SimpleTimeFormat(eventsItemPrev.getDateStart()).getUserHeaderDate();
-                _header = !datePrevHeader.equalsIgnoreCase(dateNowHeader);
+                if(datePrevHeader != null)
+                    _header = !datePrevHeader.equalsIgnoreCase(dateNowHeader);
+                else
+                    _header = false;
             }
 
             if(_header){
@@ -100,7 +103,7 @@ public class AdapterEventsItem extends ArrayAdapter<EventsItem> {
             }
 
 
-            viewHolder.tvName.setText(eventsItem.getId() + eventsItem.getName());
+            viewHolder.tvName.setText(eventsItem.getTitle());
 
             // Set price for event
             if(eventsItem.getPrice()==0){
@@ -110,8 +113,24 @@ public class AdapterEventsItem extends ArrayAdapter<EventsItem> {
             }
 
             // Set events place
-            viewHolder.tvPlace.setText(dateNow.getUserTimeDate()+ "  " + eventsItem.getAddress());
+            viewHolder.tvPlace.setText(dateNow.getUserTimeDate()+ "  " + eventsItem.getPlaceName());
 
+            if(eventsItem.getCategoryID().equals("SPORT"))
+                viewHolder.ivPicture.setImageResource(R.drawable.category_sport);
+            else if(eventsItem.getCategoryID().equals("PERFORMANCES"))
+                viewHolder.ivPicture.setImageResource(R.drawable.category_performances);
+            else if(eventsItem.getCategoryID().equals("MUSIC"))
+                viewHolder.ivPicture.setImageResource(R.drawable.category_music);
+            else if(eventsItem.getCategoryID().equals("EXHIBITIONS"))
+                viewHolder.ivPicture.setImageResource(R.drawable.category_exhibitions);
+            else if(eventsItem.getCategoryID().equals("NIGHTLIFE"))
+                viewHolder.ivPicture.setImageResource(R.drawable.category_nightlife);
+            else if(eventsItem.getCategoryID().equals("PRESENTATIONS"))
+                viewHolder.ivPicture.setImageResource(R.drawable.category_presentations);
+            else if(eventsItem.getCategoryID().equals("DEBATE"))
+                viewHolder.ivPicture.setImageResource(R.drawable.category_debate);
+            else if(eventsItem.getCategoryID().equals("OTHER"))
+                viewHolder.ivPicture.setImageResource(R.drawable.category_other);
 
             // Set Image
             /*

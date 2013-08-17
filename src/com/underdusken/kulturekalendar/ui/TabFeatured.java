@@ -106,10 +106,9 @@ public class TabFeatured extends Fragment {
             if(newEventsItemList!=null)
                 if(newEventsItemList.size()>0){
                     for(EventsItem eventsItem: newEventsItemList){
-                      if(!eventsItem.getWeekendRecommendationEnglish().equals("") ||
-                               !eventsItem.getWeekendRecommendationNorwegian().equals("")){
-                             eventsItemList.add(eventsItem);
-                      }
+                        if(eventsItem.getIsRecommended()==true){
+                            eventsItemList.add(eventsItem);
+                        }
                     }
                     lastEventsId = newEventsItemList.get(newEventsItemList.size()-1).getId();
                 }

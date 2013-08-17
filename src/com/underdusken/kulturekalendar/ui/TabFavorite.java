@@ -163,7 +163,7 @@ public class TabFavorite extends Fragment {
                 filterEventsItem.addAll(eventsItemList);
             }else{
                 for(EventsItem eventsItem:eventsItemList){
-                    if(eventsItem.getName().toLowerCase().contains(searchText)){
+                    if(eventsItem.getTitle().toLowerCase().contains(searchText)){
                         filterEventsItem.add(eventsItem);
                     }
                 }

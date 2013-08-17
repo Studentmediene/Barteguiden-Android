@@ -46,7 +46,7 @@ public class AdapterMyEventsItem extends ArrayAdapter<EventsItem> {
             TextView tvName = (TextView) v.findViewById(R.id.events_text);
             TextView tvDate = (TextView) v.findViewById(R.id.events_date);
 
-            tvName.setText(eventsItem.getId() + eventsItem.getName());
+            tvName.setText(eventsItem.getId() + eventsItem.getTitle());
             tvDate.setText(eventsItem.getDateStart());
         }
 

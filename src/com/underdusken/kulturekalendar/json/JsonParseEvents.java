@@ -44,7 +44,7 @@ public class JsonParseEvents {
                     eventsItem.setEventsId("0");
                 }
                 try {
-                    eventsItem.setCategoryID(eventObject.getString("categoryID"));
+                    eventsItem.setTitle(eventObject.getString("title"));
                 } catch (Exception e) {
                     eventsItem.setTitle("");
                 }
@@ -94,33 +94,34 @@ public class JsonParseEvents {
 
                 JSONArray descriptionArray = null;
                 try {
-                    descriptionArray = object.getJSONArray("descriptions");
+                    descriptionArray = eventObject.getJSONArray("descriptions");
                 } catch (Exception e) {
                     eventsItem.setDescriptionEnglish("");
                     eventsItem.setDescriptionNorwegian("");
                 }
 
-                for (int j = 0; j < descriptionArray.length(); j++) {
-                    JSONObject descriptionObject = eventsArray.getJSONObject(j);
+                if (descriptionArray != null){
+                    for (int j = 0; j < descriptionArray.length(); j++) {
+                        JSONObject descriptionObject = descriptionArray.getJSONObject(j);
 
-                    String language = "";
-                    try {
-                        language = descriptionObject.getString("language");
-                    } catch (Exception e) {
-                    }
-                    String text = "";
-                    try {
-                        text = descriptionObject.getString("text");
-                    } catch (Exception e) {
-                    }
+                        String language = "";
+                        try {
+                            language = descriptionObject.getString("language");
+                        } catch (Exception e) {
+                        }
+                        String text = "";
+                        try {
+                            text = descriptionObject.getString("text");
+                        } catch (Exception e) {
+                        }
 
-                    if (language.equals("en")){
-                        eventsItem.setDescriptionEnglish(text);
-                    }else if(language.equals("nb")){
-                        eventsItem.setDescriptionNorwegian(text);
+                        if (language.equals("en")){
+                            eventsItem.setDescriptionEnglish(text);
+                        }else if(language.equals("nb")){
+                            eventsItem.setDescriptionNorwegian(text);
+                        }
                     }
                 }
-
                 try{
                     eventsItem.setPlaceName(eventObject.getString("placeName"));
                 }catch(Exception e){

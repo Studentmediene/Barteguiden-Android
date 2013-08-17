@@ -205,7 +205,7 @@ public class TabFree extends Fragment {
         filterEventsItem.clear();
         if (eventsItemList != null) {
             for (EventsItem eventsItem : eventsItemList) {
-                if (eventsItem.getName().toLowerCase().contains(searchText) || searchText.equals("")) {
+                if (eventsItem.getTitle().toLowerCase().contains(searchText) || searchText.equals("")) {
                     // start user filters
                     // price
                     switch(_price){
@@ -223,7 +223,7 @@ public class TabFree extends Fragment {
                         if(eventsItem.getAgeLimit()>_myAge)
                             continue;
                     // categories
-                    String eventType = eventsItem.getType();
+                    String eventType = eventsItem.getCategoryID();
                     if(eventType.equals("concerts")){
                         if(!_cat1)
                             continue;
