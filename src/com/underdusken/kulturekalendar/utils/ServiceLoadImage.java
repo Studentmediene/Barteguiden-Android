@@ -16,7 +16,7 @@ public class ServiceLoadImage {
     private Activity activity = null;
     private ImageLoader imageLoader = null;
 
-     public ServiceLoadImage(Activity activity){
+    public ServiceLoadImage(Activity activity){
         this.activity = activity;
         imageLoader = new ImageLoader(activity);
     }
