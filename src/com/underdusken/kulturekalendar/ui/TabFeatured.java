@@ -63,6 +63,12 @@ public class TabFeatured extends Fragment {
 
         //Initialization adapter for ListView
         setListViewAdapter();
+
+        if(eventsItemList.size()==0){
+            getActivity().findViewById(R.id.title_no_events).setVisibility(View.VISIBLE);
+        }else{
+            getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
+        }
     }
 
 
@@ -75,6 +81,12 @@ public class TabFeatured extends Fragment {
         IntentFilter intentFilterNotificationUpdate = new IntentFilter(BroadcastNames.BROADCAST_NEW_DATA);
 
         getActivity().registerReceiver(notificationUpdateReciever, intentFilterNotificationUpdate);
+
+        if(eventsItemList.size()==0){
+            getActivity().findViewById(R.id.title_no_events).setVisibility(View.VISIBLE);
+        }else{
+            getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -96,13 +108,16 @@ public class TabFeatured extends Fragment {
 
             if(newEventsItemList!=null)
                 if(newEventsItemList.size()>0){
+                    //Delete no events title
+                    getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
+
                     lastEventsId = newEventsItemList.get(newEventsItemList.size()-1).getId();
-                    newEventsItemList = ManageDataBase.sortEventsByDate(newEventsItemList);
                     for(EventsItem eventsItem: newEventsItemList){
                         if(eventsItem.getIsRecommended()==true){
                             eventsItemList.add(eventsItem);
                         }
                     }
+                    eventsItemList = ManageDataBase.sortEventsByDate(eventsItemList);
 
                 }
             manageDataBase.close();

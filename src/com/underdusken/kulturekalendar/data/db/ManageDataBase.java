@@ -235,7 +235,6 @@ public class ManageDataBase {
         values.put(MySQLiteHelper.COLUMN_EVENTS_IMAGE_URL, eventsItem.getImageURL());
         values.put(MySQLiteHelper.COLUMN_EVENTS_EVENTS_URL, eventsItem.getEventURL());
         values.put(MySQLiteHelper.COLUMN_EVENTS_IS_RECOMMENDED, eventsItem.getIsRecommended());
-        values.put(MySQLiteHelper.COLUMN_EVENTS_NOTIFICATION_ID, eventsItem.getNotificationId());
 
         Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS,
                 allColumnsEvents, MySQLiteHelper.COLUMN_EVENTS_ID + " = '" + eventsItem.getEventsId() + "'", null,
@@ -300,6 +299,25 @@ public class ManageDataBase {
         values.put(MySQLiteHelper.COLUMN_EVENTS_NOTIFICATION_ID, eventsItem.getNotificationId());
 
         database.update(MySQLiteHelper.TABLE_EVENTS, values, MySQLiteHelper.COLUMN_ID + " = '" + id + "'", null);
+    }
+
+    public EventsItem updateEventsItemCalendar(long id, int notificationId){
+        ContentValues values = new ContentValues();
+        values.put(MySQLiteHelper.COLUMN_EVENTS_NOTIFICATION_ID, notificationId);
+
+        long insertId = database.update(MySQLiteHelper.TABLE_EVENTS, values, MySQLiteHelper.COLUMN_ID + " = " + id, null);
+
+        // Check that we add information to DB
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS,
+                allColumnsEvents, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
+                null, null, null);
+        cursor.moveToFirst();
+
+        EventsItem checkEventsItem = cursorToEventsItem(cursor);
+
+        cursor.close();
+
+        return checkEventsItem;
     }
 
     public EventsItem updateEventsItemFavorites(long id, boolean state){

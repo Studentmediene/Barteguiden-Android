@@ -37,7 +37,7 @@
                     android:layout_width="fill_parent"
 
                     android:layout_below="@id/events_header"
-                    android:background="#fff"
+                    android:background="@drawable/bg_list_white"
             >
 
 

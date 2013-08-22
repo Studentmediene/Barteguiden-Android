@@ -141,17 +141,42 @@
                 android:layout_centerVertical="true"/>
 
             <RelativeLayout
+                    android:id="@+id/add_to_calendar"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_centerVertical="true">
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_list_white"
+                android:clickable="true">
+
+                <ImageView
+                        android:id="@+id/ic_calendar"
+                    android:layout_height="30dp"
+                    android:layout_width="30dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_calendar_off"/>
 
                 <TextView
                     android:id="@+id/event_date"
+                    android:layout_toRightOf="@id/ic_calendar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:textColor="#000"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:text="adsfasdfalksdjf"
+
+                        />
+
+                <TextView
+                    android:id="@+id/calendar_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/ic_calendar"
+                    android:layout_below="@id/event_date"
+                    android:textSize="11sp"
+                    android:text="Add to calendar"/>
 
                 </RelativeLayout>
 
@@ -248,6 +273,38 @@
                         android:layout_width="wrap_content"
                         android:layout_marginLeft="50dp"
                         android:text="Show on Map"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#555555"
+                        android:layout_centerVertical="true"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:id="@+id/bt_share"
+                    android:background="@drawable/bt_white"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/bt_map"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:clickable="true"
+                    >
+                <ImageView
+                        android:layout_height="27dp"
+                        android:layout_width="27dp"
+
+                        android:layout_marginLeft="15dp"
+
+                        android:src="@drawable/ic_share"
+                        android:layout_centerVertical="true"
+                        />
+
+                <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="50dp"
+                        android:text="Share with Friends"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#555555"

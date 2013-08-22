@@ -119,6 +119,13 @@
 
     </LinearLayout>
 
+    <TextView
+            android:id="@+id/title_no_events"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+
+            android:text="@string/no_events"
+            android:gravity="center"/>
 
     <ListView
             android:id="@+id/tab2_events_list"

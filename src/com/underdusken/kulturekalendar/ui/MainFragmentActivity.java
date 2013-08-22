@@ -50,7 +50,7 @@ public class MainFragmentActivity extends FragmentActivity {
         mTabManager.addTab(configureTab("Favorites",  R.drawable.tab_4_selector),
                 TabFavorite.class, null);
         mTabManager.addTab(configureTab("Settings",  R.drawable.tab_5_selector),
-                TabFavorite.class, null);
+                TabSetup.class, null);
 
         if (savedInstanceState != null) {
             mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));

@@ -99,6 +99,12 @@ public class TabFavorite extends Fragment {
         // Set view
         createAdapter();
 
+        if(eventsItemList.size()==0){
+            getActivity().findViewById(R.id.title_no_events).setVisibility(View.VISIBLE);
+        }else{
+            getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -117,6 +123,12 @@ public class TabFavorite extends Fragment {
         loadEventsFromDb();
         updateFilter();
         updateView();
+
+        if(eventsItemList.size()==0){
+            getActivity().findViewById(R.id.title_no_events).setVisibility(View.VISIBLE);
+        }else{
+            getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -181,11 +193,15 @@ public class TabFavorite extends Fragment {
             eventsItemList.clear();
             if(newEventsItemList!=null){
                 if(newEventsItemList.size()>0){
+                    //Delete no events title
+                    getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
+
                     lastEventsId = newEventsItemList.get(newEventsItemList.size()-1).getId();
-                    newEventsItemList = ManageDataBase.sortEventsByDate(newEventsItemList);
+
                     for(EventsItem eventsItem: newEventsItemList){
                         eventsItemList.add(eventsItem);
                     }
+                    eventsItemList = ManageDataBase.sortEventsByDate(eventsItemList);
                 }
             }
             manageDataBase.close();

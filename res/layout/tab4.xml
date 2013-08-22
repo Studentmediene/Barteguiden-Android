@@ -3,6 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+                android:background="#fff"
 
         >
 
@@ -46,6 +47,14 @@
                 />
     </RelativeLayout>
 
+
+    <TextView
+        android:id="@+id/title_no_events"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+
+        android:text="@string/no_events"
+        android:gravity="center"/>
 
     <ListView
             android:id="@+id/tab4_events_list"

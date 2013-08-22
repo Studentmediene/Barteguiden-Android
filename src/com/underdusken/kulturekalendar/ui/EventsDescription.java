@@ -12,11 +12,13 @@ import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.data.db.ManageDataBase;
 import com.underdusken.kulturekalendar.mainhandler.BroadcastNames;
+import com.underdusken.kulturekalendar.sharedpreference.UserFilterPreference;
 import com.underdusken.kulturekalendar.utils.ServiceLoadImage;
 import com.underdusken.kulturekalendar.utils.SimpleTimeFormat;
 
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created with IntelliJ IDEA.
@@ -41,16 +43,26 @@ public class EventsDescription extends Activity{
     private TextView tvDescriptition;
     private RelativeLayout btMap;
     private RelativeLayout btWeb;
+    private RelativeLayout btCalendar;
 
 
     private EventsItem eventsItem = null;
 
-
+    private boolean isNorwegianPhone = true;
+    private String globalEventText = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.events_description);
+
+        //get locale
+        Locale current = getResources().getConfiguration().locale;
+        String localeLanguage  = current.getDisplayLanguage();
+        if(localeLanguage.contains("norsk"))
+            isNorwegianPhone = true;
+        else
+            isNorwegianPhone = false;
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -85,9 +97,24 @@ public class EventsDescription extends Activity{
 
         // set data to UI
 
-        //TODO  Check langugage
-        String curLangugage = "nbk";
-        setData(eventsItem, curLangugage);
+        setData(eventsItem);
+
+        findViewById(R.id.bt_share).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBody = "Join me at " + eventsItem.getTitle();
+                if(eventsItem.getEventURL().length()>0){
+                    shareBody += " (" + eventsItem.getEventURL() + ")";
+                }
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Event in Trondheim");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+            }
+        });
+
+
     }
 
     // initialization UI
@@ -105,20 +132,7 @@ public class EventsDescription extends Activity{
           */
 
 
-        /*
-        Button btMap = (Button) findViewById(R.id.bt_show_on_map);
-        btMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(EventsDescription.this, EventsMap.class);
-                intent.putExtra("events_latitude", eventsItem.getGeoLatitude());
-                intent.putExtra("events_longitude", eventsItem.getGeoLongitude());
-                intent.putExtra("events_title", eventsItem.getTitle());
-                intent.putExtra("events_description", eventsItem.getAddress());
 
-                startActivity(intent);
-            }
-        });*/
 
         ivEventImage = (ImageView)findViewById(R.id.event_image);
         tvTitle = (TextView)findViewById(R.id.event_title);
@@ -154,19 +168,29 @@ public class EventsDescription extends Activity{
                     } catch (SQLException e) {}
 
                 }
-                if(eventsItem.getFavorite())
+                if(eventsItem.getFavorite()){
                     ivFavorite.setImageResource(R.drawable.fav_hurt_on);
-                else
+                    if(new UserFilterPreference(EventsDescription.this).isAutoAddToCalendar())
+                       addToCalendar();
+                }else
                     ivFavorite.setImageResource(R.drawable.fav_hurt_off);
                 Intent i = new Intent(BroadcastNames.BROADCAST_NEW_DATA);
                 EventsDescription.this.sendBroadcast(i);
             }
         });
 
+        btCalendar = (RelativeLayout)findViewById(R.id.add_to_calendar);
+        btCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addToCalendar();
+            }
+        });
+
     }
 
     // set data to UI
-    private void setData(final EventsItem eventsItem, String language){
+    private void setData(final EventsItem eventsItem){
         tvTitle.setText(eventsItem.getTitle());
         tvPlaceName.setText(eventsItem.getPlaceName());
         tvAgeLimit.setText("" + eventsItem.getAgeLimit() + "+");
@@ -197,7 +221,7 @@ public class EventsDescription extends Activity{
         }
 
 
-        tvDescriptition.setText(eventsItem.getDescriptionNorwegian());
+
         SimpleTimeFormat stf = new SimpleTimeFormat(eventsItem.getDateStart());
         tvDate.setText(stf.getUserHeaderDate());
 
@@ -244,16 +268,29 @@ public class EventsDescription extends Activity{
             btMap.setVisibility(View.GONE);
         }
 
+        if(eventsItem.getNotificationId()!=0){
+            ImageView iv = (ImageView)findViewById(R.id.ic_calendar);
+            iv.setImageResource(R.drawable.ic_calendar_on);
+            findViewById(R.id.calendar_text).setVisibility(View.GONE);
+        }
 
 
-        //TODO languages
-        /*
-        if (language.equals("nbk")){
-            tvDescription.setText(eventsItem.getDescriptionNorwegian());
+        // Get correct language text
+        if(isNorwegianPhone){
+            if(eventsItem.getDescriptionNorwegian().length()>0){
+                globalEventText = eventsItem.getDescriptionNorwegian();
+            }else{
+                globalEventText = eventsItem.getDescriptionEnglish();
+            }
         }else{
-            tvDescription.setText(eventsItem.getDescriptionEnglish());
-        } */
+            if(eventsItem.getDescriptionEnglish().length()>0){
+                globalEventText = eventsItem.getDescriptionEnglish();
+            }else{
+                globalEventText = eventsItem.getDescriptionNorwegian();
+            }
+        }
 
+        tvDescriptition.setText(globalEventText);
     }
 
     @Override
@@ -276,25 +313,37 @@ public class EventsDescription extends Activity{
 
 
     private void addToCalendar(){
-        long eventStartTime =  new SimpleTimeFormat(eventsItem.getDateStart()).getMs();
-        //long eventEndTime = new SimpleTimeFormat(eventsItem.getDateEnd()).getMs();
-        Calendar cal = Calendar.getInstance();
-        Intent intent = new Intent(Intent.ACTION_EDIT);
-        intent.setType("vnd.android.cursor.item/event");
-        intent.putExtra("beginTime", eventStartTime);
-        //if(eventEndTime >= eventStartTime){
-        //   intent.putExtra("endTime", eventEndTime);
-        //}else{
-        intent.putExtra("endTime", eventStartTime + 1000*60*60);
-        //}
-        intent.putExtra("title", "A Test Event from android app");
-        intent.putExtra("description", "pablo.test://rest");
-        startActivity(intent);
+        if(eventsItem.getNotificationId()==0){
+
+            eventsItem.setNotificationId(1);
+
+
+            long eventStartTime =  new SimpleTimeFormat(eventsItem.getDateStart()).getMs();
+            Calendar cal = Calendar.getInstance();
+            Intent intent = new Intent(Intent.ACTION_EDIT);
+            intent.setType("vnd.android.cursor.item/event");
+            intent.putExtra("beginTime", eventStartTime);
+            intent.putExtra("endTime", eventStartTime + 1000*60*60);
+            intent.putExtra("title", eventsItem.getTitle());
+            intent.putExtra("eventLocation", eventsItem.getPlaceName());
+            intent.putExtra("description", globalEventText);
+            try{
+                startActivity(intent);
+                ManageDataBase manageDataBase = new ManageDataBase(EventsDescription.this);
+                try {
+                    manageDataBase.open();
+                    EventsItem testEventsItem = manageDataBase.updateEventsItemCalendar(eventsItem.getId(), eventsItem.getNotificationId());
+                    manageDataBase.close();
+                } catch (SQLException e) {}
+                ImageView iv = (ImageView)findViewById(R.id.ic_calendar);
+                iv.setImageResource(R.drawable.ic_calendar_on);
+                findViewById(R.id.calendar_text).setVisibility(View.GONE);
+            }catch (Exception e){
+
+            }
+        }
     }
 
-    //TODO
-    private void deleteFromCalendar(){
 
-    }
 
 }

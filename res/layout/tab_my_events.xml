@@ -18,20 +18,26 @@
         <Button
                 android:id="@+id/tab3_user_filter"
 
-                android:layout_width="35dp"
+                android:layout_width="50dp"
                 android:layout_height="30dp"
 
-
+                android:background="@drawable/bt_black"
 
                 android:layout_alignParentRight="true"
 
-                android:text="s"/>
+                android:text="Filter"
+                android:textColor="#c8c8c8"
+                android:shadowColor="#000"
+                android:shadowRadius="1"
+                android:shadowDy="-1"/>
 
 
         <EditText
                 android:id="@+id/tab3_search_field"
 
                 android:layout_toLeftOf="@id/tab3_user_filter"
+
+                android:layout_marginRight="10dp"
 
                 android:layout_height="30dp"
                 android:layout_width="fill_parent"
@@ -61,6 +67,13 @@
                 />
     </RelativeLayout>
 
+    <TextView
+            android:id="@+id/title_no_events"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+
+            android:text="@string/no_events"
+            android:gravity="center"/>
 
     <ListView
             android:id="@+id/tab3_events_list"

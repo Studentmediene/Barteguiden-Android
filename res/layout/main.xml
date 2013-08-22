@@ -4,6 +4,15 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
         >
+
+    <TextView
+            android:id="@+id/title_no_events"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+
+            android:text="@string/no_events"
+            android:gravity="center"/>
+
     <ListView
             android:id="@+id/tab1_events_list"
 

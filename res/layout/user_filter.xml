@@ -20,7 +20,7 @@
 
                 android:gravity="center"
 
-                android:text="Setup Page"
+                android:text="Filter"
                 android:textStyle="bold"
                 android:textSize="21sp"
                 />
@@ -43,7 +43,7 @@
                 android:background="#ffffff"
                 android:textColor="#002200"
 
-                android:text="Category: "/>
+                android:text="Categories: "/>
 
         <RelativeLayout
                 android:id="@+id/category_field"
@@ -168,7 +168,7 @@
                     android:id="@+id/radioAgeAll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Show all Events"
+                    android:text="All Events"
                     android:checked="true" />
 
             <RadioButton

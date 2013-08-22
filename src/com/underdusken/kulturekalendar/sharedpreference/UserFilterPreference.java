@@ -32,6 +32,7 @@ public class UserFilterPreference {
     private static final String AGE_LIMIT = "age_limit";
     private static final String PRICE = "price";
 
+    private static final String AUTO_ADD_TO_CALENDAR = "auto_add_to_calendar";
 
     private static final String LAST_UPDATE = "LAST_UPDATE";
 
@@ -46,6 +47,9 @@ public class UserFilterPreference {
         return settings.getLong(LAST_UPDATE, 0);
     }
 
+    public boolean isAutoAddToCalendar(){
+        return settings.getBoolean(AUTO_ADD_TO_CALENDAR, false);
+    }
     // get categories
     public boolean isChk1(){
         return settings.getBoolean(CHK_1, true);
@@ -99,6 +103,11 @@ public class UserFilterPreference {
 
     public int getMyAge(){
         return settings.getInt(MY_AGE, 0);
+    }
+
+
+    public void setAutoAddToCalendar(boolean value){
+        editor.putBoolean(AUTO_ADD_TO_CALENDAR, value).commit();
     }
 
     public void setLastUpdate(long updateTime){
