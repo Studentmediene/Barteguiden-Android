@@ -25,6 +25,7 @@ public class UserFilter extends Activity {
     private CheckBox chkCategory5 = null;
     private CheckBox chkCategory6 = null;
     private CheckBox chkCategory7 = null;
+    private CheckBox chkCategory8 = null;
 
     private EditText etMyAge = null;
 
@@ -39,6 +40,8 @@ public class UserFilter extends Activity {
         chkCategory5 = (CheckBox) findViewById(R.id.chk_5);
         chkCategory6 = (CheckBox) findViewById(R.id.chk_6);
         chkCategory7 = (CheckBox) findViewById(R.id.chk_7);
+        chkCategory8 = (CheckBox) findViewById(R.id.chk_8);
+
 
         etMyAge = (EditText)findViewById(R.id.et_my_age);
 
@@ -55,6 +58,7 @@ public class UserFilter extends Activity {
         chkCategory5.setChecked(userFilterPreference.isChk5());
         chkCategory6.setChecked(userFilterPreference.isChk6());
         chkCategory7.setChecked(userFilterPreference.isChk7());
+        chkCategory8.setChecked(userFilterPreference.isChk8());
 
         int myAge = userFilterPreference.getMyAge();
         if(myAge!=0)
@@ -94,6 +98,7 @@ public class UserFilter extends Activity {
         userFilterPreference.setChk5(chkCategory5.isChecked());
         userFilterPreference.setChk6(chkCategory6.isChecked());
         userFilterPreference.setChk7(chkCategory7.isChecked());
+        userFilterPreference.setChk8(chkCategory8.isChecked());
 
         String myAge = etMyAge.getText().toString();
         if(myAge.equals(""))

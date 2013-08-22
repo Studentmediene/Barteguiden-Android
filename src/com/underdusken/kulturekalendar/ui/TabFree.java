@@ -172,6 +172,7 @@ public class TabFree extends Fragment {
     private boolean _cat5 = false;
     private boolean _cat6 = false;
     private boolean _cat7 = false;
+    private boolean _cat8 = false;
 
     private int _myAge = 0;
     private int _ageLimit = 0;
@@ -188,6 +189,7 @@ public class TabFree extends Fragment {
         _cat5 = userFilterPreference.isChk5();
         _cat6 = userFilterPreference.isChk6();
         _cat7 = userFilterPreference.isChk7();
+        _cat8 = userFilterPreference.isChk8();
 
         _myAge = userFilterPreference.getMyAge();
         _ageLimit = userFilterPreference.getAgeLimit();
@@ -222,28 +224,33 @@ public class TabFree extends Fragment {
                     if(_ageLimit==1)
                         if(eventsItem.getAgeLimit()>_myAge)
                             continue;
+
+                    //"SPORT", "PERFORMANCES", "MUSIC", "EXHIBITIONS", "NIGHTLIFE", "PRESENTATIONS", "DEBATE", "OTHER"
                     // categories
                     String eventType = eventsItem.getCategoryID();
-                    if(eventType.equals("concerts")){
+                    if(eventType.equals("SPORT")){
                         if(!_cat1)
                             continue;
-                    }else if(eventType.equals("nightlife")){
+                    }else if(eventType.equals("PERFORMANCES")){
                         if(!_cat2)
                             continue;
-                    }else if(eventType.equals("theatre")){
+                    }else if(eventType.equals("MUSIC")){
                         if(!_cat3)
                             continue;
-                    }else if(eventType.equals("dance")){
+                    }else if(eventType.equals("EXHIBITIONS")){
                         if(!_cat4)
                             continue;
-                    }else if(eventType.equals("art_exhibition")){
+                    }else if(eventType.equals("NIGHTLIFE")){
                         if(!_cat5)
                             continue;
-                    }else if(eventType.equals("sports")){
+                    }else if(eventType.equals("PRESENTATIONS")){
                         if(!_cat6)
                             continue;
-                    }else if(eventType.equals("presentation")){
+                    }else if(eventType.equals("DEBATE")){
                         if(!_cat7)
+                            continue;
+                    }else if(eventType.equals("OTHER")){
+                        if(!_cat8)
                             continue;
                     }else{
                         continue;
@@ -266,10 +273,12 @@ public class TabFree extends Fragment {
 
             if (newEventsItemList != null)
                 if (newEventsItemList.size() > 0) {
+                    lastEventsId = newEventsItemList.get(newEventsItemList.size() - 1).getId();
+                    newEventsItemList = ManageDataBase.sortEventsByDate(newEventsItemList);
                     for (EventsItem eventsItem : newEventsItemList) {
                         eventsItemList.add(eventsItem);
                     }
-                    lastEventsId = newEventsItemList.get(newEventsItemList.size() - 1).getId();
+
                 }
             manageDataBase.close();
         } catch (SQLException e) {

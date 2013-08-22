@@ -131,14 +131,6 @@ public class AdapterEventsItem extends ArrayAdapter<EventsItem> {
                 viewHolder.ivPicture.setImageResource(R.drawable.category_debate);
             else if(eventsItem.getCategoryID().equals("OTHER"))
                 viewHolder.ivPicture.setImageResource(R.drawable.category_other);
-
-            // Set Image
-            /*
-            if(serviceLoadImage!=null){
-                serviceLoadImage.loadImage(eventsItem.getSmallPicture(), viewHolder.ivPicture, R.drawable.ic_article);
-            } */
-
-
         }
 
         return v;

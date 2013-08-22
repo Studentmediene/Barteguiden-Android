@@ -28,10 +28,11 @@ public class ImageLoader {
         photoLoaderThread.setPriority(Thread.NORM_PRIORITY - 1);
 
         //Find the dir to save cached images
-        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
+        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)){
             cacheDir = new File(android.os.Environment.getExternalStorageDirectory() + STORE_PLACE + "/cache");
-        else
+        }else{
             cacheDir = context.getCacheDir();
+        }
         if (!cacheDir.exists())
             cacheDir.mkdirs();
     }
@@ -125,9 +126,10 @@ public class ImageLoader {
             return b;
 
         //from web
+        InputStream is = null;
         try {
             Bitmap bitmap = null;
-            InputStream is = getInputStreamFromUrl(url);
+            is = getInputStreamFromUrl(url);
             OutputStream os = new FileOutputStream(f);
             CopyStream(is, os);
             os.close();
@@ -136,6 +138,8 @@ public class ImageLoader {
             return bitmap;
         } catch (Exception ex) {
             ex.printStackTrace();
+            if(is!=null)
+                return BitmapFactory.decodeStream(is);
             return null;
         }
     }

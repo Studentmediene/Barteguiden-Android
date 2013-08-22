@@ -59,37 +59,42 @@
             <CheckBox android:id="@+id/chk_1"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="Concerts"/>
+                      android:text="SPORT"/>
             <CheckBox android:id="@+id/chk_2"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_below="@id/chk_1"
-                      android:text="NightLife"/>
+                      android:text="PERFORMANCES"/>
             <CheckBox android:id="@+id/chk_3"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_below="@id/chk_2"
-                      android:text="Theatre"/>
+                      android:text="MUSIC"/>
             <CheckBox android:id="@+id/chk_4"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_below="@id/chk_3"
-                      android:text="Dance"/>
+                      android:text="EXHIBITIONS"/>
             <CheckBox android:id="@+id/chk_5"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_below="@id/chk_4"
-                      android:text="Art Exhebition"/>
+                      android:text="NIGHTLIFE"/>
             <CheckBox android:id="@+id/chk_6"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_below="@id/chk_5"
-                      android:text="Sports"/>
+                      android:text="PRESENTATIONS"/>
             <CheckBox android:id="@+id/chk_7"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_below="@id/chk_6"
-                      android:text="Presentations"/>
+                      android:text="DEBATE"/>
+            <CheckBox android:id="@+id/chk_8"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_below="@id/chk_7"
+                      android:text="OTHER"/>
 
         </RelativeLayout>
 
@@ -125,6 +130,7 @@
                 android:maxLines="1"
 
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
 
                 android:layout_below="@id/lb_my_age"
             />
@@ -154,6 +160,7 @@
                 android:layout_height="wrap_content"
 
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
 
                 android:layout_below="@id/lb_age_limit">
 
@@ -195,6 +202,7 @@
                 android:layout_height="wrap_content"
 
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
 
                 android:layout_below="@id/lb_price_limit">
 

@@ -60,13 +60,14 @@ public class JsonParseEvents {
                 }
                 try {
                     eventsItem.setGeoLatitude((float) eventObject.getDouble("latitude"));
+                    eventsItem.setIsGeo(true);
                 } catch (Exception e) {
-                    eventsItem.setGeoLatitude(0.0f);
+                    eventsItem.setGeoLatitude(200.0f);
                 }
                 try {
                     eventsItem.setGeoLongitude((float) eventObject.getDouble("longitude"));
                 } catch (Exception e) {
-                    eventsItem.setGeoLongitude(0.0f);
+                    eventsItem.setGeoLongitude(200.0f);
                 }
                 try {
                     eventsItem.setDateStart(eventObject.getString("startAt"));

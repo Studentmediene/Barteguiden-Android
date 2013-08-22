@@ -11,22 +11,38 @@
     <RelativeLayout
             android:id="@+id/tab2_search_region"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="43dp"
+            android:padding="5dp"
+            android:background="#333333"
+            >
+
+
         <EditText
                 android:id="@+id/tab2_search_field"
 
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_width="fill_parent"
+                android:paddingLeft="35dp"
 
-                android:paddingRight="45dp"
+                android:paddingRight="25dp"
+                android:singleLine="true"
 
-                android:singleLine="true"/>
+                android:background="@drawable/bg_search"
+
+                />
+        <ImageView
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_height="18dp"
+                android:layout_width="20dp"
+                android:src="@drawable/ic_search"/>
 
         <Button
                 android:id="@+id/tab2_search_clear"
 
                 android:layout_height="40dp"
                 android:layout_width="40dp"
+                android:visibility="gone"
 
                 android:layout_alignParentRight="true"
                 />
@@ -39,45 +55,67 @@
     <LinearLayout
             android:id="@+id/tab2_filter_region"
             android:layout_width="fill_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:orientation="horizontal"
             android:layout_alignParentBottom="true"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp"
             android:background="@drawable/bg_nav_bar"
+            android:gravity="center"
             android:weightSum="3">
 
-        <Button
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+
+
+                >
+            <Button
                 android:id="@+id/tab2_button_all"
 
-                android:layout_height="40dp"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_width="80dp"
 
-                android:text="all"/>
+                android:textColor="#c8c8c8"
+                android:shadowColor="#000"
+                android:shadowRadius="1"
+                android:shadowDy="-1"
+
+                android:background="@drawable/bt_left_on"
+
+                android:text="All"/>
 
         <Button
                 android:id="@+id/tab2_button_paid"
+                android:layout_toRightOf="@id/tab2_button_all"
+                android:layout_height="match_parent"
+                android:layout_width="80dp"
 
-                android:layout_height="40dp"
-                android:layout_width="0dp"
+                android:textColor="#c8c8c8"
+                android:shadowColor="#000"
+                android:shadowRadius="1"
+                android:shadowDy="-1"
 
-                android:layout_weight="1"
+                android:background="@drawable/bt_midle_off"
 
-                android:text="paid"/>
+                android:text="Paid"/>
 
         <Button
                 android:id="@+id/tab2_button_free"
+                android:layout_toRightOf="@id/tab2_button_paid"
 
-                android:layout_height="40dp"
-                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_width="80dp"
 
-                android:layout_weight="1"
+                android:textColor="#c8c8c8"
+                android:shadowColor="#000"
+                android:shadowRadius="1"
+                android:shadowDy="-1"
 
-                android:text="free"/>
 
+                android:background="@drawable/bt_right_off"
+
+
+                android:text="Free"/>
+          </RelativeLayout>
 
     </LinearLayout>
 

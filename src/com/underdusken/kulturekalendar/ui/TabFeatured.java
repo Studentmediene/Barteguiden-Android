@@ -57,7 +57,6 @@ public class TabFeatured extends Fragment {
 
         lvEvents = (ListView)getActivity().findViewById(R.id.tab1_events_list);
 
-
         loadEventsFromDb();
 
         activityHandler = new Handler();
@@ -76,20 +75,12 @@ public class TabFeatured extends Fragment {
         IntentFilter intentFilterNotificationUpdate = new IntentFilter(BroadcastNames.BROADCAST_NEW_DATA);
 
         getActivity().registerReceiver(notificationUpdateReciever, intentFilterNotificationUpdate);
-
-        //Start Image loader
-        serviceLoadImage = new ServiceLoadImage(getActivity());
-
-        adapterEventsItem.setServiceLoadImage(serviceLoadImage);
-
     }
 
     @Override
     public void onPause() {
         super.onPause();
-
         getActivity().unregisterReceiver(notificationUpdateReciever);
-        adapterEventsItem.setServiceLoadImage(serviceLoadImage);
         if(serviceLoadImage!=null){
             serviceLoadImage.exit();
         }
@@ -105,12 +96,14 @@ public class TabFeatured extends Fragment {
 
             if(newEventsItemList!=null)
                 if(newEventsItemList.size()>0){
+                    lastEventsId = newEventsItemList.get(newEventsItemList.size()-1).getId();
+                    newEventsItemList = ManageDataBase.sortEventsByDate(newEventsItemList);
                     for(EventsItem eventsItem: newEventsItemList){
                         if(eventsItem.getIsRecommended()==true){
                             eventsItemList.add(eventsItem);
                         }
                     }
-                    lastEventsId = newEventsItemList.get(newEventsItemList.size()-1).getId();
+
                 }
             manageDataBase.close();
         } catch (SQLException e) {

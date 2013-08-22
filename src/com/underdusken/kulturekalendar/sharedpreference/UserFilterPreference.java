@@ -25,17 +25,26 @@ public class UserFilterPreference {
     private static final String CHK_5 = "chk_art_exhibition";
     private static final String CHK_6 = "chk_sports";
     private static final String CHK_7 = "chk_presentations";
+    private static final String CHK_8 = "chk_other";
 
     private static final String MY_AGE = "my_age";
 
     private static final String AGE_LIMIT = "age_limit";
     private static final String PRICE = "price";
 
+
+    private static final String LAST_UPDATE = "LAST_UPDATE";
+
+
     public UserFilterPreference(Context context){
         settings = context.getSharedPreferences(NAME_SHARED_PREFERENCE, Context.MODE_PRIVATE);
         editor = settings.edit();
     }
 
+
+    public long getLastUpdate(){
+        return settings.getLong(LAST_UPDATE, 0);
+    }
 
     // get categories
     public boolean isChk1(){
@@ -59,6 +68,9 @@ public class UserFilterPreference {
     public boolean isChk7(){
         return settings.getBoolean(CHK_7, true);
     }
+    public boolean isChk8(){
+        return settings.getBoolean(CHK_8, true);
+    }
     // set categories
     public void setChk1(boolean state){
         editor.putBoolean(CHK_1, state).commit();
@@ -81,10 +93,18 @@ public class UserFilterPreference {
     public void setChk7(boolean state){
         editor.putBoolean(CHK_7, state).commit();
     }
+    public void setChk8(boolean state){
+        editor.putBoolean(CHK_8, state).commit();
+    }
 
     public int getMyAge(){
         return settings.getInt(MY_AGE, 0);
     }
+
+    public void setLastUpdate(long updateTime){
+        editor.putLong(LAST_UPDATE, updateTime).commit();
+    }
+
     public void setMyAge(int myAge){
         editor.putInt(MY_AGE, myAge).commit();
     }

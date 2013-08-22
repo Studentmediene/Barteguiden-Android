@@ -1,7 +1,6 @@
 package com.underdusken.kulturekalendar.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,6 +12,8 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.underdusken.kulturekalendar.R;
+import com.underdusken.kulturekalendar.mainhandler.MainHandler;
+import com.underdusken.kulturekalendar.sharedpreference.UserFilterPreference;
 
 import java.util.HashMap;
 
@@ -23,13 +24,15 @@ public class MainFragmentActivity extends FragmentActivity {
     TabHost mTabHost;
     TabManager mTabManager;
 
+    private static final int UPDATE_SECONDS_DELAY = 30*60;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // start welcome page
-        Intent intent = new Intent(this, WelcomePageActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, WelcomePageActivity.class);
+        //startActivity(intent);
 
 
         setContentView(R.layout.tab_view);
@@ -37,11 +40,6 @@ public class MainFragmentActivity extends FragmentActivity {
         mTabHost.setup();
 
         mTabManager = new TabManager(this, mTabHost, R.id.realtabcontent);
-
-
-
-        //mTabManager.addTab(mTabHost.newTabSpec("Featured").setIndicator(getString(R.string.tab1)),
-          //      TabFeatured.class, null);
 
         mTabManager.addTab(configureTab("Featured", R.drawable.tab_1_selector),
                 TabFeatured.class, null);
@@ -82,25 +80,29 @@ public class MainFragmentActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this.getApplicationContext(), "Main onResume .. ", Toast.LENGTH_SHORT).show();
+
+        long curTime = System.currentTimeMillis();
+
+        if(curTime > new UserFilterPreference(this).getLastUpdate() + UPDATE_SECONDS_DELAY*1000){
+            new UserFilterPreference(this).setLastUpdate(curTime);
+            MainHandler.getInstance(this.getApplicationContext()).onStartApplication();
+            Toast.makeText(this.getApplicationContext(), "Loading ...", Toast.LENGTH_SHORT).show();
+        }
 
     }
     @Override
     protected void onPause() {
        super.onPause();
-        Toast.makeText(this.getApplicationContext(), "Main onPause .. ", Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
     protected void onStop(){
         super.onStop();
-        Toast.makeText(this.getApplicationContext(), "Main onStop .. ", Toast.LENGTH_SHORT).show();
     }
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        Toast.makeText(this.getApplicationContext(), "Main onDestroy .. ", Toast.LENGTH_SHORT).show();
     }
 
 

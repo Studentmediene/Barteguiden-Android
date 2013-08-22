@@ -181,10 +181,11 @@ public class TabFavorite extends Fragment {
             eventsItemList.clear();
             if(newEventsItemList!=null){
                 if(newEventsItemList.size()>0){
+                    lastEventsId = newEventsItemList.get(newEventsItemList.size()-1).getId();
+                    newEventsItemList = ManageDataBase.sortEventsByDate(newEventsItemList);
                     for(EventsItem eventsItem: newEventsItemList){
                         eventsItemList.add(eventsItem);
                     }
-                    lastEventsId = newEventsItemList.get(newEventsItemList.size()-1).getId();
                 }
             }
             manageDataBase.close();

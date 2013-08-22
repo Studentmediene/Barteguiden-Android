@@ -195,7 +195,7 @@
             <!--Buttons-->
              <RelativeLayout
                  android:id="@+id/bt_web"
-                 android:background="@drawable/bt_map_ev_dis_9"
+                 android:background="@drawable/bt_white"
                  android:layout_marginTop="25dp"
                  android:layout_below="@id/event_description"
                  android:layout_width="match_parent"
@@ -226,7 +226,7 @@
                  </RelativeLayout>
             <RelativeLayout
                     android:id="@+id/bt_map"
-                    android:background="@drawable/bt_map_ev_dis_9"
+                    android:background="@drawable/bt_white"
                     android:layout_marginTop="10dp"
                     android:layout_below="@id/bt_web"
                     android:layout_width="match_parent"

@@ -1,5 +1,7 @@
 package com.underdusken.kulturekalendar.data;
 
+import com.underdusken.kulturekalendar.utils.SimpleTimeFormat;
+
 /**
  * Created with IntelliJ IDEA.
  * User: pavelarteev
@@ -14,10 +16,11 @@ public class EventsItem {
 
     private String categoryID = "";
     private String address = "";
-    private boolean isGeo = true;
-    private float geoLatitude = 0.0f;
-    private float geoLongitude = 0.0f;
+    private boolean isGeo = false;
+    private float geoLatitude = 200.0f;
+    private float geoLongitude = 200.0f;
     private String dateStart = "";
+    private long dateStartMS = 0;
     private int price =  0;
     private String placeName = "";
     private String showDate = "";   // date witch would show to user,  some events have period and because of this we must some times calculate date witch we want to show
@@ -42,6 +45,7 @@ public class EventsItem {
     public EventsItem(String title, String date){
         this.title = title;
         this.dateStart = date;
+        this.dateStartMS = new SimpleTimeFormat(date).getMs();
     }
 
 
@@ -84,6 +88,7 @@ public class EventsItem {
     }
     public void setDateStart(String date){
         this.dateStart = date;
+        this.dateStartMS = new SimpleTimeFormat(date).getMs();
     }
     // TODO
     public void setShowDate(String date){
@@ -128,8 +133,15 @@ public class EventsItem {
         return this.id;
     }
     public boolean getIsGeo(){
-        return this.isGeo;
+        if(this.getGeoLatitude() < 200.0f)
+            return true;
+        else
+            return false;
     }
+    public long getDateStartMS(){
+        return this.dateStartMS;
+    }
+
     public String getImageURL(){
         return this.imageURL;
     }

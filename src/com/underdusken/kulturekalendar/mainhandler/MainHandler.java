@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.Toast;
 import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.data.db.ManageDataBase;
 import com.underdusken.kulturekalendar.json.JsonParseEvents;
@@ -15,7 +14,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- *  Class for update network data
+ * Class for update network data
  */
 public class MainHandler {
     private Context context = null;
@@ -35,9 +34,8 @@ public class MainHandler {
 
     /**
      * Get instance of class
-     *
      */
-     public static MainHandler getInstance(Context context) {
+    public static MainHandler getInstance(Context context) {
         if (mainHandler == null)
             if (context == null)
                 return null;
@@ -76,123 +74,48 @@ public class MainHandler {
     }
 
 
-    private class UpdateDataThread extends AsyncTask<Void, String, String> {
-
-        private boolean blockThread = false;
+    private class UpdateDataThread extends AsyncTask<Void, EventsItem, Boolean> {
 
         @Override
-        protected String doInBackground(Void... voids) {
+        protected Boolean doInBackground(Void... voids) {
+            // For test internet connection
+            NetworkRequest networkRequest = new NetworkRequest();
+            NetworkRequest.setActivity(context);
+            String result = networkRequest.getInputStreamFromUrl(NetworkLinks.JSON_DATA);
 
-            //while (true) {
-
-                // If no internet connection
-                /*
-                while(NO_INTERNET_CONNECTION){
-                    try{
-                        Thread.sleep(WAIT_INTERNET_CONNECTION);
-                    }catch(InterruptedException e){
-                        return null;
+            if (result != null) {
+                List<EventsItem> newEventsList = JsonParseEvents.parse(result);
+                if (newEventsList != null) {
+                    for (EventsItem eventsItem : newEventsList) {              // add information to DB
+                        onProgressUpdate(eventsItem);
                     }
-                 }
-                 */
-                //TODO try to load throw the internet
-                // if something happened
-                // progress
-
-                // For test internet connection
-                NetworkRequest networkRequest = new NetworkRequest();
-                NetworkRequest.setActivity(context);
-                String result = networkRequest.getInputStreamFromUrl(NetworkLinks.JSON_DATA);
-
-                if(result!=null){
-                    blockThread = true;
-                    return result;
-                    //publishProgress(result);
                 }
-
-                // waiting while we add new data to dataBase
-                /*while(blockThread){
-                    try{
-                        Thread.sleep(WAIT_UPDATE_DATA_BASE);
-                    }catch(InterruptedException e){
-                        return null;
-                    }
-                }*/
-
-
-                if (isCancelled())
-                    return null;
-
-                try{
-                    Thread.sleep(UPDATE_TIME);
-                }catch(InterruptedException e){
-                    return null;
-                }
-                return null;
-
-           // }
+                return true;
+            }
+            return false;
         }
 
 
         @Override
-        protected void onProgressUpdate(String... values) {
-
-/*
-           if(values != null)
-
-               if(values.length > 0){
-
-               List<EventsItem> newEventsList = JsonParseEvents.parse(values[0]);   // parse incoming events
-
-               if(newEventsList!=null){
-                    for(EventsItem eventsItem: newEventsList){              // add information to DB
-                        ManageDataBase manageDataBase = new ManageDataBase(context);
-                        try {
-                            manageDataBase.open();
-                            EventsItem checkEventItem = manageDataBase.addEventItem(eventsItem);
-                            manageDataBase.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                        }
-
-                    }
-                   Intent i = new Intent(BroadcastNames.BROADCAST_NEW_DATA);
-                   context.sendBroadcast(i);
-
-                   //TODO delete test!!!
-                   Toast.makeText(context, "New data", Toast.LENGTH_SHORT).show();
-               }
+        protected void onProgressUpdate(EventsItem... values) {
+            if (values.length > 0) {
+                ManageDataBase manageDataBase = new ManageDataBase(context);
+                try {
+                    manageDataBase.open();
+                    manageDataBase.addEventItem(values[0]);
+                    manageDataBase.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
             }
-            blockThread = false;*/
         }
 
         @Override
-        protected void onPostExecute(String values) {
-
-            if(values != null){
-
-                    List<EventsItem> newEventsList = JsonParseEvents.parse(values);   // parse incoming events
-
-                    if(newEventsList!=null){
-                        for(EventsItem eventsItem: newEventsList){              // add information to DB
-                            ManageDataBase manageDataBase = new ManageDataBase(context);
-                            try {
-                                manageDataBase.open();
-                                EventsItem checkEventItem = manageDataBase.addEventItem(eventsItem);
-                                manageDataBase.close();
-                            } catch (SQLException e) {
-                                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                            }
-
-                        }
-                        Intent i = new Intent(BroadcastNames.BROADCAST_NEW_DATA);
-                        context.sendBroadcast(i);
-
-                        //TODO delete test!!!
-                        Toast.makeText(context, "New data", Toast.LENGTH_SHORT).show();
-                    }
+        protected void onPostExecute(Boolean isNewData) {
+            if (isNewData) {
+                Intent i = new Intent(BroadcastNames.BROADCAST_NEW_DATA);
+                context.sendBroadcast(i);
             }
-            blockThread = false;
         }
 
     }

@@ -11,13 +11,17 @@
     <RelativeLayout
             android:id="@+id/tab3_search_region"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="43dp"
+            android:background="#333333"
+            android:padding="5dp">
 
         <Button
                 android:id="@+id/tab3_user_filter"
 
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+
+
 
                 android:layout_alignParentRight="true"
 
@@ -29,19 +33,30 @@
 
                 android:layout_toLeftOf="@id/tab3_user_filter"
 
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_width="fill_parent"
+                android:paddingLeft="35dp"
 
-                android:paddingRight="45dp"
+                android:paddingRight="25dp"
+                android:singleLine="true"
 
-                android:singleLine="true"/>
+                android:background="@drawable/bg_search"
+
+                />
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_height="18dp"
+            android:layout_width="20dp"
+            android:src="@drawable/ic_search"/>
 
         <Button
                 android:id="@+id/tab3_search_clear"
 
                 android:layout_height="40dp"
                 android:layout_width="40dp"
-
+                  android:visibility="gone"
                 android:layout_toLeftOf="@id/tab3_user_filter"
                 />
     </RelativeLayout>

@@ -8,6 +8,7 @@ import com.underdusken.kulturekalendar.data.EventsItem;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -124,7 +125,7 @@ public class ManageDataBase {
         // Make sure to close the cursor
         cursor.close();
 
-        return eventsItemList;
+        return sortEventsByDate(eventsItemList);
     }
 
     //Get All Events from Data Base from Id
@@ -144,7 +145,7 @@ public class ManageDataBase {
         // Make sure to close the cursor
         cursor.close();
 
-        return eventsItemList;
+        return sortEventsByDate(eventsItemList);
     }
 
     //Get All Events from Data Base from Id
@@ -164,6 +165,21 @@ public class ManageDataBase {
         cursor.close();
 
         return eventsItemList;
+    }
+
+    public static List<EventsItem> sortEventsByDate(List<EventsItem> eventsItemList){
+        List<EventsItem> sortedList = new ArrayList<EventsItem>();
+        long curTime = new Date().getTime();
+        for(EventsItem eventsItem:eventsItemList){
+            int i=0;
+            for(i=0; i<sortedList.size(); i++){
+                if(eventsItem.getDateStartMS()>sortedList.get(i).getDateStartMS())
+                    break;
+            }
+            if(eventsItem.getDateStartMS() >= curTime)
+                sortedList.add(i, eventsItem);
+        }
+        return sortedList;
     }
 
     public List<EventsItem> getAllEventsFavoritesFromId(long id){
@@ -198,10 +214,8 @@ public class ManageDataBase {
         return eventsItem;
     }
 
-    public EventsItem addEventItem(EventsItem eventsItem){
-
+    public void addEventItem(EventsItem eventsItem){
         //TODO need to add verification that we have no this event in our DB
-
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_EVENTS_ID, eventsItem.getEventsId());
         values.put(MySQLiteHelper.COLUMN_EVENTS_TITLE, eventsItem.getTitle());
@@ -223,21 +237,45 @@ public class ManageDataBase {
         values.put(MySQLiteHelper.COLUMN_EVENTS_IS_RECOMMENDED, eventsItem.getIsRecommended());
         values.put(MySQLiteHelper.COLUMN_EVENTS_NOTIFICATION_ID, eventsItem.getNotificationId());
 
-        long insertId = database.insert(MySQLiteHelper.TABLE_EVENTS, null, values);
-
-        // Check that we add information to DB
         Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS,
-                allColumnsEvents, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
+                allColumnsEvents, MySQLiteHelper.COLUMN_EVENTS_ID + " = '" + eventsItem.getEventsId() + "'", null,
                 null, null, null);
-        cursor.moveToFirst();
 
-        EventsItem checkEventsItem = cursorToEventsItem(cursor);
-
-        cursor.close();
-
-        return checkEventsItem;
+        if(cursor!=null){
+            if ( cursor.moveToFirst() ) {
+                updateEventsItemByEventId(eventsItem);
+            } else {
+                database.insert(MySQLiteHelper.TABLE_EVENTS, null, values);
+            }
+            cursor.close();
+        }else{
+            database.insert(MySQLiteHelper.TABLE_EVENTS, null, values);
+        }
     }
 
+    public void updateEventsItemByEventId(EventsItem eventsItem){
+        ContentValues values = new ContentValues();
+        values.put(MySQLiteHelper.COLUMN_EVENTS_ID, eventsItem.getEventsId());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_TITLE, eventsItem.getTitle());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_CATEGORY_ID, eventsItem.getCategoryID());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_ADDRESS, eventsItem.getAddress());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_GEO_LAT, eventsItem.getGeoLatitude());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_GEO_LON, eventsItem.getGeoLongitude());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_DATE_START, eventsItem.getDateStart());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_PRICE, eventsItem.getPrice());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_AGE_LIMIT, eventsItem.getAgeLimit());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_PLACE_NAME, eventsItem.getPlaceName());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_SHOW_DATE, eventsItem.getShowDate());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_FAVORITE, eventsItem.getFavorite());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_BEER_PRICE, eventsItem.getBeerPrice());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_DESCRIPTION_ENG, eventsItem.getDescriptionEnglish());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_DESCRIPTION_NO, eventsItem.getDescriptionNorwegian());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_IMAGE_URL, eventsItem.getImageURL());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_EVENTS_URL, eventsItem.getEventURL());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_IS_RECOMMENDED, eventsItem.getIsRecommended());
+        values.put(MySQLiteHelper.COLUMN_EVENTS_NOTIFICATION_ID, eventsItem.getNotificationId());
+        database.update(MySQLiteHelper.TABLE_EVENTS, values, MySQLiteHelper.COLUMN_EVENTS_ID + " = '" + eventsItem.getEventsId() + "'", null);
+    }
 
     public void updateEventsItem(long id, EventsItem eventsItem){
         ContentValues values = new ContentValues();

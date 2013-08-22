@@ -2,6 +2,7 @@ package com.underdusken.kulturekalendar.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -75,7 +76,10 @@ public class EventsDescription extends Activity{
             finish();
         // initialization UI
 
-        serviceLoadImage = new ServiceLoadImage(this);
+
+        if(serviceLoadImage==null){
+            serviceLoadImage = new ServiceLoadImage(this);
+        }
 
         initUI();
 
@@ -162,7 +166,7 @@ public class EventsDescription extends Activity{
     }
 
     // set data to UI
-    private void setData(EventsItem eventsItem, String language){
+    private void setData(final EventsItem eventsItem, String language){
         tvTitle.setText(eventsItem.getTitle());
         tvPlaceName.setText(eventsItem.getPlaceName());
         tvAgeLimit.setText("" + eventsItem.getAgeLimit() + "+");
@@ -206,6 +210,42 @@ public class EventsDescription extends Activity{
             serviceLoadImage.loadImage(eventsItem.getImageURL(), ivEventImage, R.drawable.test_bg);
         }
 
+        // Web button
+        if(eventsItem.getEventURL().length()>1){
+            btWeb.setVisibility(View.VISIBLE);
+            btWeb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse(eventsItem.getEventURL())));
+                }
+            });
+        }else{
+            btWeb.setVisibility(View.GONE);
+        }
+
+        // Map button
+        if(eventsItem.getIsGeo()){
+            btMap.setVisibility(View.VISIBLE);
+            btMap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(EventsDescription.this, EventsMap.class);
+                    intent.putExtra("events_latitude", eventsItem.getGeoLatitude());
+                    intent.putExtra("events_longitude", eventsItem.getGeoLongitude());
+                    intent.putExtra("events_title", eventsItem.getTitle());
+                    intent.putExtra("events_place_name", eventsItem.getPlaceName());
+
+                    startActivity(intent);
+                }
+            });
+        }else{
+            btMap.setVisibility(View.GONE);
+        }
+
+
+
         //TODO languages
         /*
         if (language.equals("nbk")){
@@ -215,6 +255,25 @@ public class EventsDescription extends Activity{
         } */
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //Start Image loader
+        if(serviceLoadImage==null){
+            serviceLoadImage = new ServiceLoadImage(this);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(serviceLoadImage!=null){
+            serviceLoadImage.exit();
+        }
+
+    }
+
 
     private void addToCalendar(){
         long eventStartTime =  new SimpleTimeFormat(eventsItem.getDateStart()).getMs();

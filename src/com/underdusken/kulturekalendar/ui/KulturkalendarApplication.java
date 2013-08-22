@@ -1,7 +1,6 @@
 package com.underdusken.kulturekalendar.ui;
 
 import android.app.Application;
-import com.underdusken.kulturekalendar.mainhandler.MainHandler;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,10 +14,6 @@ public class KulturkalendarApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-
-        MainHandler.getInstance(this.getApplicationContext()).onStartApplication();
-        //Toast.makeText(this.getApplicationContext(), "Thread started...", Toast.LENGTH_SHORT).show();
     }
 
     @Override

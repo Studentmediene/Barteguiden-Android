@@ -200,10 +200,11 @@ public class TabAll extends Fragment {
 
             if(newEventsItemList!=null)
                 if(newEventsItemList.size()>0){
+                    lastEventsId = newEventsItemList.get(newEventsItemList.size()-1).getId();
+                    newEventsItemList = ManageDataBase.sortEventsByDate(newEventsItemList);
                     for(EventsItem eventsItem: newEventsItemList){
                         eventsItemList.add(eventsItem);
                     }
-                    lastEventsId = newEventsItemList.get(newEventsItemList.size()-1).getId();
                 }
             manageDataBase.close();
         } catch (SQLException e) {
@@ -245,16 +246,25 @@ public class TabAll extends Fragment {
                 if(priceInclude != -1){
                     _changes = true;
                     priceInclude = -1;
+                    btFilterAll.setBackgroundResource(R.drawable.bt_left_on);
+                    btFilterPaid.setBackgroundResource(R.drawable.bt_midle_off);
+                    btFilterFree.setBackgroundResource(R.drawable.bt_right_off);
                 }
             }else if(view == btFilterFree){
                 if(priceInclude != 0){
                     _changes = true;
                     priceInclude = 0;
+                    btFilterAll.setBackgroundResource(R.drawable.bt_left_off);
+                    btFilterPaid.setBackgroundResource(R.drawable.bt_midle_off);
+                    btFilterFree.setBackgroundResource(R.drawable.bt_right_on);
                 }
             }else if(view == btFilterPaid){
                 if(priceInclude != 1){
                     _changes = true;
                     priceInclude = 1;
+                    btFilterAll.setBackgroundResource(R.drawable.bt_left_off);
+                    btFilterPaid.setBackgroundResource(R.drawable.bt_midle_on);
+                    btFilterFree.setBackgroundResource(R.drawable.bt_right_off);
                 }
             }
 
