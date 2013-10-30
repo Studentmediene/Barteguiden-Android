@@ -1,6 +1,7 @@
-package com.underdusken.kulturekalendar.ui;
+package com.underdusken.kulturekalendar.ui.fragments;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -16,7 +17,9 @@ import android.widget.ListView;
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.data.db.ManageDataBase;
+import com.underdusken.kulturekalendar.mainhandler.BroadcastNames;
 import com.underdusken.kulturekalendar.ui.Adapter.AdapterEventsItem;
+import com.underdusken.kulturekalendar.ui.EventsDescription;
 import com.underdusken.kulturekalendar.ui.Receiver.NotificationUpdateReceiver;
 import com.underdusken.kulturekalendar.utils.ServiceLoadImage;
 import com.underdusken.kulturekalendar.utils.ToDo;
@@ -32,7 +35,7 @@ import java.util.List;
  * Time: 8:09 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TabFavorite extends Fragment {
+public class TabAll extends Fragment {
     // private receivers
     private NotificationUpdateReceiver notificationUpdateReceiver = null;
 
@@ -42,6 +45,11 @@ public class TabFavorite extends Fragment {
     private List<EventsItem> filterEventsItem = new ArrayList<EventsItem>();
 
     // ui
+    private int priceInclude  = -1;          // -1 all 0 free 1 paid
+    private Button btFilterAll = null;
+    private Button btFilterPaid = null;
+    private Button btFilterFree = null;
+
     private ListView lvEvents = null;
     private EditText etSearch = null;
 
@@ -56,7 +64,7 @@ public class TabFavorite extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.tab4, container, false);
+        return inflater.inflate(R.layout.tab_all_events, container, false);
 
     }
 
@@ -66,10 +74,19 @@ public class TabFavorite extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-         lvEvents = (ListView) getActivity().findViewById(R.id.tab4_events_list);
-        etSearch = (EditText) getActivity().findViewById(R.id.tab4_search_field);
+        // Filter buttons
+        btFilterAll = (Button)getActivity().findViewById(R.id.tab2_button_all);
+        btFilterPaid = (Button)getActivity().findViewById(R.id.tab2_button_paid);
+        btFilterFree = (Button)getActivity().findViewById(R.id.tab2_button_free);
+        btFilterAll.setOnClickListener(onFilterClickListener);
+        btFilterPaid.setOnClickListener(onFilterClickListener);
+        btFilterFree.setOnClickListener(onFilterClickListener);
 
-        Button btClear = (Button) getActivity().findViewById(R.id.tab4_search_clear);
+
+        lvEvents = (ListView) getActivity().findViewById(R.id.tab2_events_list);
+        etSearch = (EditText) getActivity().findViewById(R.id.tab2_search_field);
+
+        Button btClear = (Button) getActivity().findViewById(R.id.tab2_search_clear);
         btClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,18 +128,13 @@ public class TabFavorite extends Fragment {
     public void onResume() {
         super.onResume();
 
-        /*// Reciever for update notifications
+        // Reciever for update notifications
         IntentFilter intentFilterNotificationUpdate = new IntentFilter(BroadcastNames.BROADCAST_NEW_DATA);
         getActivity().registerReceiver(notificationUpdateReceiver, intentFilterNotificationUpdate);
-*/
+
         //Start Image loader
         serviceLoadImage = new ServiceLoadImage(getActivity());
         adapterEventsItem.setServiceLoadImage(serviceLoadImage);
-
-        //
-        loadEventsFromDb();
-        updateFilter();
-        updateView();
 
         if(eventsItemList.size()==0){
             getActivity().findViewById(R.id.title_no_events).setVisibility(View.VISIBLE);
@@ -136,7 +148,7 @@ public class TabFavorite extends Fragment {
         super.onPause();
 
         // unregister reciever
-        /// getActivity().unregisterReceiver(notificationUpdateReceiver);
+        getActivity().unregisterReceiver(notificationUpdateReceiver);
 
         if(serviceLoadImage!=null){
             serviceLoadImage.exit();
@@ -171,12 +183,20 @@ public class TabFavorite extends Fragment {
         String searchText = etSearch.getText().toString().toLowerCase();
         filterEventsItem.clear();
         if(eventsItemList!=null)
-            if(searchText.equals("")){
+            if(searchText.equals("")&&priceInclude==-1){
                 filterEventsItem.addAll(eventsItemList);
             }else{
                 for(EventsItem eventsItem:eventsItemList){
                     if(eventsItem.getTitle().toLowerCase().contains(searchText)){
-                        filterEventsItem.add(eventsItem);
+                        if(priceInclude==-1){
+                            filterEventsItem.add(eventsItem);
+                        }else if(priceInclude==0){
+                            if(eventsItem.getPrice()==0)
+                                filterEventsItem.add(eventsItem);
+                        }else if(priceInclude==1){
+                            if(eventsItem.getPrice()>0)
+                                filterEventsItem.add(eventsItem);
+                        }
                     }
                 }
             }
@@ -189,21 +209,19 @@ public class TabFavorite extends Fragment {
         ManageDataBase manageDataBase = new ManageDataBase(getActivity());
         try {
             manageDataBase.open();
-            List<EventsItem> newEventsItemList = manageDataBase.getAllEventsFavorites();
-            eventsItemList.clear();
-            if(newEventsItemList!=null){
+            List<EventsItem> newEventsItemList = manageDataBase.getAllEventsItemFromId(lastEventsId);
+
+            if(newEventsItemList!=null)
                 if(newEventsItemList.size()>0){
                     //Delete no events title
                     getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
 
                     lastEventsId = newEventsItemList.get(newEventsItemList.size()-1).getId();
-
                     for(EventsItem eventsItem: newEventsItemList){
                         eventsItemList.add(eventsItem);
                     }
                     eventsItemList = ManageDataBase.sortEventsByDate(eventsItemList);
                 }
-            }
             manageDataBase.close();
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -223,7 +241,7 @@ public class TabFavorite extends Fragment {
         lvEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(TabFavorite.this.getActivity(), EventsDescription.class);
+                Intent intent = new Intent(TabAll.this.getActivity(), EventsDescription.class);
 
                 intent.putExtra("events_id", filterEventsItem.get(filterEventsItem.size() - i - 1).getId());
 
@@ -236,5 +254,41 @@ public class TabFavorite extends Fragment {
     private void updateView(){
         adapterEventsItem.notifyDataSetChanged();
     }
+
+    private View.OnClickListener onFilterClickListener = new View.OnClickListener(){
+        public void onClick(android.view.View view){
+            boolean _changes = false;
+            if(view == btFilterAll){
+                if(priceInclude != -1){
+                    _changes = true;
+                    priceInclude = -1;
+                    btFilterAll.setBackgroundResource(R.drawable.bt_left_on);
+                    btFilterPaid.setBackgroundResource(R.drawable.bt_midle_off);
+                    btFilterFree.setBackgroundResource(R.drawable.bt_right_off);
+                }
+            }else if(view == btFilterFree){
+                if(priceInclude != 0){
+                    _changes = true;
+                    priceInclude = 0;
+                    btFilterAll.setBackgroundResource(R.drawable.bt_left_off);
+                    btFilterPaid.setBackgroundResource(R.drawable.bt_midle_off);
+                    btFilterFree.setBackgroundResource(R.drawable.bt_right_on);
+                }
+            }else if(view == btFilterPaid){
+                if(priceInclude != 1){
+                    _changes = true;
+                    priceInclude = 1;
+                    btFilterAll.setBackgroundResource(R.drawable.bt_left_off);
+                    btFilterPaid.setBackgroundResource(R.drawable.bt_midle_on);
+                    btFilterFree.setBackgroundResource(R.drawable.bt_right_off);
+                }
+            }
+
+            if(_changes){
+                updateFilter();
+                updateView();
+            }
+        }
+    };
 
 }

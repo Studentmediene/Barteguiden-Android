@@ -1,4 +1,4 @@
-package com.underdusken.kulturekalendar.ui;
+package com.underdusken.kulturekalendar.ui.fragments;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
