@@ -27,14 +27,8 @@
 
     <application android:label="@string/app_name"
                  android:icon="@drawable/app_ic"
-                 android:theme="@android:style/Theme.NoTitleBar"
-                 android:name=".ui.KulturkalendarApplication">
-        <!--WELCOME PAGE-->
-        <activity android:name=".ui.WelcomePageActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait">
-        </activity>
-
+                 android:allowBackup="true"
+                 android:theme="@android:style/Theme.NoTitleBar" >
 
         <!--Tabs activity-->
         <activity
@@ -43,7 +37,6 @@
                 android:alwaysRetainTaskState="true"
                 android:screenOrientation="portrait"
                 >
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -68,16 +61,15 @@
 
 
         <!--Adding Google Maps Certificate-->
-
-        <!--Debug certificate
+        <!--Debug certificate -->
         <meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
-                android:value="@string/map_key_debug"/> -->
+                android:value="@string/map_key_debug"/>
 
-        <!--Release certificate-->
+        <!--Release certificate
         <meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
-                android:value="@string/map_key_release"/>
+                android:value="@string/map_key_release" /> -->
 
 
 
