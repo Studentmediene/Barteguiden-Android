@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.mainhandler.MainHandler;
 import com.underdusken.kulturekalendar.sharedpreference.UserFilterPreference;
@@ -29,7 +30,7 @@ public class MainFragmentActivity extends FragmentActivity {
     TabHost mTabHost;
     TabManager mTabManager;
 
-    private static final int UPDATE_SECONDS_DELAY = 30*60;
+    private static final int UPDATE_SECONDS_DELAY = 30 * 60;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,21 +42,16 @@ public class MainFragmentActivity extends FragmentActivity {
 
 
         setContentView(R.layout.tab_view);
-        mTabHost = (TabHost)findViewById(android.R.id.tabhost);
+        mTabHost = (TabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup();
 
         mTabManager = new TabManager(this, mTabHost, R.id.realtabcontent);
 
-        mTabManager.addTab(configureTab("Featured", R.drawable.tab_1_selector),
-                TabFeatured.class, null);
-        mTabManager.addTab(configureTab("All Events",  R.drawable.tab_2_selector),
-                TabAll.class, null);
-        mTabManager.addTab(configureTab("My Filter",  R.drawable.tab_3_selector),
-                TabFree.class, null);
-        mTabManager.addTab(configureTab("Favorites",  R.drawable.tab_4_selector),
-                TabFavorite.class, null);
-        mTabManager.addTab(configureTab("Settings",  R.drawable.tab_5_selector),
-                TabSetup.class, null);
+        mTabManager.addTab(configureTab("Featured", R.drawable.tab_1_selector), TabFeatured.class, null);
+        mTabManager.addTab(configureTab("All Events", R.drawable.tab_2_selector), TabAll.class, null);
+        mTabManager.addTab(configureTab("My Filter", R.drawable.tab_3_selector), TabFree.class, null);
+        mTabManager.addTab(configureTab("Favorites", R.drawable.tab_4_selector), TabFavorite.class, null);
+        mTabManager.addTab(configureTab("Settings", R.drawable.tab_5_selector), TabSetup.class, null);
 
         if (savedInstanceState != null) {
             mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
@@ -66,7 +62,8 @@ public class MainFragmentActivity extends FragmentActivity {
     private TabHost.TabSpec configureTab(final String tag, final int imageResource) {
         View tabview = createTabView(mTabHost.getContext(), tag, imageResource);
         TabHost.TabSpec setContent = mTabHost.newTabSpec(tag).setIndicator(tabview);
-        //.setContent(new TabHost.TabContentFactory() { public View createTabContent(String tag) {return view;}});
+        //.setContent(new TabHost.TabContentFactory() { public View createTabContent(String tag) {return
+        // view;}});
         return setContent;
     }
 
@@ -74,12 +71,10 @@ public class MainFragmentActivity extends FragmentActivity {
         View view = LayoutInflater.from(context).inflate(R.layout.tabs_bg, null);
         TextView tv = (TextView) view.findViewById(R.id.tabsText);
         tv.setText(text);
-        ImageView iv = (ImageView)view.findViewById(R.id.tabsIcon);
+        ImageView iv = (ImageView) view.findViewById(R.id.tabsIcon);
         iv.setImageResource(imageResourse);
         return view;
     }
-
-
 
 
     @Override
@@ -88,30 +83,29 @@ public class MainFragmentActivity extends FragmentActivity {
 
         long curTime = System.currentTimeMillis();
 
-        if(curTime > new UserFilterPreference(this).getLastUpdate() + UPDATE_SECONDS_DELAY*1000){
+        if (curTime > new UserFilterPreference(this).getLastUpdate() + UPDATE_SECONDS_DELAY * 1000) {
             new UserFilterPreference(this).setLastUpdate(curTime);
             MainHandler.getInstance(this.getApplicationContext()).onStartApplication();
             Toast.makeText(this.getApplicationContext(), "Loading ...", Toast.LENGTH_SHORT).show();
         }
 
     }
+
     @Override
     protected void onPause() {
-       super.onPause();
+        super.onPause();
 
     }
 
     @Override
-    protected void onStop(){
+    protected void onStop() {
         super.onStop();
     }
+
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
     }
-
-
-
 
 
     @Override
@@ -206,8 +200,7 @@ public class MainFragmentActivity extends FragmentActivity {
                 }
                 if (newTab != null) {
                     if (newTab.fragment == null) {
-                        newTab.fragment = Fragment.instantiate(mActivity,
-                                newTab.clss.getName(), newTab.args);
+                        newTab.fragment = Fragment.instantiate(mActivity, newTab.clss.getName(), newTab.args);
                         ft.add(mContainerId, newTab.fragment, newTab.tag);
                     } else {
                         ft.attach(newTab.fragment);

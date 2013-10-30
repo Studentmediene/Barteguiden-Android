@@ -10,11 +10,11 @@ package com.underdusken.kulturekalendar.network;
 public class HttpStatusCode {
     private int statusCode = 0;
 
-    public void setStatusCode(int statusCode){
+    public void setStatusCode(int statusCode) {
         this.statusCode = statusCode;
     }
 
-    public int getStatusCode(){
+    public int getStatusCode() {
         return this.statusCode;
     }
 

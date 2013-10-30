@@ -14,15 +14,16 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.data.db.ManageDataBase;
 import com.underdusken.kulturekalendar.mainhandler.BroadcastNames;
 import com.underdusken.kulturekalendar.sharedpreference.UserFilterPreference;
-import com.underdusken.kulturekalendar.ui.adapters.AdapterEventsItem;
 import com.underdusken.kulturekalendar.ui.activities.EventsDescription;
-import com.underdusken.kulturekalendar.ui.reveivers.NotificationUpdateReceiver;
 import com.underdusken.kulturekalendar.ui.activities.UserFilter;
+import com.underdusken.kulturekalendar.ui.adapters.AdapterEventsItem;
+import com.underdusken.kulturekalendar.ui.reveivers.NotificationUpdateReceiver;
 import com.underdusken.kulturekalendar.utils.ServiceLoadImage;
 import com.underdusken.kulturekalendar.utils.ToDo;
 
@@ -60,8 +61,7 @@ public class TabFree extends Fragment {
     private ServiceLoadImage serviceLoadImage = null;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.tab_my_events, container, false);
 
@@ -115,9 +115,9 @@ public class TabFree extends Fragment {
         // Set view
         createAdapter();
 
-        if(eventsItemList.size()==0){
+        if (eventsItemList.size() == 0) {
             getActivity().findViewById(R.id.title_no_events).setVisibility(View.VISIBLE);
-        }else{
+        } else {
             getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
         }
 
@@ -138,9 +138,9 @@ public class TabFree extends Fragment {
         updateFilter();
         updateView();
 
-        if(eventsItemList.size()==0){
+        if (eventsItemList.size() == 0) {
             getActivity().findViewById(R.id.title_no_events).setVisibility(View.VISIBLE);
-        }else{
+        } else {
             getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
         }
     }
@@ -168,8 +168,7 @@ public class TabFree extends Fragment {
         }
 
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
 
         @Override
@@ -224,49 +223,38 @@ public class TabFree extends Fragment {
                 if (eventsItem.getTitle().toLowerCase().contains(searchText) || searchText.equals("")) {
                     // start user filters
                     // price
-                    switch(_price){
+                    switch (_price) {
                         case 1:
-                            if(eventsItem.getPrice()==0)
-                                continue;
+                            if (eventsItem.getPrice() == 0) continue;
                             break;
                         case 2:
-                            if(eventsItem.getPrice()!=0)
-                                continue;
+                            if (eventsItem.getPrice() != 0) continue;
                             break;
                     }
                     // age limit
-                    if(_ageLimit==1)
-                        if(eventsItem.getAgeLimit()>_myAge)
-                            continue;
+                    if (_ageLimit == 1) if (eventsItem.getAgeLimit() > _myAge) continue;
 
-                    //"SPORT", "PERFORMANCES", "MUSIC", "EXHIBITIONS", "NIGHTLIFE", "PRESENTATIONS", "DEBATE", "OTHER"
+                    //"SPORT", "PERFORMANCES", "MUSIC", "EXHIBITIONS", "NIGHTLIFE", "PRESENTATIONS",
+                    // "DEBATE", "OTHER"
                     // categories
                     String eventType = eventsItem.getCategoryID();
-                    if(eventType.equals("SPORT")){
-                        if(!_cat1)
-                            continue;
-                    }else if(eventType.equals("PERFORMANCES")){
-                        if(!_cat2)
-                            continue;
-                    }else if(eventType.equals("MUSIC")){
-                        if(!_cat3)
-                            continue;
-                    }else if(eventType.equals("EXHIBITIONS")){
-                        if(!_cat4)
-                            continue;
-                    }else if(eventType.equals("NIGHTLIFE")){
-                        if(!_cat5)
-                            continue;
-                    }else if(eventType.equals("PRESENTATIONS")){
-                        if(!_cat6)
-                            continue;
-                    }else if(eventType.equals("DEBATE")){
-                        if(!_cat7)
-                            continue;
-                    }else if(eventType.equals("OTHER")){
-                        if(!_cat8)
-                            continue;
-                    }else{
+                    if (eventType.equals("SPORT")) {
+                        if (!_cat1) continue;
+                    } else if (eventType.equals("PERFORMANCES")) {
+                        if (!_cat2) continue;
+                    } else if (eventType.equals("MUSIC")) {
+                        if (!_cat3) continue;
+                    } else if (eventType.equals("EXHIBITIONS")) {
+                        if (!_cat4) continue;
+                    } else if (eventType.equals("NIGHTLIFE")) {
+                        if (!_cat5) continue;
+                    } else if (eventType.equals("PRESENTATIONS")) {
+                        if (!_cat6) continue;
+                    } else if (eventType.equals("DEBATE")) {
+                        if (!_cat7) continue;
+                    } else if (eventType.equals("OTHER")) {
+                        if (!_cat8) continue;
+                    } else {
                         continue;
                     }
 
@@ -285,18 +273,17 @@ public class TabFree extends Fragment {
             manageDataBase.open();
             List<EventsItem> newEventsItemList = manageDataBase.getAllEventsItemFromId(lastEventsId);
 
-            if (newEventsItemList != null)
-                if (newEventsItemList.size() > 0) {
-                    //Delete no events title
-                    getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
+            if (newEventsItemList != null) if (newEventsItemList.size() > 0) {
+                //Delete no events title
+                getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
 
-                    lastEventsId = newEventsItemList.get(newEventsItemList.size() - 1).getId();
-                    for (EventsItem eventsItem : newEventsItemList) {
-                        eventsItemList.add(eventsItem);
-                    }
-                    eventsItemList = ManageDataBase.sortEventsByDate(eventsItemList);
-
+                lastEventsId = newEventsItemList.get(newEventsItemList.size() - 1).getId();
+                for (EventsItem eventsItem : newEventsItemList) {
+                    eventsItemList.add(eventsItem);
                 }
+                eventsItemList = ManageDataBase.sortEventsByDate(eventsItemList);
+
+            }
             manageDataBase.close();
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

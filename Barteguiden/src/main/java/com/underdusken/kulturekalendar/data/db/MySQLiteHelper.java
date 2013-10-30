@@ -20,7 +20,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     // TABLE EVENTS
     public static final String TABLE_EVENTS = "events";
-    public static final String COLUMN_ID =  "_id";
+    public static final String COLUMN_ID = "_id";
     public static final String COLUMN_EVENTS_ID = "_events_id";
     public static final String COLUMN_EVENTS_TITLE = "_title";
     public static final String COLUMN_EVENTS_CATEGORY_ID = "_category_id";
@@ -46,28 +46,17 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_EVENTS_NOTIFICATION_ID = "_notification_id";
 
 
-    private static final String TABLE_EVENTS_CREATE = "create table "
-            + TABLE_EVENTS + "("
-            + COLUMN_ID + " integer primary key autoincrement, "
-            + COLUMN_EVENTS_ID + " text, "
-            + COLUMN_EVENTS_TITLE + " text, "
-            + COLUMN_EVENTS_CATEGORY_ID + " text, "
-            + COLUMN_EVENTS_ADDRESS + " text, "
-            + COLUMN_EVENTS_GEO_LAT + " real, "
-            + COLUMN_EVENTS_GEO_LON + " real, "
-            + COLUMN_EVENTS_DATE_START+ " text, "
-            + COLUMN_EVENTS_PRICE + " integer, "
-            + COLUMN_EVENTS_AGE_LIMIT + " integer, "
-            + COLUMN_EVENTS_PLACE_NAME + " text, "
-            + COLUMN_EVENTS_SHOW_DATE + " text, "
-            + COLUMN_EVENTS_FAVORITE + " integer, "
-            + COLUMN_EVENTS_BEER_PRICE + " integer, "
-            + COLUMN_EVENTS_DESCRIPTION_ENG + " text, "
-            + COLUMN_EVENTS_DESCRIPTION_NO + " text, "
-            + COLUMN_EVENTS_IMAGE_URL + " text, "
-            + COLUMN_EVENTS_EVENTS_URL + " text, "
-            + COLUMN_EVENTS_IS_RECOMMENDED + " integer, "
-            + COLUMN_EVENTS_NOTIFICATION_ID + " integer);";
+    private static final String TABLE_EVENTS_CREATE = "create table " + TABLE_EVENTS + "(" + COLUMN_ID + " " +
+            "integer primary key autoincrement, " + COLUMN_EVENTS_ID + " text, " +
+            "" + COLUMN_EVENTS_TITLE + " text, " + COLUMN_EVENTS_CATEGORY_ID + " text, " +
+            "" + COLUMN_EVENTS_ADDRESS + " text, " + COLUMN_EVENTS_GEO_LAT + " real, " +
+            "" + COLUMN_EVENTS_GEO_LON + " real, " + COLUMN_EVENTS_DATE_START + " text, " +
+            "" + COLUMN_EVENTS_PRICE + " integer, " + COLUMN_EVENTS_AGE_LIMIT + " integer, " +
+            "" + COLUMN_EVENTS_PLACE_NAME + " text, " + COLUMN_EVENTS_SHOW_DATE + " text, " +
+            "" + COLUMN_EVENTS_FAVORITE + " integer, " + COLUMN_EVENTS_BEER_PRICE + " integer, " +
+            "" + COLUMN_EVENTS_DESCRIPTION_ENG + " text, " + COLUMN_EVENTS_DESCRIPTION_NO + " text, " +
+            "" + COLUMN_EVENTS_IMAGE_URL + " text, " + COLUMN_EVENTS_EVENTS_URL + " text, " +
+            "" + COLUMN_EVENTS_IS_RECOMMENDED + " integer, " + COLUMN_EVENTS_NOTIFICATION_ID + " integer);";
 
 
     public MySQLiteHelper(Context context) {
@@ -82,8 +71,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w(MySQLiteHelper.class.getName(),
-                "Upgrading database from version " + oldVersion + " to "
-                        + newVersion + ", which will destroy all old data");
+                "Upgrading database from version " + oldVersion + " to " + newVersion + ", " +
+                        "which will destroy all old data");
 
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS_CREATE);
 

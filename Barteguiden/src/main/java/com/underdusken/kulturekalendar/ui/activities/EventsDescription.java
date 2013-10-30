@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.data.db.ManageDataBase;
@@ -27,7 +28,7 @@ import java.util.Locale;
  * Time: 7:55 PM
  * To change this template use File | Settings | File Templates.
  */
-public class EventsDescription extends Activity{
+public class EventsDescription extends Activity {
 
     private ServiceLoadImage serviceLoadImage = null;
 
@@ -58,11 +59,9 @@ public class EventsDescription extends Activity{
 
         //get locale
         Locale current = getResources().getConfiguration().locale;
-        String localeLanguage  = current.getDisplayLanguage();
-        if(localeLanguage.contains("norsk"))
-            isNorwegianPhone = true;
-        else
-            isNorwegianPhone = false;
+        String localeLanguage = current.getDisplayLanguage();
+        if (localeLanguage.contains("norsk")) isNorwegianPhone = true;
+        else isNorwegianPhone = false;
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -70,9 +69,7 @@ public class EventsDescription extends Activity{
         }
 
 
-
         long eventsId = extras.getLong("events_id");
-
 
 
         ManageDataBase manageDataBase = new ManageDataBase(this);
@@ -84,12 +81,11 @@ public class EventsDescription extends Activity{
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
-        if(eventsItem == null)
-            finish();
+        if (eventsItem == null) finish();
         // initialization UI
 
 
-        if(serviceLoadImage==null){
+        if (serviceLoadImage == null) {
             serviceLoadImage = new ServiceLoadImage(this);
         }
 
@@ -105,7 +101,7 @@ public class EventsDescription extends Activity{
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
                 String shareBody = "Join me at " + eventsItem.getTitle();
-                if(eventsItem.getEventURL().length()>0){
+                if (eventsItem.getEventURL().length() > 0) {
                     shareBody += " (" + eventsItem.getEventURL() + ")";
                 }
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Event in Trondheim");
@@ -118,7 +114,7 @@ public class EventsDescription extends Activity{
     }
 
     // initialization UI
-    private void initUI(){
+    private void initUI() {
         // Button add to favorite
 
 
@@ -132,54 +128,53 @@ public class EventsDescription extends Activity{
           */
 
 
-
-
-        ivEventImage = (ImageView)findViewById(R.id.event_image);
-        tvTitle = (TextView)findViewById(R.id.event_title);
-        tvPlaceName = (TextView)findViewById(R.id.event_place_name);
-        tvAgeLimit = (TextView)findViewById(R.id.event_age);
-        ivCategoryId = (ImageView)findViewById(R.id.event_category_id);
-        tvPrice = (TextView)findViewById(R.id.event_price);
-        tvDate = (TextView)findViewById(R.id.event_date);
-        ivFavorite = (ImageView)findViewById(R.id.add_to_favorite);
-        tvDescriptition = (TextView)findViewById(R.id.event_description);
-        btMap = (RelativeLayout)findViewById(R.id.bt_map);
-        btWeb = (RelativeLayout)findViewById(R.id.bt_web);
+        ivEventImage = (ImageView) findViewById(R.id.event_image);
+        tvTitle = (TextView) findViewById(R.id.event_title);
+        tvPlaceName = (TextView) findViewById(R.id.event_place_name);
+        tvAgeLimit = (TextView) findViewById(R.id.event_age);
+        ivCategoryId = (ImageView) findViewById(R.id.event_category_id);
+        tvPrice = (TextView) findViewById(R.id.event_price);
+        tvDate = (TextView) findViewById(R.id.event_date);
+        ivFavorite = (ImageView) findViewById(R.id.add_to_favorite);
+        tvDescriptition = (TextView) findViewById(R.id.event_description);
+        btMap = (RelativeLayout) findViewById(R.id.bt_map);
+        btWeb = (RelativeLayout) findViewById(R.id.bt_web);
 
         ivFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!eventsItem.getFavorite()){
+                if (!eventsItem.getFavorite()) {
                     eventsItem.setFavorite(true);
                     ManageDataBase manageDataBase = new ManageDataBase(EventsDescription.this);
                     try {
                         manageDataBase.open();
-                        EventsItem testEventsItem = manageDataBase.updateEventsItemFavorites(eventsItem.getId(), true);
+                        EventsItem testEventsItem = manageDataBase.updateEventsItemFavorites(
+                                eventsItem.getId(), true);
                         manageDataBase.close();
                     } catch (SQLException e) {}
 
-                }else{
+                } else {
                     eventsItem.setFavorite(false);
                     ManageDataBase manageDataBase = new ManageDataBase(EventsDescription.this);
                     try {
                         manageDataBase.open();
-                        EventsItem testEventsItem = manageDataBase.updateEventsItemFavorites(eventsItem.getId(), false);
+                        EventsItem testEventsItem = manageDataBase.updateEventsItemFavorites(
+                                eventsItem.getId(), false);
                         manageDataBase.close();
                     } catch (SQLException e) {}
 
                 }
-                if(eventsItem.getFavorite()){
+                if (eventsItem.getFavorite()) {
                     ivFavorite.setImageResource(R.drawable.fav_hurt_on);
-                    if(new UserFilterPreference(EventsDescription.this).isAutoAddToCalendar())
-                       addToCalendar();
-                }else
-                    ivFavorite.setImageResource(R.drawable.fav_hurt_off);
+                    if (new UserFilterPreference(EventsDescription.this).isAutoAddToCalendar())
+                        addToCalendar();
+                } else ivFavorite.setImageResource(R.drawable.fav_hurt_off);
                 Intent i = new Intent(BroadcastNames.BROADCAST_NEW_DATA);
                 EventsDescription.this.sendBroadcast(i);
             }
         });
 
-        btCalendar = (RelativeLayout)findViewById(R.id.add_to_calendar);
+        btCalendar = (RelativeLayout) findViewById(R.id.add_to_calendar);
         btCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,67 +185,61 @@ public class EventsDescription extends Activity{
     }
 
     // set data to UI
-    private void setData(final EventsItem eventsItem){
+    private void setData(final EventsItem eventsItem) {
         tvTitle.setText(eventsItem.getTitle());
         tvPlaceName.setText(eventsItem.getPlaceName());
         tvAgeLimit.setText("" + eventsItem.getAgeLimit() + "+");
 
-        if(eventsItem.getCategoryID().equals("SPORT"))
+        if (eventsItem.getCategoryID().equals("SPORT"))
             ivCategoryId.setImageResource(R.drawable.category_sport_big);
-        else if(eventsItem.getCategoryID().equals("PERFORMANCES"))
+        else if (eventsItem.getCategoryID().equals("PERFORMANCES"))
             ivCategoryId.setImageResource(R.drawable.category_performances_big);
-        else if(eventsItem.getCategoryID().equals("MUSIC"))
+        else if (eventsItem.getCategoryID().equals("MUSIC"))
             ivCategoryId.setImageResource(R.drawable.category_music_big);
-        else if(eventsItem.getCategoryID().equals("EXHIBITIONS"))
+        else if (eventsItem.getCategoryID().equals("EXHIBITIONS"))
             ivCategoryId.setImageResource(R.drawable.category_exhibitions_big);
-        else if(eventsItem.getCategoryID().equals("NIGHTLIFE"))
+        else if (eventsItem.getCategoryID().equals("NIGHTLIFE"))
             ivCategoryId.setImageResource(R.drawable.category_nightlife_big);
-        else if(eventsItem.getCategoryID().equals("PRESENTATIONS"))
+        else if (eventsItem.getCategoryID().equals("PRESENTATIONS"))
             ivCategoryId.setImageResource(R.drawable.category_presentations_big);
-        else if(eventsItem.getCategoryID().equals("DEBATE"))
+        else if (eventsItem.getCategoryID().equals("DEBATE"))
             ivCategoryId.setImageResource(R.drawable.category_debate_big);
-        else if(eventsItem.getCategoryID().equals("OTHER"))
+        else if (eventsItem.getCategoryID().equals("OTHER"))
             ivCategoryId.setImageResource(R.drawable.category_other_big);
 
         int price = (int) eventsItem.getPrice();
-        if(price>=0){
-            if(price==0)
-                tvPrice.setText("Free");
-            else
-                tvPrice.setText(""+price+" kr");
+        if (price >= 0) {
+            if (price == 0) tvPrice.setText("Free");
+            else tvPrice.setText("" + price + " kr");
         }
-
 
 
         SimpleTimeFormat stf = new SimpleTimeFormat(eventsItem.getDateStart());
         tvDate.setText(stf.getUserHeaderDate());
 
-        if(eventsItem.getFavorite())
-            ivFavorite.setImageResource(R.drawable.fav_hurt_on);
-        else
-            ivFavorite.setImageResource(R.drawable.fav_hurt_off);
+        if (eventsItem.getFavorite()) ivFavorite.setImageResource(R.drawable.fav_hurt_on);
+        else ivFavorite.setImageResource(R.drawable.fav_hurt_off);
 
-        if(serviceLoadImage!=null){
+        if (serviceLoadImage != null) {
             serviceLoadImage.loadImage(eventsItem.getImageURL(), ivEventImage, R.drawable.test_bg);
         }
 
         // Web button
-        if(eventsItem.getEventURL().length()>1){
+        if (eventsItem.getEventURL().length() > 1) {
             btWeb.setVisibility(View.VISIBLE);
             btWeb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse(eventsItem.getEventURL())));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(eventsItem.getEventURL())));
                 }
             });
-        }else{
+        } else {
             btWeb.setVisibility(View.GONE);
         }
 
         // Map button
-        if(eventsItem.getIsGeo()){
+        if (eventsItem.getIsGeo()) {
             btMap.setVisibility(View.VISIBLE);
             btMap.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -264,28 +253,28 @@ public class EventsDescription extends Activity{
                     startActivity(intent);
                 }
             });
-        }else{
+        } else {
             btMap.setVisibility(View.GONE);
         }
 
-        if(eventsItem.getNotificationId()!=0){
-            ImageView iv = (ImageView)findViewById(R.id.ic_calendar);
+        if (eventsItem.getNotificationId() != 0) {
+            ImageView iv = (ImageView) findViewById(R.id.ic_calendar);
             iv.setImageResource(R.drawable.ic_calendar_on);
             findViewById(R.id.calendar_text).setVisibility(View.GONE);
         }
 
 
         // Get correct language text
-        if(isNorwegianPhone){
-            if(eventsItem.getDescriptionNorwegian().length()>0){
+        if (isNorwegianPhone) {
+            if (eventsItem.getDescriptionNorwegian().length() > 0) {
                 globalEventText = eventsItem.getDescriptionNorwegian();
-            }else{
+            } else {
                 globalEventText = eventsItem.getDescriptionEnglish();
             }
-        }else{
-            if(eventsItem.getDescriptionEnglish().length()>0){
+        } else {
+            if (eventsItem.getDescriptionEnglish().length() > 0) {
                 globalEventText = eventsItem.getDescriptionEnglish();
-            }else{
+            } else {
                 globalEventText = eventsItem.getDescriptionNorwegian();
             }
         }
@@ -297,7 +286,7 @@ public class EventsDescription extends Activity{
     public void onResume() {
         super.onResume();
         //Start Image loader
-        if(serviceLoadImage==null){
+        if (serviceLoadImage == null) {
             serviceLoadImage = new ServiceLoadImage(this);
         }
     }
@@ -305,45 +294,45 @@ public class EventsDescription extends Activity{
     @Override
     public void onPause() {
         super.onPause();
-        if(serviceLoadImage!=null){
+        if (serviceLoadImage != null) {
             serviceLoadImage.exit();
         }
 
     }
 
 
-    private void addToCalendar(){
-        if(eventsItem.getNotificationId()==0){
+    private void addToCalendar() {
+        if (eventsItem.getNotificationId() == 0) {
 
             eventsItem.setNotificationId(1);
 
 
-            long eventStartTime =  new SimpleTimeFormat(eventsItem.getDateStart()).getMs();
+            long eventStartTime = new SimpleTimeFormat(eventsItem.getDateStart()).getMs();
             Calendar cal = Calendar.getInstance();
             Intent intent = new Intent(Intent.ACTION_EDIT);
             intent.setType("vnd.android.cursor.item/event");
             intent.putExtra("beginTime", eventStartTime);
-            intent.putExtra("endTime", eventStartTime + 1000*60*60);
+            intent.putExtra("endTime", eventStartTime + 1000 * 60 * 60);
             intent.putExtra("title", eventsItem.getTitle());
             intent.putExtra("eventLocation", eventsItem.getPlaceName());
             intent.putExtra("description", globalEventText);
-            try{
+            try {
                 startActivity(intent);
                 ManageDataBase manageDataBase = new ManageDataBase(EventsDescription.this);
                 try {
                     manageDataBase.open();
-                    EventsItem testEventsItem = manageDataBase.updateEventsItemCalendar(eventsItem.getId(), eventsItem.getNotificationId());
+                    EventsItem testEventsItem = manageDataBase.updateEventsItemCalendar(eventsItem.getId(),
+                            eventsItem.getNotificationId());
                     manageDataBase.close();
                 } catch (SQLException e) {}
-                ImageView iv = (ImageView)findViewById(R.id.ic_calendar);
+                ImageView iv = (ImageView) findViewById(R.id.ic_calendar);
                 iv.setImageResource(R.drawable.ic_calendar_on);
                 findViewById(R.id.calendar_text).setVisibility(View.GONE);
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         }
     }
-
 
 
 }

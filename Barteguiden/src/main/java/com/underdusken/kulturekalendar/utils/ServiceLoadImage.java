@@ -16,18 +16,18 @@ public class ServiceLoadImage {
     private Activity activity = null;
     private ImageLoader imageLoader = null;
 
-    public ServiceLoadImage(Activity activity){
+    public ServiceLoadImage(Activity activity) {
         this.activity = activity;
         imageLoader = new ImageLoader(activity);
     }
 
     // Loading Image to ImageView
-    public void loadImage(String urlImage, ImageView imageView, int resourceDraw){
+    public void loadImage(String urlImage, ImageView imageView, int resourceDraw) {
         imageView.setTag(urlImage);
         imageLoader.DisplayImage(urlImage, activity, imageView, resourceDraw);
     }
 
-    public void exit(){
+    public void exit() {
         imageLoader.exit();
     }
 

@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -23,8 +24,17 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 
 public class NetworkRequest extends AsyncTask<Void, Void, String> {
@@ -95,7 +105,8 @@ public class NetworkRequest extends AsyncTask<Void, Void, String> {
         return this;
     }
 
-    public NetworkRequest setAsyncPost(String url, ArrayList<NameValuePair> data, String contentType, String baseAuth, HttpStatusCode statusCode) {
+    public NetworkRequest setAsyncPost(String url, ArrayList<NameValuePair> data, String contentType,
+                                       String baseAuth, HttpStatusCode statusCode) {
         asyncUrl = url;
         asyncData = data;
         asyncContentType = contentType;
@@ -113,7 +124,8 @@ public class NetworkRequest extends AsyncTask<Void, Void, String> {
         return this;
     }
 
-    public NetworkRequest setAsyncPost(String url, ArrayList<NameValuePair> data, String baseAuth, HttpStatusCode statusCode) {
+    public NetworkRequest setAsyncPost(String url, ArrayList<NameValuePair> data, String baseAuth,
+                                       HttpStatusCode statusCode) {
         asyncUrl = url;
         asyncData = data;
         asyncBaseAuth = baseAuth;
@@ -132,7 +144,8 @@ public class NetworkRequest extends AsyncTask<Void, Void, String> {
     }
 
 
-    public String sendPost(String url, ArrayList<NameValuePair> data, String contentType, HttpStatusCode statusCode) {
+    public String sendPost(String url, ArrayList<NameValuePair> data, String contentType,
+                           HttpStatusCode statusCode) {
         ret = null;
 
         httpClient.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.RFC_2109);
@@ -145,7 +158,9 @@ public class NetworkRequest extends AsyncTask<Void, Void, String> {
         Log.d("Your App Name Here", "Setting httpPost headers");
 
         httpPost.setHeader("User-Agent", "SET YOUR USER AGENT STRING HERE");
-        httpPost.setHeader("Accept", "text/html,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5");
+        httpPost.setHeader("Accept",
+                "text/html,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8," +
+                        "image/png,*/*;q=0.5");
 
         if (contentType != null) {
             httpPost.setHeader("Content-Type", contentType);
@@ -158,7 +173,8 @@ public class NetworkRequest extends AsyncTask<Void, Void, String> {
             try {
                 httpPost.setEntity(new UrlEncodedFormEntity(data, HTTP.UTF_8));
             } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File
+                // Templates.
             }
             Log.d("Your App Name Here", url + "?" + data);
         } else {
@@ -170,8 +186,7 @@ public class NetworkRequest extends AsyncTask<Void, Void, String> {
 
             if (response != null) {
                 errorStatusCode.setStatusCode(response.getStatusLine().getStatusCode());
-                if (statusCode != null)
-                    statusCode.setStatusCode(response.getStatusLine().getStatusCode());
+                if (statusCode != null) statusCode.setStatusCode(response.getStatusLine().getStatusCode());
 
                 ret = EntityUtils.toString(response.getEntity());
             }
@@ -207,12 +222,8 @@ public class NetworkRequest extends AsyncTask<Void, Void, String> {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo[] netInfo = cm.getAllNetworkInfo();
         for (NetworkInfo ni : netInfo) {
-            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-                if (ni.isConnected())
-                    haveConnectedWifi = true;
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (ni.isConnected())
-                    haveConnectedMobile = true;
+            if (ni.getTypeName().equalsIgnoreCase("WIFI")) if (ni.isConnected()) haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE")) if (ni.isConnected()) haveConnectedMobile = true;
         }
         return haveConnectedWifi || haveConnectedMobile;
     }
@@ -246,8 +257,7 @@ public class NetworkRequest extends AsyncTask<Void, Void, String> {
     }
 
     public static String convertStreamToString(InputStream is) {
-        if(is==null)
-            return null;
+        if (is == null) return null;
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
 
@@ -302,8 +312,7 @@ public class NetworkRequest extends AsyncTask<Void, Void, String> {
         URL url = new URL(urlString);
         URLConnection conn = url.openConnection();
 
-        if (!(conn instanceof HttpURLConnection))
-            throw new IOException("Not an HTTP connection");
+        if (!(conn instanceof HttpURLConnection)) throw new IOException("Not an HTTP connection");
 
         try {
             HttpURLConnection httpConn = (HttpURLConnection) conn;
@@ -332,18 +341,17 @@ public class NetworkRequest extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if (onLoadListener != null)
-            if (result == null) {
-                onLoadListener.onLoadError(result, errorStatusCode.getStatusCode(), null);
-            } else {
-                if (errorStatusCode.getStatusCode() == 1) {
-                    onLoadListener.onLoadError("Connection is absent", errorStatusCode.getStatusCode(), "Connection is absent");
-                }
-                if (errorStatusCode.getStatusCode() != 200)
-                    onLoadListener.onLoadError(result, errorStatusCode.getStatusCode(), result);
-                else
-                    onLoadListener.onLoad(result, (String) result);
+        if (onLoadListener != null) if (result == null) {
+            onLoadListener.onLoadError(result, errorStatusCode.getStatusCode(), null);
+        } else {
+            if (errorStatusCode.getStatusCode() == 1) {
+                onLoadListener.onLoadError("Connection is absent", errorStatusCode.getStatusCode(),
+                        "Connection is absent");
             }
+            if (errorStatusCode.getStatusCode() != 200)
+                onLoadListener.onLoadError(result, errorStatusCode.getStatusCode(), result);
+            else onLoadListener.onLoad(result, (String) result);
+        }
         super.onPostExecute(result);
     }
 }

@@ -13,11 +13,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.data.db.ManageDataBase;
-import com.underdusken.kulturekalendar.ui.adapters.AdapterEventsItem;
 import com.underdusken.kulturekalendar.ui.activities.EventsDescription;
+import com.underdusken.kulturekalendar.ui.adapters.AdapterEventsItem;
 import com.underdusken.kulturekalendar.ui.reveivers.NotificationUpdateReceiver;
 import com.underdusken.kulturekalendar.utils.ServiceLoadImage;
 import com.underdusken.kulturekalendar.utils.ToDo;
@@ -54,20 +55,18 @@ public class TabFavorite extends Fragment {
     private ServiceLoadImage serviceLoadImage = null;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.tab4, container, false);
 
     }
 
 
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-         lvEvents = (ListView) getActivity().findViewById(R.id.tab4_events_list);
+        lvEvents = (ListView) getActivity().findViewById(R.id.tab4_events_list);
         etSearch = (EditText) getActivity().findViewById(R.id.tab4_search_field);
 
         Button btClear = (Button) getActivity().findViewById(R.id.tab4_search_clear);
@@ -100,9 +99,9 @@ public class TabFavorite extends Fragment {
         // Set view
         createAdapter();
 
-        if(eventsItemList.size()==0){
+        if (eventsItemList.size() == 0) {
             getActivity().findViewById(R.id.title_no_events).setVisibility(View.VISIBLE);
-        }else{
+        } else {
             getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
         }
 
@@ -125,9 +124,9 @@ public class TabFavorite extends Fragment {
         updateFilter();
         updateView();
 
-        if(eventsItemList.size()==0){
+        if (eventsItemList.size() == 0) {
             getActivity().findViewById(R.id.title_no_events).setVisibility(View.VISIBLE);
-        }else{
+        } else {
             getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
         }
     }
@@ -139,7 +138,7 @@ public class TabFavorite extends Fragment {
         // unregister reciever
         /// getActivity().unregisterReceiver(notificationUpdateReceiver);
 
-        if(serviceLoadImage!=null){
+        if (serviceLoadImage != null) {
             serviceLoadImage.exit();
         }
 
@@ -154,8 +153,7 @@ public class TabFavorite extends Fragment {
         public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {}
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
         @Override
         public void afterTextChanged(Editable s) {
@@ -168,38 +166,37 @@ public class TabFavorite extends Fragment {
     /**
      * Update filter list by search name
      */
-    private void updateFilter(){
+    private void updateFilter() {
         String searchText = etSearch.getText().toString().toLowerCase();
         filterEventsItem.clear();
-        if(eventsItemList!=null)
-            if(searchText.equals("")){
-                filterEventsItem.addAll(eventsItemList);
-            }else{
-                for(EventsItem eventsItem:eventsItemList){
-                    if(eventsItem.getTitle().toLowerCase().contains(searchText)){
-                        filterEventsItem.add(eventsItem);
-                    }
+        if (eventsItemList != null) if (searchText.equals("")) {
+            filterEventsItem.addAll(eventsItemList);
+        } else {
+            for (EventsItem eventsItem : eventsItemList) {
+                if (eventsItem.getTitle().toLowerCase().contains(searchText)) {
+                    filterEventsItem.add(eventsItem);
                 }
             }
+        }
     }
 
     /**
      * Load data from DataBase (all)
      */
-    private void loadEventsFromDb(){
+    private void loadEventsFromDb() {
         ManageDataBase manageDataBase = new ManageDataBase(getActivity());
         try {
             manageDataBase.open();
             List<EventsItem> newEventsItemList = manageDataBase.getAllEventsFavorites();
             eventsItemList.clear();
-            if(newEventsItemList!=null){
-                if(newEventsItemList.size()>0){
+            if (newEventsItemList != null) {
+                if (newEventsItemList.size() > 0) {
                     //Delete no events title
                     getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
 
-                    lastEventsId = newEventsItemList.get(newEventsItemList.size()-1).getId();
+                    lastEventsId = newEventsItemList.get(newEventsItemList.size() - 1).getId();
 
-                    for(EventsItem eventsItem: newEventsItemList){
+                    for (EventsItem eventsItem : newEventsItemList) {
                         eventsItemList.add(eventsItem);
                     }
                     eventsItemList = ManageDataBase.sortEventsByDate(eventsItemList);
@@ -213,9 +210,9 @@ public class TabFavorite extends Fragment {
     }
 
     /**
-     *  Create new list Adapter
+     * Create new list Adapter
      */
-    private void createAdapter(){
+    private void createAdapter() {
         adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, filterEventsItem);
         adapterEventsItem.setServiceLoadImage(serviceLoadImage);
         lvEvents.setAdapter(adapterEventsItem);
@@ -234,7 +231,7 @@ public class TabFavorite extends Fragment {
     }
 
     // update view
-    private void updateView(){
+    private void updateView() {
         adapterEventsItem.notifyDataSetChanged();
     }
 

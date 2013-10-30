@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+
 import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.data.db.ManageDataBase;
 import com.underdusken.kulturekalendar.json.JsonParseEvents;
@@ -36,11 +37,8 @@ public class MainHandler {
      * Get instance of class
      */
     public static MainHandler getInstance(Context context) {
-        if (mainHandler == null)
-            if (context == null)
-                return null;
-            else
-                mainHandler = new MainHandler(context);
+        if (mainHandler == null) if (context == null) return null;
+        else mainHandler = new MainHandler(context);
         return mainHandler;
     }
 
@@ -51,11 +49,8 @@ public class MainHandler {
      * @param activity
      */
     public static void createInstance(Activity activity) {
-        if (mainHandler == null)
-            if (activity == null)
-                return;
-            else
-                mainHandler = new MainHandler(activity);
+        if (mainHandler == null) if (activity == null) return;
+        else mainHandler = new MainHandler(activity);
     }
 
 
@@ -105,7 +100,8 @@ public class MainHandler {
                     manageDataBase.addEventItem(values[0]);
                     manageDataBase.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File
+                    // Templates.
                 }
             }
         }

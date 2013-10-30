@@ -1,7 +1,9 @@
 package com.underdusken.kulturekalendar.json;
 
 import android.util.Log;
+
 import com.underdusken.kulturekalendar.data.EventsItem;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,8 +21,7 @@ import java.util.List;
  */
 public class JsonParseEvents {
     static public List<EventsItem> parse(String input) {
-        if (input == null)
-            return null;
+        if (input == null) return null;
 
         List<EventsItem> eventsList = new ArrayList<EventsItem>();
 
@@ -101,7 +102,7 @@ public class JsonParseEvents {
                     eventsItem.setDescriptionNorwegian("");
                 }
 
-                if (descriptionArray != null){
+                if (descriptionArray != null) {
                     for (int j = 0; j < descriptionArray.length(); j++) {
                         JSONObject descriptionObject = descriptionArray.getJSONObject(j);
 
@@ -116,34 +117,34 @@ public class JsonParseEvents {
                         } catch (Exception e) {
                         }
 
-                        if (language.equals("en")){
+                        if (language.equals("en")) {
                             eventsItem.setDescriptionEnglish(text);
-                        }else if(language.equals("nb")){
+                        } else if (language.equals("nb")) {
                             eventsItem.setDescriptionNorwegian(text);
                         }
                     }
                 }
-                try{
+                try {
                     eventsItem.setPlaceName(eventObject.getString("placeName"));
-                }catch(Exception e){
+                } catch (Exception e) {
                     eventsItem.setPlaceName("");
                 }
 
-                try{
+                try {
                     eventsItem.setisRecomended(eventObject.getBoolean("isRecommended"));
-                }catch(Exception e){
+                } catch (Exception e) {
                     eventsItem.setisRecomended(false);
                 }
 
-                try{
+                try {
                     eventsItem.setImageURL(eventObject.getString("imageURL"));
-                }catch (Exception e){
+                } catch (Exception e) {
                     eventsItem.setImageURL("");
                 }
 
-                try{
+                try {
                     eventsItem.setEventURL(eventObject.getString("eventURL"));
-                }catch(Exception e){
+                } catch (Exception e) {
                     eventsItem.setEventURL("");
                 }
 

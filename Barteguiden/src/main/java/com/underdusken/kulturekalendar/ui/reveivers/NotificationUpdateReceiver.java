@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+
 import com.underdusken.kulturekalendar.utils.ToDo;
 
 /**
@@ -19,7 +20,7 @@ public class NotificationUpdateReceiver extends BroadcastReceiver {
     private ToDo toDo = null;
 
 
-    public NotificationUpdateReceiver(Handler activityHandler, ToDo toDo){
+    public NotificationUpdateReceiver(Handler activityHandler, ToDo toDo) {
         super();
         this.activityHandler = activityHandler;
         this.toDo = toDo;
@@ -30,7 +31,7 @@ public class NotificationUpdateReceiver extends BroadcastReceiver {
         activityHandler.post(new Runnable() {
             @Override
             public void run() {
-                 toDo.doSomething();
+                toDo.doSomething();
             }
         });
     }

@@ -14,12 +14,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.data.db.ManageDataBase;
 import com.underdusken.kulturekalendar.mainhandler.BroadcastNames;
-import com.underdusken.kulturekalendar.ui.adapters.AdapterEventsItem;
 import com.underdusken.kulturekalendar.ui.activities.EventsDescription;
+import com.underdusken.kulturekalendar.ui.adapters.AdapterEventsItem;
 import com.underdusken.kulturekalendar.ui.reveivers.NotificationUpdateReceiver;
 import com.underdusken.kulturekalendar.utils.ServiceLoadImage;
 import com.underdusken.kulturekalendar.utils.ToDo;
@@ -45,7 +46,7 @@ public class TabAll extends Fragment {
     private List<EventsItem> filterEventsItem = new ArrayList<EventsItem>();
 
     // ui
-    private int priceInclude  = -1;          // -1 all 0 free 1 paid
+    private int priceInclude = -1;          // -1 all 0 free 1 paid
     private Button btFilterAll = null;
     private Button btFilterPaid = null;
     private Button btFilterFree = null;
@@ -61,13 +62,11 @@ public class TabAll extends Fragment {
     private ServiceLoadImage serviceLoadImage = null;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.tab_all_events, container, false);
 
     }
-
 
 
     @Override
@@ -75,9 +74,9 @@ public class TabAll extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         // Filter buttons
-        btFilterAll = (Button)getActivity().findViewById(R.id.tab2_button_all);
-        btFilterPaid = (Button)getActivity().findViewById(R.id.tab2_button_paid);
-        btFilterFree = (Button)getActivity().findViewById(R.id.tab2_button_free);
+        btFilterAll = (Button) getActivity().findViewById(R.id.tab2_button_all);
+        btFilterPaid = (Button) getActivity().findViewById(R.id.tab2_button_paid);
+        btFilterFree = (Button) getActivity().findViewById(R.id.tab2_button_free);
         btFilterAll.setOnClickListener(onFilterClickListener);
         btFilterPaid.setOnClickListener(onFilterClickListener);
         btFilterFree.setOnClickListener(onFilterClickListener);
@@ -116,9 +115,9 @@ public class TabAll extends Fragment {
         // Set view
         createAdapter();
 
-        if(eventsItemList.size()==0){
+        if (eventsItemList.size() == 0) {
             getActivity().findViewById(R.id.title_no_events).setVisibility(View.VISIBLE);
-        }else{
+        } else {
             getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
         }
 
@@ -136,9 +135,9 @@ public class TabAll extends Fragment {
         serviceLoadImage = new ServiceLoadImage(getActivity());
         adapterEventsItem.setServiceLoadImage(serviceLoadImage);
 
-        if(eventsItemList.size()==0){
+        if (eventsItemList.size() == 0) {
             getActivity().findViewById(R.id.title_no_events).setVisibility(View.VISIBLE);
-        }else{
+        } else {
             getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
         }
     }
@@ -150,7 +149,7 @@ public class TabAll extends Fragment {
         // unregister reciever
         getActivity().unregisterReceiver(notificationUpdateReceiver);
 
-        if(serviceLoadImage!=null){
+        if (serviceLoadImage != null) {
             serviceLoadImage.exit();
         }
 
@@ -165,8 +164,7 @@ public class TabAll extends Fragment {
         public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {}
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
         @Override
         public void afterTextChanged(Editable s) {
@@ -179,49 +177,45 @@ public class TabAll extends Fragment {
     /**
      * Update filter list by search name
      */
-    private void updateFilter(){
+    private void updateFilter() {
         String searchText = etSearch.getText().toString().toLowerCase();
         filterEventsItem.clear();
-        if(eventsItemList!=null)
-            if(searchText.equals("")&&priceInclude==-1){
-                filterEventsItem.addAll(eventsItemList);
-            }else{
-                for(EventsItem eventsItem:eventsItemList){
-                    if(eventsItem.getTitle().toLowerCase().contains(searchText)){
-                        if(priceInclude==-1){
-                            filterEventsItem.add(eventsItem);
-                        }else if(priceInclude==0){
-                            if(eventsItem.getPrice()==0)
-                                filterEventsItem.add(eventsItem);
-                        }else if(priceInclude==1){
-                            if(eventsItem.getPrice()>0)
-                                filterEventsItem.add(eventsItem);
-                        }
+        if (eventsItemList != null) if (searchText.equals("") && priceInclude == -1) {
+            filterEventsItem.addAll(eventsItemList);
+        } else {
+            for (EventsItem eventsItem : eventsItemList) {
+                if (eventsItem.getTitle().toLowerCase().contains(searchText)) {
+                    if (priceInclude == -1) {
+                        filterEventsItem.add(eventsItem);
+                    } else if (priceInclude == 0) {
+                        if (eventsItem.getPrice() == 0) filterEventsItem.add(eventsItem);
+                    } else if (priceInclude == 1) {
+                        if (eventsItem.getPrice() > 0) filterEventsItem.add(eventsItem);
                     }
                 }
             }
+        }
     }
 
     /**
      * Load data from DataBase (all)
      */
-    private void loadEventsFromDb(){
+    private void loadEventsFromDb() {
         ManageDataBase manageDataBase = new ManageDataBase(getActivity());
         try {
             manageDataBase.open();
             List<EventsItem> newEventsItemList = manageDataBase.getAllEventsItemFromId(lastEventsId);
 
-            if(newEventsItemList!=null)
-                if(newEventsItemList.size()>0){
-                    //Delete no events title
-                    getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
+            if (newEventsItemList != null) if (newEventsItemList.size() > 0) {
+                //Delete no events title
+                getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
 
-                    lastEventsId = newEventsItemList.get(newEventsItemList.size()-1).getId();
-                    for(EventsItem eventsItem: newEventsItemList){
-                        eventsItemList.add(eventsItem);
-                    }
-                    eventsItemList = ManageDataBase.sortEventsByDate(eventsItemList);
+                lastEventsId = newEventsItemList.get(newEventsItemList.size() - 1).getId();
+                for (EventsItem eventsItem : newEventsItemList) {
+                    eventsItemList.add(eventsItem);
                 }
+                eventsItemList = ManageDataBase.sortEventsByDate(eventsItemList);
+            }
             manageDataBase.close();
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -230,9 +224,9 @@ public class TabAll extends Fragment {
     }
 
     /**
-     *  Create new list Adapter
+     * Create new list Adapter
      */
-    private void createAdapter(){
+    private void createAdapter() {
         adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, filterEventsItem);
         adapterEventsItem.setServiceLoadImage(serviceLoadImage);
         lvEvents.setAdapter(adapterEventsItem);
@@ -251,31 +245,31 @@ public class TabAll extends Fragment {
     }
 
     // update view
-    private void updateView(){
+    private void updateView() {
         adapterEventsItem.notifyDataSetChanged();
     }
 
-    private View.OnClickListener onFilterClickListener = new View.OnClickListener(){
-        public void onClick(android.view.View view){
+    private View.OnClickListener onFilterClickListener = new View.OnClickListener() {
+        public void onClick(android.view.View view) {
             boolean _changes = false;
-            if(view == btFilterAll){
-                if(priceInclude != -1){
+            if (view == btFilterAll) {
+                if (priceInclude != -1) {
                     _changes = true;
                     priceInclude = -1;
                     btFilterAll.setBackgroundResource(R.drawable.bt_left_on);
                     btFilterPaid.setBackgroundResource(R.drawable.bt_midle_off);
                     btFilterFree.setBackgroundResource(R.drawable.bt_right_off);
                 }
-            }else if(view == btFilterFree){
-                if(priceInclude != 0){
+            } else if (view == btFilterFree) {
+                if (priceInclude != 0) {
                     _changes = true;
                     priceInclude = 0;
                     btFilterAll.setBackgroundResource(R.drawable.bt_left_off);
                     btFilterPaid.setBackgroundResource(R.drawable.bt_midle_off);
                     btFilterFree.setBackgroundResource(R.drawable.bt_right_on);
                 }
-            }else if(view == btFilterPaid){
-                if(priceInclude != 1){
+            } else if (view == btFilterPaid) {
+                if (priceInclude != 1) {
                     _changes = true;
                     priceInclude = 1;
                     btFilterAll.setBackgroundResource(R.drawable.bt_left_off);
@@ -284,7 +278,7 @@ public class TabAll extends Fragment {
                 }
             }
 
-            if(_changes){
+            if (_changes) {
                 updateFilter();
                 updateView();
             }

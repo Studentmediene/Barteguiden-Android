@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
+
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.sharedpreference.UserFilterPreference;
 
@@ -24,8 +25,7 @@ public class TabSetup extends Fragment {
     private CheckBox chk_auto_calendar = null;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.tab_setup, container, false);
 
@@ -46,7 +46,9 @@ public class TabSetup extends Fragment {
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Tips for Barteguiden");
                 intent.putExtra(Intent.EXTRA_TEXT, "From Android Client.     ");
                 intent.setData(Uri.parse("mailto:tips@underdusken.no")); // or just "mailto:" for blank
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
+                intent.addFlags(
+                        Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to
+                        // your app, your app is displayed, instead of the email app.
                 startActivity(intent);
             }
         });
@@ -54,9 +56,9 @@ public class TabSetup extends Fragment {
 
         //AutoAdd to calendar
         chk_auto_calendar = (CheckBox) getActivity().findViewById(R.id.chk_auto_calendar);
-        if(new UserFilterPreference(getActivity()).isAutoAddToCalendar()){
+        if (new UserFilterPreference(getActivity()).isAutoAddToCalendar()) {
             chk_auto_calendar.setChecked(true);
-        }else{
+        } else {
             chk_auto_calendar.setChecked(false);
         }
         chk_auto_calendar.setOnClickListener(new View.OnClickListener() {
@@ -67,11 +69,11 @@ public class TabSetup extends Fragment {
         });
     }
 
-    private void checkAutoCalendar(){
-        if(new UserFilterPreference(getActivity()).isAutoAddToCalendar()){
+    private void checkAutoCalendar() {
+        if (new UserFilterPreference(getActivity()).isAutoAddToCalendar()) {
             chk_auto_calendar.setChecked(false);
             new UserFilterPreference(getActivity()).setAutoAddToCalendar(false);
-        }else{
+        } else {
             chk_auto_calendar.setChecked(true);
             new UserFilterPreference(getActivity()).setAutoAddToCalendar(true);
         }

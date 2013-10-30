@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.sharedpreference.UserFilterPreference;
 
@@ -43,13 +44,13 @@ public class UserFilter extends Activity {
         chkCategory8 = (CheckBox) findViewById(R.id.chk_8);
 
 
-        etMyAge = (EditText)findViewById(R.id.et_my_age);
+        etMyAge = (EditText) findViewById(R.id.et_my_age);
 
-        radMyAge = (RadioGroup)findViewById(R.id.radioAge);
-        radPrice = (RadioGroup)findViewById(R.id.radioPrice);
+        radMyAge = (RadioGroup) findViewById(R.id.radioAge);
+        radPrice = (RadioGroup) findViewById(R.id.radioPrice);
     }
 
-    private void updateView(){
+    private void updateView() {
         UserFilterPreference userFilterPreference = new UserFilterPreference(this);
         chkCategory1.setChecked(userFilterPreference.isChk1());
         chkCategory2.setChecked(userFilterPreference.isChk2());
@@ -61,10 +62,9 @@ public class UserFilter extends Activity {
         chkCategory8.setChecked(userFilterPreference.isChk8());
 
         int myAge = userFilterPreference.getMyAge();
-        if(myAge!=0)
-            etMyAge.setText(""+myAge);
+        if (myAge != 0) etMyAge.setText("" + myAge);
         int radioTest = userFilterPreference.getAgeLimit();
-        switch (radioTest){
+        switch (radioTest) {
             case 0:
                 radMyAge.check(R.id.radioAgeAll);
                 break;
@@ -74,7 +74,7 @@ public class UserFilter extends Activity {
         }
 
         radioTest = userFilterPreference.getPrice();
-        switch (radioTest){
+        switch (radioTest) {
             case 0:
                 radPrice.check(R.id.radioPriceAll);
                 break;
@@ -88,7 +88,7 @@ public class UserFilter extends Activity {
 
     }
 
-    private void saveState(){
+    private void saveState() {
         UserFilterPreference userFilterPreference = new UserFilterPreference(this);
 
         userFilterPreference.setChk1(chkCategory1.isChecked());
@@ -101,12 +101,11 @@ public class UserFilter extends Activity {
         userFilterPreference.setChk8(chkCategory8.isChecked());
 
         String myAge = etMyAge.getText().toString();
-        if(myAge.equals(""))
-            myAge="0";
+        if (myAge.equals("")) myAge = "0";
         userFilterPreference.setMyAge(Integer.parseInt(myAge));
 
         int radioTest = radMyAge.getCheckedRadioButtonId();
-        switch (radioTest){
+        switch (radioTest) {
             case R.id.radioAgeAll:
                 userFilterPreference.setAgeLimit(0);
                 break;
@@ -116,7 +115,7 @@ public class UserFilter extends Activity {
         }
 
         radioTest = radPrice.getCheckedRadioButtonId();
-        switch (radioTest){
+        switch (radioTest) {
             case R.id.radioPriceAll:
                 userFilterPreference.setPrice(0);
                 break;

@@ -18,17 +18,16 @@ public class SimpleTimeFormat {
     // Tuesday, 23 may 2013, 13:45
     public static String userDateFullFormat = "E, d MMMMM yyyy, HH:mm";
     // 24 may 2013
-    public  static String userDateHeadFormat =  "d MMMMM yyyy";
+    public static String userDateHeadFormat = "d MMMMM yyyy";
     // 23:14
     public static String userDateTimeFormat = "HH:mm";
 
     private Date date = null;
 
-    public SimpleTimeFormat(String serverDate){
+    public SimpleTimeFormat(String serverDate) {
         String parseTime = serverDate;
-        if(serverDate.contains("Z"))
-            parseTime = serverDate.substring(0,23);
-            parseTime += "+0000";
+        if (serverDate.contains("Z")) parseTime = serverDate.substring(0, 23);
+        parseTime += "+0000";
         SimpleDateFormat format = new SimpleDateFormat(serverDateFormat);
         try {
             date = format.parse(parseTime);
@@ -37,37 +36,37 @@ public class SimpleTimeFormat {
         }
     }
 
-    public long getMs(){
-        if(date!=null){
+    public long getMs() {
+        if (date != null) {
             return date.getTime();
-        }else{
+        } else {
             return 0;
         }
     }
 
-    public String getUserFullDate(){
-        if(date != null){
+    public String getUserFullDate() {
+        if (date != null) {
             SimpleDateFormat format = new SimpleDateFormat(userDateFullFormat);
             return format.format(date);
-        }else{
+        } else {
             return null;
         }
     }
 
-    public String getUserHeaderDate(){
-        if(date != null){
+    public String getUserHeaderDate() {
+        if (date != null) {
             SimpleDateFormat format = new SimpleDateFormat(userDateHeadFormat);
             return format.format(date);
-        }else{
+        } else {
             return null;
         }
     }
 
-    public String getUserTimeDate(){
-        if(date != null){
+    public String getUserTimeDate() {
+        if (date != null) {
             SimpleDateFormat format = new SimpleDateFormat(userDateTimeFormat);
             return format.format(date);
-        }else{
+        } else {
             return null;
         }
     }

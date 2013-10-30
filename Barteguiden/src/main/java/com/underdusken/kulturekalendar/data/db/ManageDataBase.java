@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
 import com.underdusken.kulturekalendar.data.EventsItem;
 
 import java.sql.SQLException;
@@ -24,26 +25,16 @@ public class ManageDataBase {
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
 
-    private String[] allColumnsEvents = {MySQLiteHelper.COLUMN_ID,
-        MySQLiteHelper.COLUMN_EVENTS_ID,
-        MySQLiteHelper.COLUMN_EVENTS_TITLE,
-        MySQLiteHelper.COLUMN_EVENTS_CATEGORY_ID,
-        MySQLiteHelper.COLUMN_EVENTS_ADDRESS,
-        MySQLiteHelper.COLUMN_EVENTS_GEO_LAT,
-        MySQLiteHelper.COLUMN_EVENTS_GEO_LON,
-        MySQLiteHelper.COLUMN_EVENTS_DATE_START,
-        MySQLiteHelper.COLUMN_EVENTS_PRICE,
-        MySQLiteHelper.COLUMN_EVENTS_AGE_LIMIT,
-        MySQLiteHelper.COLUMN_EVENTS_PLACE_NAME,
-        MySQLiteHelper.COLUMN_EVENTS_SHOW_DATE,
-        MySQLiteHelper.COLUMN_EVENTS_FAVORITE,
-        MySQLiteHelper.COLUMN_EVENTS_BEER_PRICE,
-        MySQLiteHelper.COLUMN_EVENTS_DESCRIPTION_ENG,
-        MySQLiteHelper.COLUMN_EVENTS_DESCRIPTION_NO,
-        MySQLiteHelper.COLUMN_EVENTS_IMAGE_URL,
-        MySQLiteHelper.COLUMN_EVENTS_EVENTS_URL,
-        MySQLiteHelper.COLUMN_EVENTS_IS_RECOMMENDED,
-        MySQLiteHelper.COLUMN_EVENTS_NOTIFICATION_ID};
+    private String[] allColumnsEvents = {MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_EVENTS_ID,
+            MySQLiteHelper.COLUMN_EVENTS_TITLE, MySQLiteHelper.COLUMN_EVENTS_CATEGORY_ID,
+            MySQLiteHelper.COLUMN_EVENTS_ADDRESS, MySQLiteHelper.COLUMN_EVENTS_GEO_LAT,
+            MySQLiteHelper.COLUMN_EVENTS_GEO_LON, MySQLiteHelper.COLUMN_EVENTS_DATE_START,
+            MySQLiteHelper.COLUMN_EVENTS_PRICE, MySQLiteHelper.COLUMN_EVENTS_AGE_LIMIT,
+            MySQLiteHelper.COLUMN_EVENTS_PLACE_NAME, MySQLiteHelper.COLUMN_EVENTS_SHOW_DATE,
+            MySQLiteHelper.COLUMN_EVENTS_FAVORITE, MySQLiteHelper.COLUMN_EVENTS_BEER_PRICE,
+            MySQLiteHelper.COLUMN_EVENTS_DESCRIPTION_ENG, MySQLiteHelper.COLUMN_EVENTS_DESCRIPTION_NO,
+            MySQLiteHelper.COLUMN_EVENTS_IMAGE_URL, MySQLiteHelper.COLUMN_EVENTS_EVENTS_URL,
+            MySQLiteHelper.COLUMN_EVENTS_IS_RECOMMENDED, MySQLiteHelper.COLUMN_EVENTS_NOTIFICATION_ID};
 
     public ManageDataBase(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -78,13 +69,13 @@ public class ManageDataBase {
         eventsItem.setAgeLimit(cursor.getInt(9));
         eventsItem.setPlaceName(cursor.getString(10));
         eventsItem.setShowDate(cursor.getString(11));
-        eventsItem.setFavorite(cursor.getInt(12)==0?false:true);
+        eventsItem.setFavorite(cursor.getInt(12) == 0 ? false : true);
         eventsItem.setBeerPrice(cursor.getInt(13));
         eventsItem.setDescriptionEnglish(cursor.getString(14));
         eventsItem.setDescriptionNorwegian(cursor.getString(15));
         eventsItem.setImageURL(cursor.getString(16));
         eventsItem.setEventURL(cursor.getString(17));
-        eventsItem.setisRecomended(cursor.getInt(18)==0?false:true);
+        eventsItem.setisRecomended(cursor.getInt(18) == 0 ? false : true);
         eventsItem.setNotificationId(cursor.getInt(19));
 
         return eventsItem;
@@ -94,8 +85,8 @@ public class ManageDataBase {
     public List<EventsItem> getAllEventsItem() {
         List<EventsItem> eventsItemList = new ArrayList<EventsItem>();
 
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS,
-                allColumnsEvents, null, null, null, null, null);
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS, allColumnsEvents, null, null, null, null,
+                null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -113,8 +104,8 @@ public class ManageDataBase {
     public List<EventsItem> getAllEventsFavorites() {
         List<EventsItem> eventsItemList = new ArrayList<EventsItem>();
 
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS,
-                allColumnsEvents, MySQLiteHelper.COLUMN_EVENTS_FAVORITE + "='1'" , null, null, null, null);
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS, allColumnsEvents,
+                MySQLiteHelper.COLUMN_EVENTS_FAVORITE + "='1'", null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -129,12 +120,14 @@ public class ManageDataBase {
     }
 
     //Get All Events from Data Base from Id
-    public List<EventsItem> getAllEventsByName(long id, String name){
+    public List<EventsItem> getAllEventsByName(long id, String name) {
         List<EventsItem> eventsItemList = new ArrayList<EventsItem>();
 
         name = name.toLowerCase();
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS,
-                allColumnsEvents, "lower("+MySQLiteHelper.COLUMN_EVENTS_TITLE + ") LIKE '%" +name +"%' AND " + MySQLiteHelper.COLUMN_ID + ">" + id , null, null, null, null);
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS, allColumnsEvents,
+                "lower(" + MySQLiteHelper.COLUMN_EVENTS_TITLE + ") LIKE '%" + name + "%' AND " +
+                        MySQLiteHelper.COLUMN_ID + ">" + id,
+                null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -152,8 +145,8 @@ public class ManageDataBase {
     public List<EventsItem> getAllEventsItemFromId(long id) {
         List<EventsItem> eventsItemList = new ArrayList<EventsItem>();
 
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS,
-                    allColumnsEvents, MySQLiteHelper.COLUMN_ID + ">" + id, null, null, null, null);
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS, allColumnsEvents,
+                MySQLiteHelper.COLUMN_ID + ">" + id, null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -167,26 +160,25 @@ public class ManageDataBase {
         return eventsItemList;
     }
 
-    public static List<EventsItem> sortEventsByDate(List<EventsItem> eventsItemList){
+    public static List<EventsItem> sortEventsByDate(List<EventsItem> eventsItemList) {
         List<EventsItem> sortedList = new ArrayList<EventsItem>();
         long curTime = new Date().getTime();
-        for(EventsItem eventsItem:eventsItemList){
-            int i=0;
-            for(i=0; i<sortedList.size(); i++){
-                if(eventsItem.getDateStartMS()>sortedList.get(i).getDateStartMS())
-                    break;
+        for (EventsItem eventsItem : eventsItemList) {
+            int i = 0;
+            for (i = 0; i < sortedList.size(); i++) {
+                if (eventsItem.getDateStartMS() > sortedList.get(i).getDateStartMS()) break;
             }
-            if(eventsItem.getDateStartMS() >= curTime)
-                sortedList.add(i, eventsItem);
+            if (eventsItem.getDateStartMS() >= curTime) sortedList.add(i, eventsItem);
         }
         return sortedList;
     }
 
-    public List<EventsItem> getAllEventsFavoritesFromId(long id){
+    public List<EventsItem> getAllEventsFavoritesFromId(long id) {
         List<EventsItem> eventsItemList = new ArrayList<EventsItem>();
 
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS,
-                allColumnsEvents, MySQLiteHelper.COLUMN_EVENTS_FAVORITE + "='1' AND " + MySQLiteHelper.COLUMN_ID + ">" + id , null, null, null, null);
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS, allColumnsEvents,
+                MySQLiteHelper.COLUMN_EVENTS_FAVORITE + "='1' AND " + MySQLiteHelper.COLUMN_ID + ">" + id,
+                null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -201,11 +193,10 @@ public class ManageDataBase {
 
     }
 
-    public EventsItem getEventsItemById(long id){
+    public EventsItem getEventsItemById(long id) {
         EventsItem eventsItem = null;
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS,
-                allColumnsEvents, MySQLiteHelper.COLUMN_ID + " = " + id, null,
-                null, null, null);
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS, allColumnsEvents,
+                MySQLiteHelper.COLUMN_ID + " = " + id, null, null, null, null);
         cursor.moveToFirst();
 
         eventsItem = cursorToEventsItem(cursor);
@@ -214,7 +205,7 @@ public class ManageDataBase {
         return eventsItem;
     }
 
-    public void addEventItem(EventsItem eventsItem){
+    public void addEventItem(EventsItem eventsItem) {
         //TODO need to add verification that we have no this event in our DB
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_EVENTS_ID, eventsItem.getEventsId());
@@ -236,23 +227,23 @@ public class ManageDataBase {
         values.put(MySQLiteHelper.COLUMN_EVENTS_EVENTS_URL, eventsItem.getEventURL());
         values.put(MySQLiteHelper.COLUMN_EVENTS_IS_RECOMMENDED, eventsItem.getIsRecommended());
 
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS,
-                allColumnsEvents, MySQLiteHelper.COLUMN_EVENTS_ID + " = '" + eventsItem.getEventsId() + "'", null,
-                null, null, null);
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS, allColumnsEvents,
+                MySQLiteHelper.COLUMN_EVENTS_ID + " = '" + eventsItem.getEventsId() + "'", null, null, null,
+                null);
 
-        if(cursor!=null){
-            if ( cursor.moveToFirst() ) {
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
                 updateEventsItemByEventId(eventsItem);
             } else {
                 database.insert(MySQLiteHelper.TABLE_EVENTS, null, values);
             }
             cursor.close();
-        }else{
+        } else {
             database.insert(MySQLiteHelper.TABLE_EVENTS, null, values);
         }
     }
 
-    public void updateEventsItemByEventId(EventsItem eventsItem){
+    public void updateEventsItemByEventId(EventsItem eventsItem) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_EVENTS_ID, eventsItem.getEventsId());
         values.put(MySQLiteHelper.COLUMN_EVENTS_TITLE, eventsItem.getTitle());
@@ -273,10 +264,11 @@ public class ManageDataBase {
         values.put(MySQLiteHelper.COLUMN_EVENTS_EVENTS_URL, eventsItem.getEventURL());
         values.put(MySQLiteHelper.COLUMN_EVENTS_IS_RECOMMENDED, eventsItem.getIsRecommended());
         values.put(MySQLiteHelper.COLUMN_EVENTS_NOTIFICATION_ID, eventsItem.getNotificationId());
-        database.update(MySQLiteHelper.TABLE_EVENTS, values, MySQLiteHelper.COLUMN_EVENTS_ID + " = '" + eventsItem.getEventsId() + "'", null);
+        database.update(MySQLiteHelper.TABLE_EVENTS, values,
+                MySQLiteHelper.COLUMN_EVENTS_ID + " = '" + eventsItem.getEventsId() + "'", null);
     }
 
-    public void updateEventsItem(long id, EventsItem eventsItem){
+    public void updateEventsItem(long id, EventsItem eventsItem) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_EVENTS_ID, eventsItem.getEventsId());
         values.put(MySQLiteHelper.COLUMN_EVENTS_TITLE, eventsItem.getTitle());
@@ -298,19 +290,20 @@ public class ManageDataBase {
         values.put(MySQLiteHelper.COLUMN_EVENTS_IS_RECOMMENDED, eventsItem.getIsRecommended());
         values.put(MySQLiteHelper.COLUMN_EVENTS_NOTIFICATION_ID, eventsItem.getNotificationId());
 
-        database.update(MySQLiteHelper.TABLE_EVENTS, values, MySQLiteHelper.COLUMN_ID + " = '" + id + "'", null);
+        database.update(MySQLiteHelper.TABLE_EVENTS, values, MySQLiteHelper.COLUMN_ID + " = '" + id + "'",
+                null);
     }
 
-    public EventsItem updateEventsItemCalendar(long id, int notificationId){
+    public EventsItem updateEventsItemCalendar(long id, int notificationId) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_EVENTS_NOTIFICATION_ID, notificationId);
 
-        long insertId = database.update(MySQLiteHelper.TABLE_EVENTS, values, MySQLiteHelper.COLUMN_ID + " = " + id, null);
+        long insertId = database.update(MySQLiteHelper.TABLE_EVENTS, values,
+                MySQLiteHelper.COLUMN_ID + " = " + id, null);
 
         // Check that we add information to DB
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS,
-                allColumnsEvents, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
-                null, null, null);
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS, allColumnsEvents,
+                MySQLiteHelper.COLUMN_ID + " = " + insertId, null, null, null, null);
         cursor.moveToFirst();
 
         EventsItem checkEventsItem = cursorToEventsItem(cursor);
@@ -320,16 +313,16 @@ public class ManageDataBase {
         return checkEventsItem;
     }
 
-    public EventsItem updateEventsItemFavorites(long id, boolean state){
+    public EventsItem updateEventsItemFavorites(long id, boolean state) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_EVENTS_FAVORITE, state);
 
-        long insertId = database.update(MySQLiteHelper.TABLE_EVENTS, values, MySQLiteHelper.COLUMN_ID + " = " + id, null);
+        long insertId = database.update(MySQLiteHelper.TABLE_EVENTS, values,
+                MySQLiteHelper.COLUMN_ID + " = " + id, null);
 
         // Check that we add information to DB
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS,
-                allColumnsEvents, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
-                null, null, null);
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS, allColumnsEvents,
+                MySQLiteHelper.COLUMN_ID + " = " + insertId, null, null, null, null);
         cursor.moveToFirst();
 
         EventsItem checkEventsItem = cursorToEventsItem(cursor);

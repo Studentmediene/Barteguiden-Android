@@ -8,5 +8,5 @@ package com.underdusken.kulturekalendar.utils;
  * To change this template use File | Settings | File Templates.
  */
 public interface ToDo {
-     void doSomething();
+    void doSomething();
 }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.data.db.ManageDataBase;
@@ -46,8 +47,7 @@ public class TabFeatured extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.main, container, false);
     }
@@ -56,7 +56,7 @@ public class TabFeatured extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        lvEvents = (ListView)getActivity().findViewById(R.id.tab1_events_list);
+        lvEvents = (ListView) getActivity().findViewById(R.id.tab1_events_list);
 
         loadEventsFromDb();
 
@@ -65,9 +65,9 @@ public class TabFeatured extends Fragment {
         //Initialization adapter for ListView
         setListViewAdapter();
 
-        if(eventsItemList.size()==0){
+        if (eventsItemList.size() == 0) {
             getActivity().findViewById(R.id.title_no_events).setVisibility(View.VISIBLE);
-        }else{
+        } else {
             getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
         }
     }
@@ -83,9 +83,9 @@ public class TabFeatured extends Fragment {
 
         getActivity().registerReceiver(notificationUpdateReciever, intentFilterNotificationUpdate);
 
-        if(eventsItemList.size()==0){
+        if (eventsItemList.size() == 0) {
             getActivity().findViewById(R.id.title_no_events).setVisibility(View.VISIBLE);
-        }else{
+        } else {
             getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
         }
     }
@@ -94,33 +94,32 @@ public class TabFeatured extends Fragment {
     public void onPause() {
         super.onPause();
         getActivity().unregisterReceiver(notificationUpdateReciever);
-        if(serviceLoadImage!=null){
+        if (serviceLoadImage != null) {
             serviceLoadImage.exit();
         }
 
     }
 
 
-    private void loadEventsFromDb(){
+    private void loadEventsFromDb() {
         ManageDataBase manageDataBase = new ManageDataBase(getActivity());
         try {
             manageDataBase.open();
             List<EventsItem> newEventsItemList = manageDataBase.getAllEventsItemFromId(lastEventsId);
 
-            if(newEventsItemList!=null)
-                if(newEventsItemList.size()>0){
-                    //Delete no events title
-                    getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
+            if (newEventsItemList != null) if (newEventsItemList.size() > 0) {
+                //Delete no events title
+                getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
 
-                    lastEventsId = newEventsItemList.get(newEventsItemList.size()-1).getId();
-                    for(EventsItem eventsItem: newEventsItemList){
-                        if(eventsItem.getIsRecommended()==true){
-                            eventsItemList.add(eventsItem);
-                        }
+                lastEventsId = newEventsItemList.get(newEventsItemList.size() - 1).getId();
+                for (EventsItem eventsItem : newEventsItemList) {
+                    if (eventsItem.getIsRecommended() == true) {
+                        eventsItemList.add(eventsItem);
                     }
-                    eventsItemList = ManageDataBase.sortEventsByDate(eventsItemList);
-
                 }
+                eventsItemList = ManageDataBase.sortEventsByDate(eventsItemList);
+
+            }
             manageDataBase.close();
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -128,7 +127,7 @@ public class TabFeatured extends Fragment {
 
     }
 
-    private void setListViewAdapter(){
+    private void setListViewAdapter() {
         adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, eventsItemList);
 
         lvEvents.setAdapter(adapterEventsItem);
@@ -146,10 +145,9 @@ public class TabFeatured extends Fragment {
         });
     }
 
-    private void updateView(){
+    private void updateView() {
         adapterEventsItem.notifyDataSetChanged();
     }
-
 
 
     class NotificationUpdateReciever extends BroadcastReceiver {

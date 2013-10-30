@@ -9,5 +9,6 @@ package com.underdusken.kulturekalendar.network;
  */
 public interface OnLoadListener {
     public void onLoadError(String url, int errorCode, String data);
+
     public void onLoad(String url, String data);
 }

@@ -6,7 +6,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.ref.SoftReference;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,7 +25,7 @@ public class ImageLoader {
     private static final String STORE_PLACE = "/Android/data/com.underdusken.kulturekalendar";
 
     //private HashMap<String, Bitmap> cache = new HashMap<String, Bitmap>();
-    private HashMap<String, SoftReference<Bitmap>> cache=new HashMap<String, SoftReference<Bitmap>>();
+    private HashMap<String, SoftReference<Bitmap>> cache = new HashMap<String, SoftReference<Bitmap>>();
 
     private File cacheDir;
 
@@ -28,60 +34,58 @@ public class ImageLoader {
         photoLoaderThread.setPriority(Thread.NORM_PRIORITY - 1);
 
         //Find the dir to save cached images
-        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)){
-            cacheDir = new File(android.os.Environment.getExternalStorageDirectory() + STORE_PLACE + "/cache");
-        }else{
+        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
+            cacheDir = new File(
+                    android.os.Environment.getExternalStorageDirectory() + STORE_PLACE + "/cache");
+        } else {
             cacheDir = context.getCacheDir();
         }
-        if (!cacheDir.exists())
-            cacheDir.mkdirs();
+        if (!cacheDir.exists()) cacheDir.mkdirs();
     }
 
 
     public void DisplayImage(String url, Activity activity, ImageView imageView, int resourceDraw) {
-        if(!url.equalsIgnoreCase("")){
-        if (cache.containsKey(url)){
-            //imageView.setImageBitmap(cache.get(url));
-            SoftReference<Bitmap> softRef = cache.get(url);
-            Bitmap bitmap = softRef.get();
-            if(bitmap==null){
-                queuePhoto(url, activity, imageView);
-                imageView.setImageResource(resourceDraw);
-            }else{
-                imageView.setImageBitmap(softRef.get());
-                //TODO Maybe check that get reference already NULL =)
-            }
-        }else{
+        if (!url.equalsIgnoreCase("")) {
+            if (cache.containsKey(url)) {
+                //imageView.setImageBitmap(cache.get(url));
+                SoftReference<Bitmap> softRef = cache.get(url);
+                Bitmap bitmap = softRef.get();
+                if (bitmap == null) {
+                    queuePhoto(url, activity, imageView);
+                    imageView.setImageResource(resourceDraw);
+                } else {
+                    imageView.setImageBitmap(softRef.get());
+                    //TODO Maybe check that get reference already NULL =)
+                }
+            } else {
 
-            if(url!=null ){
-                queuePhoto(url, activity, imageView);
+                if (url != null) {
+                    queuePhoto(url, activity, imageView);
 
-                String filename = String.valueOf(url.hashCode());
-                File f = new File(cacheDir, filename);
+                    String filename = String.valueOf(url.hashCode());
+                    File f = new File(cacheDir, filename);
 
-                //from SD cache
-                Bitmap b = decodeFile(f);
-                if (b != null){
-                    imageView.setImageBitmap(b);
-                    return;
+                    //from SD cache
+                    Bitmap b = decodeFile(f);
+                    if (b != null) {
+                        imageView.setImageBitmap(b);
+                        return;
+                    }
+
+                    if (url != null) queuePhoto(url, activity, imageView);
                 }
 
-                if(url!=null )
-                    queuePhoto(url, activity, imageView);
+
+                if (resourceDraw != -1) imageView.setImageResource(resourceDraw);
             }
-
-
-
-            if(resourceDraw!=-1)
-                imageView.setImageResource(resourceDraw);
-        }}else{
-            if(resourceDraw!=-1)
-                imageView.setImageResource(resourceDraw);
+        } else {
+            if (resourceDraw != -1) imageView.setImageResource(resourceDraw);
         }
     }
 
     private void queuePhoto(String url, Activity activity, ImageView imageView) {
-        //This ImageView may be used for other images before. So there may be some old tasks in the queue. We need to discard them.
+        //This ImageView may be used for other images before. So there may be some old tasks in the queue.
+        // We need to discard them.
         photosQueue.Clean(imageView);
         PhotoToLoad p = new PhotoToLoad(url, imageView);
         synchronized (photosQueue.photosToLoad) {
@@ -90,8 +94,7 @@ public class ImageLoader {
         }
 
         //start thread if it's not started yet
-        if (photoLoaderThread.getState() == Thread.State.NEW)
-            photoLoaderThread.start();
+        if (photoLoaderThread.getState() == Thread.State.NEW) photoLoaderThread.start();
     }
 
     private InputStream getInputStreamFromUrl(String url) {
@@ -115,15 +118,13 @@ public class ImageLoader {
 
     private Bitmap getBitmap(String url) {
         //I identify images by hashcode. Not a perfect solution, good for the demo.
-        if(url==null)
-            return null;
+        if (url == null) return null;
         String filename = String.valueOf(url.hashCode());
         File f = new File(cacheDir, filename);
 
         //from SD cache
         Bitmap b = decodeFile(f);
-        if (b != null)
-            return b;
+        if (b != null) return b;
 
         //from web
         InputStream is = null;
@@ -138,13 +139,12 @@ public class ImageLoader {
             return bitmap;
         } catch (Exception ex) {
             ex.printStackTrace();
-            if(is!=null)
-                return BitmapFactory.decodeStream(is);
+            if (is != null) return BitmapFactory.decodeStream(is);
             return null;
         }
     }
 
-    public void exit(){
+    public void exit() {
         photoLoaderThread.interrupt();
     }
 
@@ -152,10 +152,9 @@ public class ImageLoader {
         final int buffer_size = 1024;
         try {
             byte[] bytes = new byte[buffer_size];
-            for (;;) {
+            for (; ; ) {
                 int count = is.read(bytes, 0, buffer_size);
-                if (count == -1)
-                    break;
+                if (count == -1) break;
                 os.write(bytes, 0, count);
             }
         } catch (Exception ex) {
@@ -167,7 +166,7 @@ public class ImageLoader {
         try {
             return BitmapFactory.decodeStream(new FileInputStream(f));
         } catch (FileNotFoundException e) {
-        } catch (Exception e){}
+        } catch (Exception e) {}
         return null;
     }
 
@@ -196,15 +195,13 @@ public class ImageLoader {
         public void Clean(ImageView image) {
             for (int j = 0; j < photosToLoad.size(); ) {
                 ImageView iv = null;
-                try{
+                try {
                     iv = photosToLoad.get(j).imageView;
-                }catch (Exception e){
+                } catch (Exception e) {
                     break;
                 }
-                if (iv == image)
-                    photosToLoad.remove(j);
-                else
-                    ++j;
+                if (iv == image) photosToLoad.remove(j);
+                else ++j;
             }
         }
     }
@@ -214,30 +211,27 @@ public class ImageLoader {
             try {
                 while (true) {
                     //thread waits until there are any images to load in the queue
-                    if (photosQueue.photosToLoad.size() == 0)
-                        synchronized (photosQueue.photosToLoad) {
-                            photosQueue.photosToLoad.wait();
-                        }
+                    if (photosQueue.photosToLoad.size() == 0) synchronized (photosQueue.photosToLoad) {
+                        photosQueue.photosToLoad.wait();
+                    }
                     if (photosQueue.photosToLoad.size() != 0) {
                         PhotoToLoad photoToLoad;
                         synchronized (photosQueue.photosToLoad) {
                             photoToLoad = photosQueue.photosToLoad.pop();
                         }
                         Bitmap bmp = getBitmap(photoToLoad.url);
-                        if(bmp==null)
-                            continue;
+                        if (bmp == null) continue;
 
                         cache.put(photoToLoad.url, new SoftReference<Bitmap>(bmp));
                         Object tag = photoToLoad.imageView.getTag();
 
-                        if (tag!=null && ((String)tag).equals(photoToLoad.url)) {
+                        if (tag != null && ((String) tag).equals(photoToLoad.url)) {
                             BitmapDisplayer bd = new BitmapDisplayer(bmp, photoToLoad.imageView);
                             Activity a = (Activity) photoToLoad.imageView.getContext();
                             a.runOnUiThread(bd);
                         }
                     }
-                    if (Thread.interrupted())
-                        break;
+                    if (Thread.interrupted()) break;
                 }
             } catch (InterruptedException e) {
                 //allow thread to exit
@@ -258,8 +252,7 @@ public class ImageLoader {
         }
 
         public void run() {
-            if (bitmap != null)
-                imageView.setImageBitmap(bitmap);
+            if (bitmap != null) imageView.setImageBitmap(bitmap);
 /*            else
                 imageView.setImageResource(stub_id);*/
         }
