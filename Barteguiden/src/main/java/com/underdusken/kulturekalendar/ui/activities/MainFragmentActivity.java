@@ -1,4 +1,4 @@
-package com.underdusken.kulturekalendar.ui;
+package com.underdusken.kulturekalendar.ui.activities;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,6 +14,11 @@ import android.widget.Toast;
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.mainhandler.MainHandler;
 import com.underdusken.kulturekalendar.sharedpreference.UserFilterPreference;
+import com.underdusken.kulturekalendar.ui.fragments.TabAll;
+import com.underdusken.kulturekalendar.ui.fragments.TabFavorite;
+import com.underdusken.kulturekalendar.ui.fragments.TabFeatured;
+import com.underdusken.kulturekalendar.ui.fragments.TabFree;
+import com.underdusken.kulturekalendar.ui.fragments.TabSetup;
 
 import java.util.HashMap;
 

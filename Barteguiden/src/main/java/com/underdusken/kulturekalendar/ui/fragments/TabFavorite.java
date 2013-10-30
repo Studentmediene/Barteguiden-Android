@@ -16,9 +16,9 @@ import android.widget.ListView;
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.data.db.ManageDataBase;
-import com.underdusken.kulturekalendar.ui.Adapter.AdapterEventsItem;
-import com.underdusken.kulturekalendar.ui.EventsDescription;
-import com.underdusken.kulturekalendar.ui.Receiver.NotificationUpdateReceiver;
+import com.underdusken.kulturekalendar.ui.adapters.AdapterEventsItem;
+import com.underdusken.kulturekalendar.ui.activities.EventsDescription;
+import com.underdusken.kulturekalendar.ui.reveivers.NotificationUpdateReceiver;
 import com.underdusken.kulturekalendar.utils.ServiceLoadImage;
 import com.underdusken.kulturekalendar.utils.ToDo;
 

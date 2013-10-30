@@ -1,4 +1,4 @@
-package com.underdusken.kulturekalendar.ui.Adapter;
+package com.underdusken.kulturekalendar.ui.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

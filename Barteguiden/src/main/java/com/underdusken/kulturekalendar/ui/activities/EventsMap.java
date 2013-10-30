@@ -1,4 +1,4 @@
-package com.underdusken.kulturekalendar.ui;
+package com.underdusken.kulturekalendar.ui.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;

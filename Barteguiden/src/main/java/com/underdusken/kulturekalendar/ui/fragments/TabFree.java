@@ -19,10 +19,10 @@ import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.data.db.ManageDataBase;
 import com.underdusken.kulturekalendar.mainhandler.BroadcastNames;
 import com.underdusken.kulturekalendar.sharedpreference.UserFilterPreference;
-import com.underdusken.kulturekalendar.ui.Adapter.AdapterEventsItem;
-import com.underdusken.kulturekalendar.ui.EventsDescription;
-import com.underdusken.kulturekalendar.ui.Receiver.NotificationUpdateReceiver;
-import com.underdusken.kulturekalendar.ui.UserFilter;
+import com.underdusken.kulturekalendar.ui.adapters.AdapterEventsItem;
+import com.underdusken.kulturekalendar.ui.activities.EventsDescription;
+import com.underdusken.kulturekalendar.ui.reveivers.NotificationUpdateReceiver;
+import com.underdusken.kulturekalendar.ui.activities.UserFilter;
 import com.underdusken.kulturekalendar.utils.ServiceLoadImage;
 import com.underdusken.kulturekalendar.utils.ToDo;
 

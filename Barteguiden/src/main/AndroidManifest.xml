@@ -32,7 +32,7 @@
 
         <!--Tabs activity-->
         <activity
-                android:name=".ui.MainFragmentActivity"
+                android:name=".ui.activities.MainFragmentActivity"
                 android:label="@string/app_name"
                 android:alwaysRetainTaskState="true"
                 android:screenOrientation="portrait"
@@ -45,17 +45,17 @@
 
 
         <!-- Events description -->
-        <activity android:name=".ui.EventsDescription"
+        <activity android:name=".ui.activities.EventsDescription"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="stateHidden"/>
 
         <!--User filter-->
-        <activity android:name=".ui.UserFilter"
+        <activity android:name=".ui.activities.UserFilter"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="stateHidden"/>
 
         <!--Map-->
-        <activity android:name=".ui.EventsMap"
+        <activity android:name=".ui.activities.EventsMap"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="stateHidden"/>
 

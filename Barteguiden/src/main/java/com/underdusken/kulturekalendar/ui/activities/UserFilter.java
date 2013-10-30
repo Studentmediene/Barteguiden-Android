@@ -1,4 +1,4 @@
-package com.underdusken.kulturekalendar.ui;
+package com.underdusken.kulturekalendar.ui.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
