@@ -17,6 +17,13 @@
     <string name="no_events">No events</string>
 
 
+    <string name="tab1">Featured</string>
+    <string name="tab2">All</string>
+    <string name="tab3">Filter</string>
+    <string name="tab4">Favorites</string>
+    <string name="tab5">Settings</string>
+
 
     <string name="app_name">Barteguiden</string>
+
 </resources>
