@@ -66,9 +66,9 @@ public class TabFeatured extends Fragment {
         setListViewAdapter();
 
         if (eventsItemList.size() == 0) {
-            getActivity().findViewById(R.id.title_no_events).setVisibility(View.VISIBLE);
+            getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
         } else {
-            getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
         }
     }
 
@@ -84,9 +84,9 @@ public class TabFeatured extends Fragment {
         getActivity().registerReceiver(notificationUpdateReciever, intentFilterNotificationUpdate);
 
         if (eventsItemList.size() == 0) {
-            getActivity().findViewById(R.id.title_no_events).setVisibility(View.VISIBLE);
+            getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
         } else {
-            getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
         }
     }
 
@@ -109,7 +109,7 @@ public class TabFeatured extends Fragment {
 
             if (newEventsItemList != null) if (newEventsItemList.size() > 0) {
                 //Delete no events title
-                getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
+                getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
 
                 lastEventsId = newEventsItemList.get(newEventsItemList.size() - 1).getId();
                 for (EventsItem eventsItem : newEventsItemList) {

@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import com.underdusken.kulturekalendar.R;
@@ -79,7 +78,7 @@ public class TabAll extends Fragment {
         btFilterPaid.setOnClickListener(onFilterClickListener);
         btFilterFree.setOnClickListener(onFilterClickListener);
 
-        lvEvents = (ListView) getActivity().findViewById(R.id.tab2_events_list);
+        lvEvents = (ListView) getActivity().findViewById(R.id.list_events);
 
 
         // Create new notification receiver
@@ -103,9 +102,9 @@ public class TabAll extends Fragment {
         createAdapter();
 
         if (eventsItemList.size() == 0) {
-            getActivity().findViewById(R.id.title_no_events).setVisibility(View.VISIBLE);
+            getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
         } else {
-            getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
         }
 
     }
@@ -123,9 +122,9 @@ public class TabAll extends Fragment {
         adapterEventsItem.setServiceLoadImage(serviceLoadImage);
 
         if (eventsItemList.size() == 0) {
-            getActivity().findViewById(R.id.title_no_events).setVisibility(View.VISIBLE);
+            getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
         } else {
-            getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
         }
     }
 
@@ -195,7 +194,7 @@ public class TabAll extends Fragment {
 
             if (newEventsItemList != null) if (newEventsItemList.size() > 0) {
                 //Delete no events title
-                getActivity().findViewById(R.id.title_no_events).setVisibility(View.GONE);
+                getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
 
                 lastEventsId = newEventsItemList.get(newEventsItemList.size() - 1).getId();
                 for (EventsItem eventsItem : newEventsItemList) {

@@ -77,7 +77,7 @@
     </LinearLayout>
 
     <TextView
-            android:id="@+id/title_no_events"
+            android:id="@+id/text_noevents"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
 
@@ -85,7 +85,7 @@
             android:gravity="center"/>
 
     <ListView
-            android:id="@+id/tab2_events_list"
+            android:id="@+id/list_events"
             android:layout_above="@id/tab2_filter_region"
 
             android:layout_height="fill_parent"
@@ -100,18 +100,5 @@
             android:layout_margin="0dip"
 
             />
-
-
-    <!--When the list is empty we use this textView to inform about this-->
-    <TextView
-            android:id="@+id/tab2_text"
-            android:layout_height="fill_parent"
-            android:layout_width="fill_parent"
-            android:layout_above="@id/tab2_filter_region"
-
-            android:gravity="center"
-            android:visibility="gone"
-
-            android:text="TAB2"/>
 
 </RelativeLayout>

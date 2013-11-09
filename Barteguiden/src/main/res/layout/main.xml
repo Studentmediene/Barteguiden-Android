@@ -6,7 +6,7 @@
         >
 
     <TextView
-            android:id="@+id/title_no_events"
+            android:id="@+id/text_noevents"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
 
