@@ -52,8 +52,6 @@ public class TabAll extends Fragment {
     private Button btFilterFree = null;
 
     private ListView lvEvents = null;
-    private EditText etSearch = null;
-
 
     //data
     private long lastEventsId = -1;      // for getting only new events
@@ -81,26 +79,15 @@ public class TabAll extends Fragment {
         btFilterPaid.setOnClickListener(onFilterClickListener);
         btFilterFree.setOnClickListener(onFilterClickListener);
 
-
         lvEvents = (ListView) getActivity().findViewById(R.id.tab2_events_list);
-        etSearch = (EditText) getActivity().findViewById(R.id.tab2_search_field);
 
-        Button btClear = (Button) getActivity().findViewById(R.id.tab2_search_clear);
-        btClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                etSearch.setText("");
-            }
-        });
-        //text change listener for search
-        etSearch.addTextChangedListener(filterTextWatcher);
 
         // Create new notification receiver
         notificationUpdateReceiver = new NotificationUpdateReceiver(new Handler(), new ToDo() {
             @Override
             public void doSomething() {
                 loadEventsFromDb();
-                updateFilter();
+                updateFilter("");
                 updateView();
             }
         });
@@ -110,7 +97,7 @@ public class TabAll extends Fragment {
         loadEventsFromDb();
 
         // Update Filter list
-        updateFilter();
+        updateFilter("");
 
         // Set view
         createAdapter();
@@ -168,7 +155,7 @@ public class TabAll extends Fragment {
 
         @Override
         public void afterTextChanged(Editable s) {
-            updateFilter();
+            updateFilter("");
             updateView();
         }
     };
@@ -177,8 +164,8 @@ public class TabAll extends Fragment {
     /**
      * Update filter list by search name
      */
-    private void updateFilter() {
-        String searchText = etSearch.getText().toString().toLowerCase();
+    private void updateFilter(String filter) {
+        String searchText = filter.toLowerCase();
         filterEventsItem.clear();
         if (eventsItemList != null) if (searchText.equals("") && priceInclude == -1) {
             filterEventsItem.addAll(eventsItemList);
@@ -279,7 +266,7 @@ public class TabAll extends Fragment {
             }
 
             if (_changes) {
-                updateFilter();
+                updateFilter("");
                 updateView();
             }
         }
