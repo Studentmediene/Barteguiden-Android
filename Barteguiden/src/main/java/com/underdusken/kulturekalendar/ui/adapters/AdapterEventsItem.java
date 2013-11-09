@@ -1,13 +1,11 @@
 package com.underdusken.kulturekalendar.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventsItem;
@@ -44,7 +42,7 @@ public class AdapterEventsItem extends ArrayAdapter<EventsItem> {
 
 
     private static class ViewHolder {
-        RelativeLayout headerLayout;
+        FrameLayout headerLayout;
         TextView tvName;
         TextView tvDate;
         TextView tvPrice;
@@ -61,12 +59,13 @@ public class AdapterEventsItem extends ArrayAdapter<EventsItem> {
         if (v == null) {
             v = vi.inflate(R.layout.events_item, null);
             viewHolder = new ViewHolder();
-            viewHolder.headerLayout = (RelativeLayout) v.findViewById(R.id.events_header);
+            viewHolder.headerLayout = (FrameLayout) v.findViewById(R.id.events_header);
             viewHolder.tvName = (TextView) v.findViewById(R.id.events_title);
-            viewHolder.tvDate = (TextView) v.findViewById(R.id.events_date);
+            viewHolder.tvDate = (TextView) viewHolder.headerLayout.findViewById(R.id.header_text);
             viewHolder.tvPrice = (TextView) v.findViewById(R.id.events_price);
             viewHolder.tvPlace = (TextView) v.findViewById(R.id.events_place);
             viewHolder.ivPicture = (ImageView) v.findViewById(R.id.events_image);
+            viewHolder.tvDate.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/roboto-li.ttf"));
             v.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) v.getTag();

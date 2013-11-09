@@ -1,67 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/abs_white"
-                android:orientation="horizontal"
-                android:padding="@dimen/margin_small">
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:orientation="vertical"
+        >
 
+    <include
+            android:id="@+id/events_header"
+            layout="@layout/list_header"
+            />
     <!-- The item -->
 
-    <ImageView
-            android:id="@+id/events_image"
-            android:layout_width="@dimen/icon_height"
-            android:layout_height="@dimen/icon_height"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="@dimen/margin_small"
-            android:adjustViewBounds="false"
-            android:padding="@dimen/margin_small"
-            android:src="@drawable/category_debate"/>
-
-    <TextView
-            android:id="@+id/events_price"
-            android:layout_width="wrap_content"
+    <RelativeLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/margin_small"
-            android:text="@string/p_price"
-            android:textColor="@color/grey_dark"
-            android:textSize="@dimen/text_small"/>
+            android:background="@color/abs_white"
+            android:padding="@dimen/margin_small">
 
-    <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/margin_small"
-            android:layout_toLeftOf="@id/events_price"
-            android:layout_toRightOf="@id/events_image"
-            android:orientation="vertical">
 
-        <!-- Event name -->
+        <ImageView
+                android:id="@+id/events_image"
+                android:layout_width="@dimen/icon_height"
+                android:layout_height="@dimen/icon_height"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="@dimen/margin_small"
+                android:adjustViewBounds="false"
+                android:padding="@dimen/margin_small"
+                android:src="@drawable/category_debate"/>
 
         <TextView
-                android:id="@+id/events_title"
+                android:id="@+id/events_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:text="@string/p_band"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_small"
-                android:textStyle="bold"/>
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/margin_small"
+                android:text="@string/p_price"
+                android:textColor="@color/grey_dark"
+                android:textSize="@dimen/text_small"/>
 
-        <!-- Event place-->
-        <TextView
-                android:id="@+id/events_place"
+        <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:text="@string/p_place"
-                android:textColor="@color/grey_light"
-                android:textSize="@dimen/text_micro"/>
-    </LinearLayout>
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/margin_small"
+                android:layout_toLeftOf="@id/events_price"
+                android:layout_toRightOf="@id/events_image"
+                android:orientation="vertical">
 
-</RelativeLayout>
+            <!-- Event name -->
+
+            <TextView
+                    android:id="@+id/events_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="@string/p_band"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_small"
+                    android:textStyle="bold"/>
+
+            <!-- Event place-->
+            <TextView
+                    android:id="@+id/events_place"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="@string/p_place"
+                    android:textColor="@color/grey_light"
+                    android:textSize="@dimen/text_micro"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>
