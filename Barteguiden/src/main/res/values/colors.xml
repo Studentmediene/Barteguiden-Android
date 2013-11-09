@@ -5,6 +5,7 @@
     <color name="abs_white">#ffffff</color>
     <color name="black">#333333</color>
     <color name="abs_black">#000000</color>
+    <color name="grey_light">#aaaaaa</color>
     <color name="grey_lighter">#d0d0d0</color>
     <color name="grey_dark">#555555</color>
 </resources>

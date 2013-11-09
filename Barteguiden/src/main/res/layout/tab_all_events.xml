@@ -86,19 +86,14 @@
 
     <ListView
             android:id="@+id/list_events"
-            android:layout_above="@id/tab2_filter_region"
 
             android:layout_height="fill_parent"
             android:layout_width="fill_parent"
 
-            android:drawSelectorOnTop="false"
+            android:drawSelectorOnTop="true"
 
-            android:divider="#caced4"
-            android:dividerHeight="1px"
-
-            android:padding="0dip"
-            android:layout_margin="0dip"
-
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium"
             />
 
 </RelativeLayout>
