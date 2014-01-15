@@ -29,6 +29,8 @@ public class ImageLoader {
 
     private File cacheDir;
 
+    PhotosQueue photosQueue = new PhotosQueue();
+
     public ImageLoader(Context context) {
         //Make the background thead low priority. This way it will not affect the UI performance
         photoLoaderThread.setPriority(Thread.NORM_PRIORITY - 1);
@@ -180,8 +182,6 @@ public class ImageLoader {
             imageView = i;
         }
     }
-
-    PhotosQueue photosQueue = new PhotosQueue();
 
     public void stopThread() {
         photoLoaderThread.interrupt();
