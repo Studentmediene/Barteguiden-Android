@@ -142,7 +142,8 @@ public class EventsDescription extends Activity {
                         EventsItem testEventsItem = manageDataBase.updateEventsItemFavorites(
                                 eventsItem.getId(), true);
                         manageDataBase.close();
-                    } catch (SQLException e) {}
+                    } catch (SQLException e) {
+                    }
 
                 } else {
                     eventsItem.setFavorite(false);
@@ -152,7 +153,8 @@ public class EventsDescription extends Activity {
                         EventsItem testEventsItem = manageDataBase.updateEventsItemFavorites(
                                 eventsItem.getId(), false);
                         manageDataBase.close();
-                    } catch (SQLException e) {}
+                    } catch (SQLException e) {
+                    }
 
                 }
                 if (eventsItem.getFavorite()) {
@@ -300,7 +302,8 @@ public class EventsDescription extends Activity {
                     EventsItem testEventsItem = manageDataBase.updateEventsItemCalendar(eventsItem.getId(),
                             eventsItem.getNotificationId());
                     manageDataBase.close();
-                } catch (SQLException e) {}
+                } catch (SQLException e) {
+                }
                 ImageView iv = (ImageView) findViewById(R.id.ic_calendar);
                 iv.setImageResource(R.drawable.ic_calendar_on);
                 findViewById(R.id.calendar_text).setVisibility(View.GONE);
