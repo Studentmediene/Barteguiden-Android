@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -14,23 +15,17 @@ import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.data.db.ManageDataBase;
 import com.underdusken.kulturekalendar.mainhandler.BroadcastNames;
 import com.underdusken.kulturekalendar.sharedpreference.UserFilterPreference;
-import com.underdusken.kulturekalendar.utils.ServiceLoadImage;
+import com.underdusken.kulturekalendar.utils.ImageLoader;
 import com.underdusken.kulturekalendar.utils.SimpleTimeFormat;
 
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Locale;
 
-/**
- * Created with IntelliJ IDEA.
- * User: pavelarteev
- * Date: 10/24/12
- * Time: 7:55 PM
- * To change this template use File | Settings | File Templates.
- */
 public class EventsDescription extends Activity {
 
-    private ServiceLoadImage serviceLoadImage = null;
+    private static final String TAG = "EventsDescription";
+    private ImageLoader imageLoader;
 
     // UI
     private ImageView ivEventImage;
@@ -63,6 +58,8 @@ public class EventsDescription extends Activity {
         if (localeLanguage.contains("norsk")) isNorwegianPhone = true;
         else isNorwegianPhone = false;
 
+        imageLoader = new ImageLoader(this);
+
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
             finish();
@@ -83,12 +80,6 @@ public class EventsDescription extends Activity {
 
         if (eventsItem == null) finish();
         // initialization UI
-
-
-        if (serviceLoadImage == null) {
-            serviceLoadImage = new ServiceLoadImage(this);
-        }
-
         initUI();
 
         // set data to UI
@@ -220,9 +211,13 @@ public class EventsDescription extends Activity {
         if (eventsItem.getFavorite()) ivFavorite.setImageResource(R.drawable.fav_hurt_on);
         else ivFavorite.setImageResource(R.drawable.fav_hurt_off);
 
+        /*
         if (serviceLoadImage != null) {
             serviceLoadImage.loadImage(eventsItem.getImageURL(), ivEventImage, R.drawable.test_bg);
         }
+        */
+        imageLoader.setImageViewResource(ivEventImage, eventsItem.getImageURL());
+        Log.d(TAG, "ImageURL: " + eventsItem.getImageURL());
 
         // Web button
         if (eventsItem.getEventURL().length() > 1) {
@@ -281,25 +276,6 @@ public class EventsDescription extends Activity {
 
         tvDescriptition.setText(globalEventText);
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //Start Image loader
-        if (serviceLoadImage == null) {
-            serviceLoadImage = new ServiceLoadImage(this);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (serviceLoadImage != null) {
-            serviceLoadImage.exit();
-        }
-
-    }
-
 
     private void addToCalendar() {
         if (eventsItem.getNotificationId() == 0) {

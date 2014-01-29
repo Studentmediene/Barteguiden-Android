@@ -1,9 +1,10 @@
 package com.underdusken.kulturekalendar.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.File;
@@ -13,95 +14,110 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.ref.SoftReference;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
-import java.util.Stack;
+import java.util.Map;
 
+/**
+ * Class for downloading and setting a Bitmap to
+ * a ImageView. The class has a static cache. The bitmaps
+ * are either gotten from the cache, from a file in
+ * Context.getCacheDir(), or from the web, with the
+ * specified image URL. The URL is what defines an image.
+ */
 public class ImageLoader {
 
-    private static final String STORE_PLACE = "/Android/data/com.underdusken.kulturekalendar";
-
-    //private HashMap<String, Bitmap> cache = new HashMap<String, Bitmap>();
-    private HashMap<String, SoftReference<Bitmap>> cache = new HashMap<String, SoftReference<Bitmap>>();
-
-    private File cacheDir;
-
-    PhotosQueue photosQueue = new PhotosQueue();
+    private static final String TAG = "ImageLoader";
+    // Cache for holding all images fetched so far.
+    private final static Map<String, Bitmap> cache = new HashMap<String, Bitmap>();
+    ;
+    private final File cacheDir;
 
     public ImageLoader(Context context) {
-        //Make the background thead low priority. This way it will not affect the UI performance
-        photoLoaderThread.setPriority(Thread.NORM_PRIORITY - 1);
-
-        //Find the dir to save cached images
-        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
-            cacheDir = new File(
-                    android.os.Environment.getExternalStorageDirectory() + STORE_PLACE + "/cache");
-        } else {
-            cacheDir = context.getCacheDir();
-        }
-        if (!cacheDir.exists()) cacheDir.mkdirs();
+        cacheDir = context.getCacheDir();
     }
 
-
-    public void DisplayImage(String url, Activity activity, ImageView imageView, int resourceDraw) {
-        if (!url.equalsIgnoreCase("")) {
-            if (cache.containsKey(url)) {
-                //imageView.setImageBitmap(cache.get(url));
-                SoftReference<Bitmap> softRef = cache.get(url);
-                Bitmap bitmap = softRef.get();
-                if (bitmap == null) {
-                    queuePhoto(url, activity, imageView);
-                    imageView.setImageResource(resourceDraw);
-                } else {
-                    imageView.setImageBitmap(softRef.get());
-                    //TODO Maybe check that get reference already NULL =)
+    /**
+     * Sets the Bitmap whose identifier is <code>imageURL</code> as the resource
+     * to <code>imageView</code>.
+     *
+     * @param imageView The <code>ImageView</code> which will hold the image.
+     * @param imageURL  The URL to the image resource.
+     */
+    public void setImageViewResource(final ImageView imageView, final String imageURL) {
+        /*
+         *      This really ugly block is a part of a hack:
+         *      Since we want to load the images off the UI thread we need
+         *      to use a AsyncTask. However, UI elements can't be changed
+         *      off the UI thread. Therefore, we load the image, inserts it into
+         *      the cache, and sets the resource to the imageView.
+         *
+         *      The onPostExecute method is off the UI thread, and it's created
+         *      as an anonymous method so it can have access to both the imageURL and
+         *      the imageView parameters.
+         */
+        new AsyncImageLoader() {
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+                super.onPostExecute(bitmap);
+                synchronized (cache) {
+                    cache.put(imageURL, bitmap);
+                    Log.d(TAG, "Bitmap put in cache.");
                 }
-            } else {
-
-                if (url != null) {
-                    queuePhoto(url, activity, imageView);
-
-                    String filename = String.valueOf(url.hashCode());
-                    File f = new File(cacheDir, filename);
-
-                    //from SD cache
-                    Bitmap b = decodeFile(f);
-                    if (b != null) {
-                        imageView.setImageBitmap(b);
-                        return;
-                    }
-
-                    if (url != null) queuePhoto(url, activity, imageView);
-                }
-
-
-                if (resourceDraw != -1) imageView.setImageResource(resourceDraw);
+                imageView.setImageBitmap(bitmap);
             }
-        } else {
-            if (resourceDraw != -1) imageView.setImageResource(resourceDraw);
+        }.execute(imageURL);
+
+    }
+
+    private class AsyncImageLoader extends AsyncTask<String, Void, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            String imageURL = params[0];
+            // The cache
+            Bitmap bitmap = cache.get(imageURL);
+            if (bitmap != null) {
+                Log.d(TAG, "Found bitmap " + imageURL + " in cache.");
+                return bitmap;
+            }
+            // From file
+            bitmap = getBitmapFromFile(String.valueOf(imageURL.hashCode()));
+            if (bitmap != null) {
+                return bitmap;
+            }
+            // From web
+            bitmap = getBitmapFromWeb(imageURL);
+            if (bitmap != null) {
+                return bitmap;
+            }
+            return null;
         }
     }
 
-    private void queuePhoto(String url, Activity activity, ImageView imageView) {
-        //This ImageView may be used for other images before. So there may be some old tasks in the queue.
-        // We need to discard them.
-        photosQueue.Clean(imageView);
-        PhotoToLoad p = new PhotoToLoad(url, imageView);
-        synchronized (photosQueue.photosToLoad) {
-            photosQueue.photosToLoad.push(p);
-            photosQueue.photosToLoad.notifyAll();
+    /**
+     * Loads a bitmap from cacheDir.
+     *
+     * @param fileName the name of the file containing the bitmap.
+     * @return the Bitmap in the file.
+     */
+    private Bitmap getBitmapFromFile(String fileName) {
+        Log.d(TAG, "getBitmapFromFile: " + fileName);
+        File file = new File(cacheDir, fileName);
+        try {
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(file));
+            return b;
+        } catch (FileNotFoundException e) {
+            Log.d(TAG, "File " + file.toString() + " could not be found");
+            return null;
         }
-
-        //start thread if it's not started yet
-        if (photoLoaderThread.getState() == Thread.State.NEW) photoLoaderThread.start();
     }
 
-    private InputStream getInputStreamFromUrl(String url) {
+    private Bitmap getBitmapFromWeb(String url) {
+        Log.d(TAG, "getBitmapFromWeb: " + url);
         InputStream is = null;
-        URLConnection connection = null;
+        URLConnection connection;
         try {
             URL aURL = new URL(url);
             connection = aURL.openConnection();
@@ -115,158 +131,23 @@ public class ImageLoader {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return is;
+        Bitmap bitmap = BitmapFactory.decodeStream(is);
+        if (bitmap == null) return null;
+        saveBitmapToFile(bitmap, String.valueOf(url.hashCode()));
+        return bitmap;
     }
 
-    private Bitmap getBitmap(String url) {
-        //I identify images by hashcode. Not a perfect solution, good for the demo.
-        if (url == null) return null;
-        String filename = String.valueOf(url.hashCode());
-        File f = new File(cacheDir, filename);
-
-        //from SD cache
-        Bitmap b = decodeFile(f);
-        if (b != null) return b;
-
-        //from web
-        InputStream is = null;
+    private void saveBitmapToFile(Bitmap b, String name) {
+        File f = new File(cacheDir, name);
         try {
-            Bitmap bitmap = null;
-            is = getInputStreamFromUrl(url);
             OutputStream os = new FileOutputStream(f);
-            CopyStream(is, os);
+            b.compress(Bitmap.CompressFormat.JPEG, 100, os);
             os.close();
-            is.close();
-            bitmap = decodeFile(f);
-            return bitmap;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            if (is != null) return BitmapFactory.decodeStream(is);
-            return null;
-        }
-    }
-
-    public void exit() {
-        photoLoaderThread.interrupt();
-    }
-
-    public static void CopyStream(InputStream is, OutputStream os) {
-        final int buffer_size = 1024;
-        try {
-            byte[] bytes = new byte[buffer_size];
-            for (; ; ) {
-                int count = is.read(bytes, 0, buffer_size);
-                if (count == -1) break;
-                os.write(bytes, 0, count);
-            }
-        } catch (Exception ex) {
-        }
-    }
-
-    //decodes image and scales it to reduce memory consumption
-    private Bitmap decodeFile(File f) {
-        try {
-            return BitmapFactory.decodeStream(new FileInputStream(f));
         } catch (FileNotFoundException e) {
-        } catch (Exception e) {}
-        return null;
-    }
-
-    //Task for the queue
-    private class PhotoToLoad {
-        public String url;
-        public ImageView imageView;
-
-        public PhotoToLoad(String u, ImageView i) {
-            url = u;
-            imageView = i;
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }
-
-    public void stopThread() {
-        photoLoaderThread.interrupt();
-    }
-
-    //stores list of photos to download
-    class PhotosQueue {
-        private Stack<PhotoToLoad> photosToLoad = new Stack<PhotoToLoad>();
-
-        //removes all instances of this ImageView
-        public void Clean(ImageView image) {
-            for (int j = 0; j < photosToLoad.size(); ) {
-                ImageView iv = null;
-                try {
-                    iv = photosToLoad.get(j).imageView;
-                } catch (Exception e) {
-                    break;
-                }
-                if (iv == image) photosToLoad.remove(j);
-                else ++j;
-            }
-        }
-    }
-
-    class PhotosLoader extends Thread {
-        public void run() {
-            try {
-                while (true) {
-                    //thread waits until there are any images to load in the queue
-                    if (photosQueue.photosToLoad.size() == 0) synchronized (photosQueue.photosToLoad) {
-                        photosQueue.photosToLoad.wait();
-                    }
-                    if (photosQueue.photosToLoad.size() != 0) {
-                        PhotoToLoad photoToLoad;
-                        synchronized (photosQueue.photosToLoad) {
-                            photoToLoad = photosQueue.photosToLoad.pop();
-                        }
-                        Bitmap bmp = getBitmap(photoToLoad.url);
-                        if (bmp == null) continue;
-
-                        cache.put(photoToLoad.url, new SoftReference<Bitmap>(bmp));
-                        Object tag = photoToLoad.imageView.getTag();
-
-                        if (tag != null && ((String) tag).equals(photoToLoad.url)) {
-                            BitmapDisplayer bd = new BitmapDisplayer(bmp, photoToLoad.imageView);
-                            Activity a = (Activity) photoToLoad.imageView.getContext();
-                            a.runOnUiThread(bd);
-                        }
-                    }
-                    if (Thread.interrupted()) break;
-                }
-            } catch (InterruptedException e) {
-                //allow thread to exit
-            }
-        }
-    }
-
-    PhotosLoader photoLoaderThread = new PhotosLoader();
-
-    //Used to display bitmap in the UI thread
-    class BitmapDisplayer implements Runnable {
-        Bitmap bitmap;
-        ImageView imageView;
-
-        public BitmapDisplayer(Bitmap b, ImageView i) {
-            bitmap = b;
-            imageView = i;
-        }
-
-        public void run() {
-            if (bitmap != null) imageView.setImageBitmap(bitmap);
-/*            else
-                imageView.setImageResource(stub_id);*/
-        }
-    }
-
-    public void clearCache() {
-        //clear memory cache
-        cache.clear();
-
-        //clear SD cache
-        File[] files = cacheDir.listFiles();
-        for (File f : files)
-            f.delete();
     }
 
 }
-
