@@ -19,7 +19,6 @@ import com.underdusken.kulturekalendar.data.db.ManageDataBase;
 import com.underdusken.kulturekalendar.mainhandler.BroadcastNames;
 import com.underdusken.kulturekalendar.ui.activities.EventsDescription;
 import com.underdusken.kulturekalendar.ui.adapters.AdapterEventsItem;
-import com.underdusken.kulturekalendar.utils.ServiceLoadImage;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -41,9 +40,6 @@ public class TabFeatured extends Fragment {
 
     //data
     private long lastEventsId = 0;
-
-    //Image service
-    private ServiceLoadImage serviceLoadImage = null;
 
 
     @Override
@@ -94,9 +90,6 @@ public class TabFeatured extends Fragment {
     public void onPause() {
         super.onPause();
         getActivity().unregisterReceiver(notificationUpdateReciever);
-        if (serviceLoadImage != null) {
-            serviceLoadImage.exit();
-        }
 
     }
 

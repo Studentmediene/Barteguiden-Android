@@ -20,8 +20,7 @@ import com.underdusken.kulturekalendar.data.db.ManageDataBase;
 import com.underdusken.kulturekalendar.mainhandler.BroadcastNames;
 import com.underdusken.kulturekalendar.ui.activities.EventsDescription;
 import com.underdusken.kulturekalendar.ui.adapters.AdapterEventsItem;
-import com.underdusken.kulturekalendar.ui.reveivers.NotificationUpdateReceiver;
-import com.underdusken.kulturekalendar.utils.ServiceLoadImage;
+import com.underdusken.kulturekalendar.ui.receivers.NotificationUpdateReceiver;
 import com.underdusken.kulturekalendar.utils.ToDo;
 
 import java.sql.SQLException;
@@ -54,9 +53,6 @@ public class TabAll extends Fragment {
 
     //data
     private long lastEventsId = -1;      // for getting only new events
-
-    //Image service
-    private ServiceLoadImage serviceLoadImage = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -117,10 +113,6 @@ public class TabAll extends Fragment {
         IntentFilter intentFilterNotificationUpdate = new IntentFilter(BroadcastNames.BROADCAST_NEW_DATA);
         getActivity().registerReceiver(notificationUpdateReceiver, intentFilterNotificationUpdate);
 
-        //Start Image loader
-        serviceLoadImage = new ServiceLoadImage(getActivity());
-        adapterEventsItem.setServiceLoadImage(serviceLoadImage);
-
         if (eventsItemList.size() == 0) {
             getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
         } else {
@@ -131,14 +123,8 @@ public class TabAll extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-
         // unregister reciever
         getActivity().unregisterReceiver(notificationUpdateReceiver);
-
-        if (serviceLoadImage != null) {
-            serviceLoadImage.exit();
-        }
-
     }
 
     /**
@@ -214,7 +200,6 @@ public class TabAll extends Fragment {
      */
     private void createAdapter() {
         adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, filterEventsItem);
-        adapterEventsItem.setServiceLoadImage(serviceLoadImage);
         lvEvents.setAdapter(adapterEventsItem);
         // Open event description
 

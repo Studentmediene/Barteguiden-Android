@@ -9,7 +9,6 @@ import android.widget.*;
 
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventsItem;
-import com.underdusken.kulturekalendar.utils.ServiceLoadImage;
 import com.underdusken.kulturekalendar.utils.SimpleTimeFormat;
 
 import java.util.List;
@@ -26,18 +25,12 @@ public class AdapterEventsItem extends ArrayAdapter<EventsItem> {
     private Context context = null;
     private List<EventsItem> items;
     private LayoutInflater vi = null;
-    // Image Loader handler
-    private ServiceLoadImage serviceLoadImage = null;
 
     public AdapterEventsItem(Context context, int textViewResourceId, List<EventsItem> objects) {
         super(context, textViewResourceId, objects);
         this.items = objects;
         this.context = context;
         this.vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    public void setServiceLoadImage(ServiceLoadImage serviceLoadImage) {
-        this.serviceLoadImage = serviceLoadImage;
     }
 
 

@@ -183,22 +183,25 @@ public class EventsDescription extends Activity {
         tvPlaceName.setText(eventsItem.getPlaceName());
         tvAgeLimit.setText("" + eventsItem.getAgeLimit() + "+");
 
-        if (eventsItem.getCategoryID().equals("SPORT"))
-            ivCategoryId.setImageResource(R.drawable.category_sport_big);
-        else if (eventsItem.getCategoryID().equals("PERFORMANCES"))
-            ivCategoryId.setImageResource(R.drawable.category_performances_big);
-        else if (eventsItem.getCategoryID().equals("MUSIC"))
-            ivCategoryId.setImageResource(R.drawable.category_music_big);
-        else if (eventsItem.getCategoryID().equals("EXHIBITIONS"))
-            ivCategoryId.setImageResource(R.drawable.category_exhibitions_big);
-        else if (eventsItem.getCategoryID().equals("NIGHTLIFE"))
-            ivCategoryId.setImageResource(R.drawable.category_nightlife_big);
-        else if (eventsItem.getCategoryID().equals("PRESENTATIONS"))
-            ivCategoryId.setImageResource(R.drawable.category_presentations_big);
-        else if (eventsItem.getCategoryID().equals("DEBATE"))
-            ivCategoryId.setImageResource(R.drawable.category_debate_big);
-        else if (eventsItem.getCategoryID().equals("OTHER"))
-            ivCategoryId.setImageResource(R.drawable.category_other_big);
+        String category = eventsItem.getCategoryID();
+        int imageResource = 0;
+        if (category.equals("SPORT"))
+            imageResource = R.drawable.category_sport_big;
+        else if (category.equals("PERFORMANCES"))
+            imageResource = R.drawable.category_performances_big;
+        else if (category.equals("MUSIC"))
+            imageResource = R.drawable.category_music_big;
+        else if (category.equals("EXHIBITIONS"))
+            imageResource = R.drawable.category_exhibitions_big;
+        else if (category.equals("NIGHTLIFE"))
+            imageResource = R.drawable.category_nightlife_big;
+        else if (category.equals("PRESENTATIONS"))
+            imageResource = R.drawable.category_presentations_big;
+        else if (category.equals("DEBATE"))
+            imageResource = R.drawable.category_debate_big;
+        else if (category.equals("OTHER"))
+            imageResource = R.drawable.category_other_big;
+        ivCategoryId.setImageResource(imageResource);
 
         int price = (int) eventsItem.getPrice();
         if (price >= 0) {
@@ -210,14 +213,13 @@ public class EventsDescription extends Activity {
         SimpleTimeFormat stf = new SimpleTimeFormat(eventsItem.getDateStart());
         tvDate.setText(stf.getUserHeaderDate());
 
-        if (eventsItem.getFavorite()) ivFavorite.setImageResource(R.drawable.fav_hurt_on);
-        else ivFavorite.setImageResource(R.drawable.fav_hurt_off);
-
-        /*
-        if (serviceLoadImage != null) {
-            serviceLoadImage.loadImage(eventsItem.getImageURL(), ivEventImage, R.drawable.test_bg);
+        if (eventsItem.getFavorite()){
+            ivFavorite.setImageResource(R.drawable.fav_hurt_on);
         }
-        */
+        else {
+            ivFavorite.setImageResource(R.drawable.fav_hurt_off);
+        }
+
         imageLoader.setImageViewResource(ivEventImage, eventsItem.getImageURL());
         Log.d(TAG, "ImageURL: " + eventsItem.getImageURL());
 
@@ -227,7 +229,6 @@ public class EventsDescription extends Activity {
             btWeb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(eventsItem.getEventURL())));
                 }
             });

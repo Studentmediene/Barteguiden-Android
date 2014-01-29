@@ -1,4 +1,4 @@
-package com.underdusken.kulturekalendar.ui.reveivers;
+package com.underdusken.kulturekalendar.ui.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

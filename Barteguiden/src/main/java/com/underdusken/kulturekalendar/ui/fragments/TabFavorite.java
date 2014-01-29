@@ -19,21 +19,13 @@ import com.underdusken.kulturekalendar.data.EventsItem;
 import com.underdusken.kulturekalendar.data.db.ManageDataBase;
 import com.underdusken.kulturekalendar.ui.activities.EventsDescription;
 import com.underdusken.kulturekalendar.ui.adapters.AdapterEventsItem;
-import com.underdusken.kulturekalendar.ui.reveivers.NotificationUpdateReceiver;
-import com.underdusken.kulturekalendar.utils.ServiceLoadImage;
+import com.underdusken.kulturekalendar.ui.receivers.NotificationUpdateReceiver;
 import com.underdusken.kulturekalendar.utils.ToDo;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: pavelarteev
- * Date: 9/25/12
- * Time: 8:09 PM
- * To change this template use File | Settings | File Templates.
- */
 public class TabFavorite extends Fragment {
     // private receivers
     private NotificationUpdateReceiver notificationUpdateReceiver = null;
@@ -50,9 +42,6 @@ public class TabFavorite extends Fragment {
 
     //data
     private long lastEventsId = -1;      // for getting only new events
-
-    //Image service
-    private ServiceLoadImage serviceLoadImage = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -111,15 +100,6 @@ public class TabFavorite extends Fragment {
     public void onResume() {
         super.onResume();
 
-        /*// Reciever for update notifications
-        IntentFilter intentFilterNotificationUpdate = new IntentFilter(BroadcastNames.BROADCAST_NEW_DATA);
-        getActivity().registerReceiver(notificationUpdateReceiver, intentFilterNotificationUpdate);
-*/
-        //Start Image loader
-        serviceLoadImage = new ServiceLoadImage(getActivity());
-        adapterEventsItem.setServiceLoadImage(serviceLoadImage);
-
-        //
         loadEventsFromDb();
         updateFilter();
         updateView();
@@ -138,9 +118,6 @@ public class TabFavorite extends Fragment {
         // unregister reciever
         /// getActivity().unregisterReceiver(notificationUpdateReceiver);
 
-        if (serviceLoadImage != null) {
-            serviceLoadImage.exit();
-        }
 
     }
 
@@ -214,7 +191,6 @@ public class TabFavorite extends Fragment {
      */
     private void createAdapter() {
         adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, filterEventsItem);
-        adapterEventsItem.setServiceLoadImage(serviceLoadImage);
         lvEvents.setAdapter(adapterEventsItem);
         // Open event description
 
