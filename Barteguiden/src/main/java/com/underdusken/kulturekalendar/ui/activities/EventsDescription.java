@@ -11,8 +11,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.underdusken.kulturekalendar.R;
-import com.underdusken.kulturekalendar.data.EventsItem;
-import com.underdusken.kulturekalendar.data.db.ManageDataBase;
+import com.underdusken.kulturekalendar.data.EventItem;
+import com.underdusken.kulturekalendar.data.db.DatabaseManager;
 import com.underdusken.kulturekalendar.mainhandler.BroadcastNames;
 import com.underdusken.kulturekalendar.sharedpreference.UserFilterPreference;
 import com.underdusken.kulturekalendar.utils.ImageLoader;
@@ -42,7 +42,7 @@ public class EventsDescription extends Activity {
     private RelativeLayout btCalendar;
 
 
-    private EventsItem eventsItem = null;
+    private EventItem eventItem = null;
 
     private boolean isNorwegianPhone = true;
     private String globalEventText = "";
@@ -69,31 +69,31 @@ public class EventsDescription extends Activity {
         long eventsId = extras.getLong("events_id");
 
 
-        ManageDataBase manageDataBase = new ManageDataBase(this);
+        DatabaseManager databaseManager = new DatabaseManager(this);
         try {
-            manageDataBase.open();
-            eventsItem = manageDataBase.getEventsItemById(eventsId);
-            manageDataBase.close();
+            databaseManager.open();
+            eventItem = databaseManager.getEventsItemById(eventsId);
+            databaseManager.close();
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
-        if (eventsItem == null) finish();
+        if (eventItem == null) finish();
         // initialization UI
         initUI();
 
         // set data to UI
 
-        setData(eventsItem);
+        setData(eventItem);
 
         findViewById(R.id.bt_share).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
-                String shareBody = "Join me at " + eventsItem.getTitle();
-                if (eventsItem.getEventURL().length() > 0) {
-                    shareBody += " (" + eventsItem.getEventURL() + ")";
+                String shareBody = "Join me at " + eventItem.getTitle();
+                if (eventItem.getEventURL().length() > 0) {
+                    shareBody += " (" + eventItem.getEventURL() + ")";
                 }
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Event in Trondheim");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
@@ -134,30 +134,30 @@ public class EventsDescription extends Activity {
         ivFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!eventsItem.getFavorite()) {
-                    eventsItem.setFavorite(true);
-                    ManageDataBase manageDataBase = new ManageDataBase(EventsDescription.this);
+                if (!eventItem.getFavorite()) {
+                    eventItem.setFavorite(true);
+                    DatabaseManager databaseManager = new DatabaseManager(EventsDescription.this);
                     try {
-                        manageDataBase.open();
-                        EventsItem testEventsItem = manageDataBase.updateEventsItemFavorites(
-                                eventsItem.getId(), true);
-                        manageDataBase.close();
+                        databaseManager.open();
+                        EventItem testEventItem = databaseManager.updateEventsItemFavorites(
+                                eventItem.getId(), true);
+                        databaseManager.close();
                     } catch (SQLException e) {
                     }
 
                 } else {
-                    eventsItem.setFavorite(false);
-                    ManageDataBase manageDataBase = new ManageDataBase(EventsDescription.this);
+                    eventItem.setFavorite(false);
+                    DatabaseManager databaseManager = new DatabaseManager(EventsDescription.this);
                     try {
-                        manageDataBase.open();
-                        EventsItem testEventsItem = manageDataBase.updateEventsItemFavorites(
-                                eventsItem.getId(), false);
-                        manageDataBase.close();
+                        databaseManager.open();
+                        EventItem testEventItem = databaseManager.updateEventsItemFavorites(
+                                eventItem.getId(), false);
+                        databaseManager.close();
                     } catch (SQLException e) {
                     }
 
                 }
-                if (eventsItem.getFavorite()) {
+                if (eventItem.getFavorite()) {
                     ivFavorite.setImageResource(R.drawable.fav_hurt_on);
                     if (new UserFilterPreference(EventsDescription.this).isAutoAddToCalendar())
                         addToCalendar();
@@ -178,12 +178,12 @@ public class EventsDescription extends Activity {
     }
 
     // set data to UI
-    private void setData(final EventsItem eventsItem) {
-        tvTitle.setText(eventsItem.getTitle());
-        tvPlaceName.setText(eventsItem.getPlaceName());
-        tvAgeLimit.setText("" + eventsItem.getAgeLimit() + "+");
+    private void setData(final EventItem eventItem) {
+        tvTitle.setText(eventItem.getTitle());
+        tvPlaceName.setText(eventItem.getPlaceName());
+        tvAgeLimit.setText("" + eventItem.getAgeLimit() + "+");
 
-        String category = eventsItem.getCategoryID();
+        String category = eventItem.getCategoryID();
         int imageResource = 0;
         if (category.equals("SPORT"))
             imageResource = R.drawable.category_sport_big;
@@ -203,33 +203,33 @@ public class EventsDescription extends Activity {
             imageResource = R.drawable.category_other_big;
         ivCategoryId.setImageResource(imageResource);
 
-        int price = (int) eventsItem.getPrice();
+        int price = (int) eventItem.getPrice();
         if (price >= 0) {
             if (price == 0) tvPrice.setText("Free");
             else tvPrice.setText("" + price + " kr");
         }
 
 
-        SimpleTimeFormat stf = new SimpleTimeFormat(eventsItem.getDateStart());
+        SimpleTimeFormat stf = new SimpleTimeFormat(eventItem.getDateStart());
         tvDate.setText(stf.getUserHeaderDate());
 
-        if (eventsItem.getFavorite()){
+        if (eventItem.getFavorite()) {
             ivFavorite.setImageResource(R.drawable.fav_hurt_on);
         }
         else {
             ivFavorite.setImageResource(R.drawable.fav_hurt_off);
         }
 
-        imageLoader.setImageViewResource(ivEventImage, eventsItem.getImageURL());
-        Log.d(TAG, "ImageURL: " + eventsItem.getImageURL());
+        imageLoader.setImageViewResource(ivEventImage, eventItem.getImageURL());
+        Log.d(TAG, "ImageURL: " + eventItem.getImageURL());
 
         // Web button
-        if (eventsItem.getEventURL().length() > 1) {
+        if (eventItem.getEventURL().length() > 1) {
             btWeb.setVisibility(View.VISIBLE);
             btWeb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(eventsItem.getEventURL())));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(eventItem.getEventURL())));
                 }
             });
         } else {
@@ -237,16 +237,16 @@ public class EventsDescription extends Activity {
         }
 
         // Map button
-        if (eventsItem.getIsGeo()) {
+        if (eventItem.getIsGeo()) {
             btMap.setVisibility(View.VISIBLE);
             btMap.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(EventsDescription.this, EventsMap.class);
-                    intent.putExtra("events_latitude", eventsItem.getGeoLatitude());
-                    intent.putExtra("events_longitude", eventsItem.getGeoLongitude());
-                    intent.putExtra("events_title", eventsItem.getTitle());
-                    intent.putExtra("events_place_name", eventsItem.getPlaceName());
+                    intent.putExtra("events_latitude", eventItem.getGeoLatitude());
+                    intent.putExtra("events_longitude", eventItem.getGeoLongitude());
+                    intent.putExtra("events_title", eventItem.getTitle());
+                    intent.putExtra("events_place_name", eventItem.getPlaceName());
 
                     startActivity(intent);
                 }
@@ -255,7 +255,7 @@ public class EventsDescription extends Activity {
             btMap.setVisibility(View.GONE);
         }
 
-        if (eventsItem.getNotificationId() != 0) {
+        if (eventItem.getNotificationId() != 0) {
             ImageView iv = (ImageView) findViewById(R.id.ic_calendar);
             iv.setImageResource(R.drawable.ic_calendar_on);
             findViewById(R.id.calendar_text).setVisibility(View.GONE);
@@ -264,16 +264,16 @@ public class EventsDescription extends Activity {
 
         // Get correct language text
         if (isNorwegianPhone) {
-            if (eventsItem.getDescriptionNorwegian().length() > 0) {
-                globalEventText = eventsItem.getDescriptionNorwegian();
+            if (eventItem.getDescriptionNorwegian().length() > 0) {
+                globalEventText = eventItem.getDescriptionNorwegian();
             } else {
-                globalEventText = eventsItem.getDescriptionEnglish();
+                globalEventText = eventItem.getDescriptionEnglish();
             }
         } else {
-            if (eventsItem.getDescriptionEnglish().length() > 0) {
-                globalEventText = eventsItem.getDescriptionEnglish();
+            if (eventItem.getDescriptionEnglish().length() > 0) {
+                globalEventText = eventItem.getDescriptionEnglish();
             } else {
-                globalEventText = eventsItem.getDescriptionNorwegian();
+                globalEventText = eventItem.getDescriptionNorwegian();
             }
         }
 
@@ -281,28 +281,28 @@ public class EventsDescription extends Activity {
     }
 
     private void addToCalendar() {
-        if (eventsItem.getNotificationId() == 0) {
+        if (eventItem.getNotificationId() == 0) {
 
-            eventsItem.setNotificationId(1);
+            eventItem.setNotificationId(1);
 
 
-            long eventStartTime = new SimpleTimeFormat(eventsItem.getDateStart()).getMs();
+            long eventStartTime = new SimpleTimeFormat(eventItem.getDateStart()).getMs();
             Calendar cal = Calendar.getInstance();
             Intent intent = new Intent(Intent.ACTION_EDIT);
             intent.setType("vnd.android.cursor.item/event");
             intent.putExtra("beginTime", eventStartTime);
             intent.putExtra("endTime", eventStartTime + 1000 * 60 * 60);
-            intent.putExtra("title", eventsItem.getTitle());
-            intent.putExtra("eventLocation", eventsItem.getPlaceName());
+            intent.putExtra("title", eventItem.getTitle());
+            intent.putExtra("eventLocation", eventItem.getPlaceName());
             intent.putExtra("description", globalEventText);
             try {
                 startActivity(intent);
-                ManageDataBase manageDataBase = new ManageDataBase(EventsDescription.this);
+                DatabaseManager databaseManager = new DatabaseManager(EventsDescription.this);
                 try {
-                    manageDataBase.open();
-                    EventsItem testEventsItem = manageDataBase.updateEventsItemCalendar(eventsItem.getId(),
-                            eventsItem.getNotificationId());
-                    manageDataBase.close();
+                    databaseManager.open();
+                    EventItem testEventItem = databaseManager.updateEventsItemCalendar(eventItem.getId(),
+                            eventItem.getNotificationId());
+                    databaseManager.close();
                 } catch (SQLException e) {
                 }
                 ImageView iv = (ImageView) findViewById(R.id.ic_calendar);

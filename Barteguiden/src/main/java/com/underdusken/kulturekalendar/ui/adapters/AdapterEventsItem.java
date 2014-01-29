@@ -5,10 +5,13 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.underdusken.kulturekalendar.R;
-import com.underdusken.kulturekalendar.data.EventsItem;
+import com.underdusken.kulturekalendar.data.EventItem;
 import com.underdusken.kulturekalendar.utils.SimpleTimeFormat;
 
 import java.util.List;
@@ -20,13 +23,13 @@ import java.util.List;
  * Time: 1:26 PM
  * To change this template use File | Settings | File Templates.
  */
-public class AdapterEventsItem extends ArrayAdapter<EventsItem> {
+public class AdapterEventsItem extends ArrayAdapter<EventItem> {
 
     private Context context = null;
-    private List<EventsItem> items;
+    private List<EventItem> items;
     private LayoutInflater vi = null;
 
-    public AdapterEventsItem(Context context, int textViewResourceId, List<EventsItem> objects) {
+    public AdapterEventsItem(Context context, int textViewResourceId, List<EventItem> objects) {
         super(context, textViewResourceId, objects);
         this.items = objects;
         this.context = context;
@@ -66,7 +69,7 @@ public class AdapterEventsItem extends ArrayAdapter<EventsItem> {
 
         if (position >= 0 && position < items.size()) {
 
-            final EventsItem eventsItem = items.get(items.size() - position - 1);
+            final EventItem eventItem = items.get(items.size() - position - 1);
 
             String datePrevHeader = "";
             SimpleTimeFormat dateNow = null;
@@ -74,14 +77,15 @@ public class AdapterEventsItem extends ArrayAdapter<EventsItem> {
 
             // Set group header (Date)
             boolean _header;
-            dateNow = new SimpleTimeFormat(eventsItem.getDateStart());
+            dateNow = new SimpleTimeFormat(eventItem.getDateStart());
             dateNowHeader = dateNow.getUserHeaderDate();
             if (position == 0) {
                 _header = true;
             } else {
-                EventsItem eventsItemPrev = items.get(items.size() - position);
-                datePrevHeader = new SimpleTimeFormat(eventsItemPrev.getDateStart()).getUserHeaderDate();
-                if (datePrevHeader != null) _header = !datePrevHeader.equalsIgnoreCase(dateNowHeader);
+                EventItem eventItemPrev = items.get(items.size() - position);
+                datePrevHeader = new SimpleTimeFormat(eventItemPrev.getDateStart()).getUserHeaderDate();
+                if (datePrevHeader != null)
+                    _header = !datePrevHeader.equalsIgnoreCase(dateNowHeader);
                 else _header = false;
             }
 
@@ -93,33 +97,33 @@ public class AdapterEventsItem extends ArrayAdapter<EventsItem> {
             }
 
 
-            viewHolder.tvName.setText(eventsItem.getTitle());
+            viewHolder.tvName.setText(eventItem.getTitle());
 
             // Set price for event
-            if (eventsItem.getPrice() == 0) {
+            if (eventItem.getPrice() == 0) {
                 viewHolder.tvPrice.setText("Free");
             } else {
-                viewHolder.tvPrice.setText((int) (eventsItem.getPrice()) + " Kr");
+                viewHolder.tvPrice.setText((int) (eventItem.getPrice()) + " Kr");
             }
 
             // Set events place
-            viewHolder.tvPlace.setText(dateNow.getUserTimeDate() + "  " + eventsItem.getPlaceName());
+            viewHolder.tvPlace.setText(dateNow.getUserTimeDate() + "  " + eventItem.getPlaceName());
 
-            if (eventsItem.getCategoryID().equals("SPORT"))
+            if (eventItem.getCategoryID().equals("SPORT"))
                 viewHolder.ivPicture.setImageResource(R.drawable.category_sport);
-            else if (eventsItem.getCategoryID().equals("PERFORMANCES"))
+            else if (eventItem.getCategoryID().equals("PERFORMANCES"))
                 viewHolder.ivPicture.setImageResource(R.drawable.category_performances);
-            else if (eventsItem.getCategoryID().equals("MUSIC"))
+            else if (eventItem.getCategoryID().equals("MUSIC"))
                 viewHolder.ivPicture.setImageResource(R.drawable.category_music);
-            else if (eventsItem.getCategoryID().equals("EXHIBITIONS"))
+            else if (eventItem.getCategoryID().equals("EXHIBITIONS"))
                 viewHolder.ivPicture.setImageResource(R.drawable.category_exhibitions);
-            else if (eventsItem.getCategoryID().equals("NIGHTLIFE"))
+            else if (eventItem.getCategoryID().equals("NIGHTLIFE"))
                 viewHolder.ivPicture.setImageResource(R.drawable.category_nightlife);
-            else if (eventsItem.getCategoryID().equals("PRESENTATIONS"))
+            else if (eventItem.getCategoryID().equals("PRESENTATIONS"))
                 viewHolder.ivPicture.setImageResource(R.drawable.category_presentations);
-            else if (eventsItem.getCategoryID().equals("DEBATE"))
+            else if (eventItem.getCategoryID().equals("DEBATE"))
                 viewHolder.ivPicture.setImageResource(R.drawable.category_debate);
-            else if (eventsItem.getCategoryID().equals("OTHER"))
+            else if (eventItem.getCategoryID().equals("OTHER"))
                 viewHolder.ivPicture.setImageResource(R.drawable.category_other);
         }
 

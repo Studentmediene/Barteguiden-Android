@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 
-import com.underdusken.kulturekalendar.data.EventsItem;
-import com.underdusken.kulturekalendar.data.db.ManageDataBase;
+import com.underdusken.kulturekalendar.data.EventItem;
+import com.underdusken.kulturekalendar.data.db.DatabaseManager;
 import com.underdusken.kulturekalendar.json.JsonParseEvents;
 import com.underdusken.kulturekalendar.network.NetworkRequest;
 import com.underdusken.kulturekalendar.utils.NetworkLinks;
@@ -69,7 +69,7 @@ public class MainHandler {
     }
 
 
-    private class UpdateDataThread extends AsyncTask<Void, EventsItem, Boolean> {
+    private class UpdateDataThread extends AsyncTask<Void, EventItem, Boolean> {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
@@ -79,10 +79,10 @@ public class MainHandler {
             String result = networkRequest.getInputStreamFromUrl(NetworkLinks.JSON_DATA);
 
             if (result != null) {
-                List<EventsItem> newEventsList = JsonParseEvents.parse(result);
+                List<EventItem> newEventsList = JsonParseEvents.parse(result);
                 if (newEventsList != null) {
-                    for (EventsItem eventsItem : newEventsList) {              // add information to DB
-                        onProgressUpdate(eventsItem);
+                    for (EventItem eventItem : newEventsList) {              // add information to DB
+                        onProgressUpdate(eventItem);
                     }
                 }
                 return true;
@@ -92,13 +92,13 @@ public class MainHandler {
 
 
         @Override
-        protected void onProgressUpdate(EventsItem... values) {
+        protected void onProgressUpdate(EventItem... values) {
             if (values.length > 0) {
-                ManageDataBase manageDataBase = new ManageDataBase(context);
+                DatabaseManager databaseManager = new DatabaseManager(context);
                 try {
-                    manageDataBase.open();
-                    manageDataBase.addEventItem(values[0]);
-                    manageDataBase.close();
+                    databaseManager.open();
+                    databaseManager.addEventItem(values[0]);
+                    databaseManager.close();
                 } catch (SQLException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File
                     // Templates.

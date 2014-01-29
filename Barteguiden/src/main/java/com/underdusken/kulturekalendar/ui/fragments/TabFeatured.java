@@ -14,8 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.underdusken.kulturekalendar.R;
-import com.underdusken.kulturekalendar.data.EventsItem;
-import com.underdusken.kulturekalendar.data.db.ManageDataBase;
+import com.underdusken.kulturekalendar.data.EventItem;
+import com.underdusken.kulturekalendar.data.db.DatabaseManager;
 import com.underdusken.kulturekalendar.mainhandler.BroadcastNames;
 import com.underdusken.kulturekalendar.ui.activities.EventsDescription;
 import com.underdusken.kulturekalendar.ui.adapters.AdapterEventsItem;
@@ -33,7 +33,7 @@ public class TabFeatured extends Fragment {
 
 
     private AdapterEventsItem adapterEventsItem = null;
-    private List<EventsItem> eventsItemList = new ArrayList<EventsItem>();
+    private List<EventItem> eventItemList = new ArrayList<EventItem>();
 
     private ListView lvEvents = null;
 
@@ -61,7 +61,7 @@ public class TabFeatured extends Fragment {
         //Initialization adapter for ListView
         setListViewAdapter();
 
-        if (eventsItemList.size() == 0) {
+        if (eventItemList.size() == 0) {
             getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
         } else {
             getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
@@ -79,7 +79,7 @@ public class TabFeatured extends Fragment {
 
         getActivity().registerReceiver(notificationUpdateReciever, intentFilterNotificationUpdate);
 
-        if (eventsItemList.size() == 0) {
+        if (eventItemList.size() == 0) {
             getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
         } else {
             getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
@@ -95,25 +95,25 @@ public class TabFeatured extends Fragment {
 
 
     private void loadEventsFromDb() {
-        ManageDataBase manageDataBase = new ManageDataBase(getActivity());
+        DatabaseManager databaseManager = new DatabaseManager(getActivity());
         try {
-            manageDataBase.open();
-            List<EventsItem> newEventsItemList = manageDataBase.getAllEventsItemFromId(lastEventsId);
+            databaseManager.open();
+            List<EventItem> newEventItemList = databaseManager.getAllEventsItemFromId(lastEventsId);
 
-            if (newEventsItemList != null) if (newEventsItemList.size() > 0) {
+            if (newEventItemList != null) if (newEventItemList.size() > 0) {
                 //Delete no events title
                 getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
 
-                lastEventsId = newEventsItemList.get(newEventsItemList.size() - 1).getId();
-                for (EventsItem eventsItem : newEventsItemList) {
-                    if (eventsItem.getIsRecommended() == true) {
-                        eventsItemList.add(eventsItem);
+                lastEventsId = newEventItemList.get(newEventItemList.size() - 1).getId();
+                for (EventItem eventItem : newEventItemList) {
+                    if (eventItem.getIsRecommended()) {
+                        eventItemList.add(eventItem);
                     }
                 }
-                eventsItemList = ManageDataBase.sortEventsByDate(eventsItemList);
+                eventItemList = DatabaseManager.sortEventsByDate(eventItemList);
 
             }
-            manageDataBase.close();
+            databaseManager.close();
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -121,7 +121,7 @@ public class TabFeatured extends Fragment {
     }
 
     private void setListViewAdapter() {
-        adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, eventsItemList);
+        adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, eventItemList);
 
         lvEvents.setAdapter(adapterEventsItem);
         // Open event description
@@ -131,7 +131,7 @@ public class TabFeatured extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(TabFeatured.this.getActivity(), EventsDescription.class);
 
-                intent.putExtra("events_id", eventsItemList.get(eventsItemList.size() - i - 1).getId());
+                intent.putExtra("events_id", eventItemList.get(eventItemList.size() - i - 1).getId());
 
                 startActivityForResult(intent, 1);
             }

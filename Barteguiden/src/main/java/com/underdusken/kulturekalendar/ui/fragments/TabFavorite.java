@@ -15,8 +15,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.underdusken.kulturekalendar.R;
-import com.underdusken.kulturekalendar.data.EventsItem;
-import com.underdusken.kulturekalendar.data.db.ManageDataBase;
+import com.underdusken.kulturekalendar.data.EventItem;
+import com.underdusken.kulturekalendar.data.db.DatabaseManager;
 import com.underdusken.kulturekalendar.ui.activities.EventsDescription;
 import com.underdusken.kulturekalendar.ui.adapters.AdapterEventsItem;
 import com.underdusken.kulturekalendar.ui.receivers.NotificationUpdateReceiver;
@@ -32,8 +32,8 @@ public class TabFavorite extends Fragment {
 
     // Items for list
     private AdapterEventsItem adapterEventsItem = null;
-    private List<EventsItem> eventsItemList = new ArrayList<EventsItem>();
-    private List<EventsItem> filterEventsItem = new ArrayList<EventsItem>();
+    private List<EventItem> eventItemList = new ArrayList<EventItem>();
+    private List<EventItem> filterEventItem = new ArrayList<EventItem>();
 
     // ui
     private ListView lvEvents = null;
@@ -88,7 +88,7 @@ public class TabFavorite extends Fragment {
         // Set view
         createAdapter();
 
-        if (eventsItemList.size() == 0) {
+        if (eventItemList.size() == 0) {
             getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
         } else {
             getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
@@ -104,7 +104,7 @@ public class TabFavorite extends Fragment {
         updateFilter();
         updateView();
 
-        if (eventsItemList.size() == 0) {
+        if (eventItemList.size() == 0) {
             getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
         } else {
             getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
@@ -127,10 +127,12 @@ public class TabFavorite extends Fragment {
     private TextWatcher filterTextWatcher = new TextWatcher() {
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
 
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         @Override
         public void afterTextChanged(Editable s) {
@@ -145,13 +147,13 @@ public class TabFavorite extends Fragment {
      */
     private void updateFilter() {
         String searchText = etSearch.getText().toString().toLowerCase();
-        filterEventsItem.clear();
-        if (eventsItemList != null) if (searchText.equals("")) {
-            filterEventsItem.addAll(eventsItemList);
+        filterEventItem.clear();
+        if (eventItemList != null) if (searchText.equals("")) {
+            filterEventItem.addAll(eventItemList);
         } else {
-            for (EventsItem eventsItem : eventsItemList) {
-                if (eventsItem.getTitle().toLowerCase().contains(searchText)) {
-                    filterEventsItem.add(eventsItem);
+            for (EventItem eventItem : eventItemList) {
+                if (eventItem.getTitle().toLowerCase().contains(searchText)) {
+                    filterEventItem.add(eventItem);
                 }
             }
         }
@@ -161,25 +163,25 @@ public class TabFavorite extends Fragment {
      * Load data from DataBase (all)
      */
     private void loadEventsFromDb() {
-        ManageDataBase manageDataBase = new ManageDataBase(getActivity());
+        DatabaseManager databaseManager = new DatabaseManager(getActivity());
         try {
-            manageDataBase.open();
-            List<EventsItem> newEventsItemList = manageDataBase.getAllEventsFavorites();
-            eventsItemList.clear();
-            if (newEventsItemList != null) {
-                if (newEventsItemList.size() > 0) {
+            databaseManager.open();
+            List<EventItem> newEventItemList = databaseManager.getAllEventsFavorites();
+            eventItemList.clear();
+            if (newEventItemList != null) {
+                if (newEventItemList.size() > 0) {
                     //Delete no events title
                     getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
 
-                    lastEventsId = newEventsItemList.get(newEventsItemList.size() - 1).getId();
+                    lastEventsId = newEventItemList.get(newEventItemList.size() - 1).getId();
 
-                    for (EventsItem eventsItem : newEventsItemList) {
-                        eventsItemList.add(eventsItem);
+                    for (EventItem eventItem : newEventItemList) {
+                        eventItemList.add(eventItem);
                     }
-                    eventsItemList = ManageDataBase.sortEventsByDate(eventsItemList);
+                    eventItemList = DatabaseManager.sortEventsByDate(eventItemList);
                 }
             }
-            manageDataBase.close();
+            databaseManager.close();
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -190,7 +192,7 @@ public class TabFavorite extends Fragment {
      * Create new list Adapter
      */
     private void createAdapter() {
-        adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, filterEventsItem);
+        adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, filterEventItem);
         lvEvents.setAdapter(adapterEventsItem);
         // Open event description
 
@@ -199,7 +201,7 @@ public class TabFavorite extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(TabFavorite.this.getActivity(), EventsDescription.class);
 
-                intent.putExtra("events_id", filterEventsItem.get(filterEventsItem.size() - i - 1).getId());
+                intent.putExtra("events_id", filterEventItem.get(filterEventItem.size() - i - 1).getId());
 
                 startActivityForResult(intent, 1);
             }

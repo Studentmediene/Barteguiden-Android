@@ -1,4 +1,5 @@
 package com.underdusken.kulturekalendar.ui.fragments;
+
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -15,8 +16,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.underdusken.kulturekalendar.R;
-import com.underdusken.kulturekalendar.data.EventsItem;
-import com.underdusken.kulturekalendar.data.db.ManageDataBase;
+import com.underdusken.kulturekalendar.data.EventItem;
+import com.underdusken.kulturekalendar.data.db.DatabaseManager;
 import com.underdusken.kulturekalendar.mainhandler.BroadcastNames;
 import com.underdusken.kulturekalendar.sharedpreference.UserFilterPreference;
 import com.underdusken.kulturekalendar.ui.activities.EventsDescription;
@@ -43,8 +44,8 @@ public class TabFree extends Fragment {
 
     // Items for list
     private AdapterEventsItem adapterEventsItem = null;
-    private List<EventsItem> eventsItemList = new ArrayList<EventsItem>();
-    private List<EventsItem> filterEventsItem = new ArrayList<EventsItem>();
+    private List<EventItem> eventItemList = new ArrayList<EventItem>();
+    private List<EventItem> filterEventItem = new ArrayList<EventItem>();
 
 
     // ui
@@ -110,7 +111,7 @@ public class TabFree extends Fragment {
         // Set view
         createAdapter();
 
-        if (eventsItemList.size() == 0) {
+        if (eventItemList.size() == 0) {
             getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
         } else {
             getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
@@ -129,7 +130,7 @@ public class TabFree extends Fragment {
         updateFilter();
         updateView();
 
-        if (eventsItemList.size() == 0) {
+        if (eventItemList.size() == 0) {
             getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
         } else {
             getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
@@ -195,27 +196,27 @@ public class TabFree extends Fragment {
         getUserFilters();
 
         String searchText = etSearch.getText().toString().toLowerCase();
-        filterEventsItem.clear();
-        if (eventsItemList != null) {
-            for (EventsItem eventsItem : eventsItemList) {
-                if (eventsItem.getTitle().toLowerCase().contains(searchText) || searchText.equals("")) {
+        filterEventItem.clear();
+        if (eventItemList != null) {
+            for (EventItem eventItem : eventItemList) {
+                if (eventItem.getTitle().toLowerCase().contains(searchText) || searchText.equals("")) {
                     // start user filters
                     // price
                     switch (_price) {
                         case 1:
-                            if (eventsItem.getPrice() == 0) continue;
+                            if (eventItem.getPrice() == 0) continue;
                             break;
                         case 2:
-                            if (eventsItem.getPrice() != 0) continue;
+                            if (eventItem.getPrice() != 0) continue;
                             break;
                     }
                     // age limit
-                    if (_ageLimit == 1) if (eventsItem.getAgeLimit() > _myAge) continue;
+                    if (_ageLimit == 1) if (eventItem.getAgeLimit() > _myAge) continue;
 
                     //"SPORT", "PERFORMANCES", "MUSIC", "EXHIBITIONS", "NIGHTLIFE", "PRESENTATIONS",
                     // "DEBATE", "OTHER"
                     // categories
-                    String eventType = eventsItem.getCategoryID();
+                    String eventType = eventItem.getCategoryID();
                     if (eventType.equals("SPORT")) {
                         if (!_cat1) continue;
                     } else if (eventType.equals("PERFORMANCES")) {
@@ -236,7 +237,7 @@ public class TabFree extends Fragment {
                         continue;
                     }
 
-                    filterEventsItem.add(eventsItem);
+                    filterEventItem.add(eventItem);
                 }
             }
         }
@@ -246,23 +247,23 @@ public class TabFree extends Fragment {
      * Load data from DataBase (all)
      */
     private void loadEventsFromDb() {
-        ManageDataBase manageDataBase = new ManageDataBase(getActivity());
+        DatabaseManager databaseManager = new DatabaseManager(getActivity());
         try {
-            manageDataBase.open();
-            List<EventsItem> newEventsItemList = manageDataBase.getAllEventsItemFromId(lastEventsId);
+            databaseManager.open();
+            List<EventItem> newEventItemList = databaseManager.getAllEventsItemFromId(lastEventsId);
 
-            if (newEventsItemList != null) if (newEventsItemList.size() > 0) {
+            if (newEventItemList != null) if (newEventItemList.size() > 0) {
                 //Delete no events title
                 getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
 
-                lastEventsId = newEventsItemList.get(newEventsItemList.size() - 1).getId();
-                for (EventsItem eventsItem : newEventsItemList) {
-                    eventsItemList.add(eventsItem);
+                lastEventsId = newEventItemList.get(newEventItemList.size() - 1).getId();
+                for (EventItem eventItem : newEventItemList) {
+                    eventItemList.add(eventItem);
                 }
-                eventsItemList = ManageDataBase.sortEventsByDate(eventsItemList);
+                eventItemList = DatabaseManager.sortEventsByDate(eventItemList);
 
             }
-            manageDataBase.close();
+            databaseManager.close();
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -273,7 +274,7 @@ public class TabFree extends Fragment {
      * Create new list Adapter
      */
     private void createAdapter() {
-        adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, filterEventsItem);
+        adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, filterEventItem);
         lvEvents.setAdapter(adapterEventsItem);
         // Open event description
 
@@ -281,7 +282,7 @@ public class TabFree extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(TabFree.this.getActivity(), EventsDescription.class);
-                intent.putExtra("events_id", filterEventsItem.get(filterEventsItem.size() - i - 1).getId());
+                intent.putExtra("events_id", filterEventItem.get(filterEventItem.size() - i - 1).getId());
                 startActivityForResult(intent, 1);
             }
         });

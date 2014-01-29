@@ -2,7 +2,7 @@ package com.underdusken.kulturekalendar.json;
 
 import android.util.Log;
 
-import com.underdusken.kulturekalendar.data.EventsItem;
+import com.underdusken.kulturekalendar.data.EventItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,10 +20,10 @@ import java.util.List;
  * return null if something wrong
  */
 public class JsonParseEvents {
-    static public List<EventsItem> parse(String input) {
+    static public List<EventItem> parse(String input) {
         if (input == null) return null;
 
-        List<EventsItem> eventsList = new ArrayList<EventsItem>();
+        List<EventItem> eventsList = new ArrayList<EventItem>();
 
         try {
             JSONObject object = new JSONObject(input);
@@ -36,61 +36,61 @@ public class JsonParseEvents {
             }
 
             for (int i = 0; i < eventsArray.length(); i++) {
-                EventsItem eventsItem = new EventsItem();
+                EventItem eventItem = new EventItem();
                 JSONObject eventObject = eventsArray.getJSONObject(i);
 
                 try {
-                    eventsItem.setEventsId(eventObject.getString("eventID"));
+                    eventItem.setEventsId(eventObject.getString("eventID"));
                 } catch (Exception e) {
-                    eventsItem.setEventsId("0");
+                    eventItem.setEventsId("0");
                 }
                 try {
-                    eventsItem.setTitle(eventObject.getString("title"));
+                    eventItem.setTitle(eventObject.getString("title"));
                 } catch (Exception e) {
-                    eventsItem.setTitle("");
+                    eventItem.setTitle("");
                 }
                 try {
-                    eventsItem.setCategoryID(eventObject.getString("categoryID"));
+                    eventItem.setCategoryID(eventObject.getString("categoryID"));
                 } catch (Exception e) {
-                    eventsItem.setCategoryID("");
+                    eventItem.setCategoryID("");
                 }
                 try {
-                    eventsItem.setAddress(eventObject.getString("address"));
+                    eventItem.setAddress(eventObject.getString("address"));
                 } catch (Exception e) {
-                    eventsItem.setAddress("");
+                    eventItem.setAddress("");
                 }
                 try {
-                    eventsItem.setGeoLatitude((float) eventObject.getDouble("latitude"));
-                    eventsItem.setIsGeo(true);
+                    eventItem.setGeoLatitude((float) eventObject.getDouble("latitude"));
+                    eventItem.setIsGeo(true);
                 } catch (Exception e) {
-                    eventsItem.setGeoLatitude(200.0f);
+                    eventItem.setGeoLatitude(200.0f);
                 }
                 try {
-                    eventsItem.setGeoLongitude((float) eventObject.getDouble("longitude"));
+                    eventItem.setGeoLongitude((float) eventObject.getDouble("longitude"));
                 } catch (Exception e) {
-                    eventsItem.setGeoLongitude(200.0f);
+                    eventItem.setGeoLongitude(200.0f);
                 }
                 try {
-                    eventsItem.setDateStart(eventObject.getString("startAt"));
+                    eventItem.setDateStart(eventObject.getString("startAt"));
                 } catch (Exception e) {
-                    eventsItem.setDateStart("");
+                    eventItem.setDateStart("");
                 }
 
                 try {
-                    eventsItem.setPrice(eventObject.getInt("price"));
+                    eventItem.setPrice(eventObject.getInt("price"));
                 } catch (Exception e) {
-                    eventsItem.setPrice(0);
+                    eventItem.setPrice(0);
                 }
                 try {
-                    eventsItem.setAgeLimit(eventObject.getInt("ageLimit"));
+                    eventItem.setAgeLimit(eventObject.getInt("ageLimit"));
                 } catch (Exception e) {
-                    eventsItem.setAgeLimit(0);
+                    eventItem.setAgeLimit(0);
                 }
                 /*
                 try {
-                    eventsItem.setBeerPrice((float) eventObject.getDouble("beerPrice"));
+                    eventItem.setBeerPrice((float) eventObject.getDouble("beerPrice"));
                 } catch (Exception e) {
-                    eventsItem.setBeerPrice(0.0f);
+                    eventItem.setBeerPrice(0.0f);
                 }*/
 
 
@@ -98,8 +98,8 @@ public class JsonParseEvents {
                 try {
                     descriptionArray = eventObject.getJSONArray("descriptions");
                 } catch (Exception e) {
-                    eventsItem.setDescriptionEnglish("");
-                    eventsItem.setDescriptionNorwegian("");
+                    eventItem.setDescriptionEnglish("");
+                    eventItem.setDescriptionNorwegian("");
                 }
 
                 if (descriptionArray != null) {
@@ -118,37 +118,37 @@ public class JsonParseEvents {
                         }
 
                         if (language.equals("en")) {
-                            eventsItem.setDescriptionEnglish(text);
+                            eventItem.setDescriptionEnglish(text);
                         } else if (language.equals("nb")) {
-                            eventsItem.setDescriptionNorwegian(text);
+                            eventItem.setDescriptionNorwegian(text);
                         }
                     }
                 }
                 try {
-                    eventsItem.setPlaceName(eventObject.getString("placeName"));
+                    eventItem.setPlaceName(eventObject.getString("placeName"));
                 } catch (Exception e) {
-                    eventsItem.setPlaceName("");
+                    eventItem.setPlaceName("");
                 }
 
                 try {
-                    eventsItem.setisRecomended(eventObject.getBoolean("isRecommended"));
+                    eventItem.setisRecomended(eventObject.getBoolean("isRecommended"));
                 } catch (Exception e) {
-                    eventsItem.setisRecomended(false);
+                    eventItem.setisRecomended(false);
                 }
 
                 try {
-                    eventsItem.setImageURL(eventObject.getString("imageURL"));
+                    eventItem.setImageURL(eventObject.getString("imageURL"));
                 } catch (Exception e) {
-                    eventsItem.setImageURL("");
+                    eventItem.setImageURL("");
                 }
 
                 try {
-                    eventsItem.setEventURL(eventObject.getString("eventURL"));
+                    eventItem.setEventURL(eventObject.getString("eventURL"));
                 } catch (Exception e) {
-                    eventsItem.setEventURL("");
+                    eventItem.setEventURL("");
                 }
 
-                eventsList.add(eventsItem);
+                eventsList.add(eventItem);
             }
             return eventsList;
 
