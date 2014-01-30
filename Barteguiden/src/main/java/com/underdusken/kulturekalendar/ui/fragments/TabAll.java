@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
 
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventItem;
@@ -26,6 +24,8 @@ import com.underdusken.kulturekalendar.utils.ToDo;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Created with IntelliJ IDEA.
@@ -45,11 +45,8 @@ public class TabAll extends Fragment {
 
     // ui
     private int priceInclude = -1;          // -1 all 0 free 1 paid
-    private Button btFilterAll = null;
-    private Button btFilterPaid = null;
-    private Button btFilterFree = null;
 
-    private ListView lvEvents = null;
+    private StickyListHeadersListView lvEvents = null;
 
     //data
     private long lastEventsId = -1;      // for getting only new events
@@ -66,15 +63,7 @@ public class TabAll extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // Filter buttons
-        btFilterAll = (Button) getActivity().findViewById(R.id.tab2_button_all);
-        btFilterPaid = (Button) getActivity().findViewById(R.id.tab2_button_paid);
-        btFilterFree = (Button) getActivity().findViewById(R.id.tab2_button_free);
-        btFilterAll.setOnClickListener(onFilterClickListener);
-        btFilterPaid.setOnClickListener(onFilterClickListener);
-        btFilterFree.setOnClickListener(onFilterClickListener);
-
-        lvEvents = (ListView) getActivity().findViewById(R.id.list_events);
+        lvEvents = (StickyListHeadersListView) getActivity().findViewById(R.id.list_events);
 
 
         // Create new notification receiver
@@ -221,41 +210,5 @@ public class TabAll extends Fragment {
     private void updateView() {
         adapterEventsItem.notifyDataSetChanged();
     }
-
-    private View.OnClickListener onFilterClickListener = new View.OnClickListener() {
-        public void onClick(android.view.View view) {
-            boolean _changes = false;
-            if (view == btFilterAll) {
-                if (priceInclude != -1) {
-                    _changes = true;
-                    priceInclude = -1;
-                    btFilterAll.setBackgroundResource(R.drawable.bt_left_on);
-                    btFilterPaid.setBackgroundResource(R.drawable.bt_midle_off);
-                    btFilterFree.setBackgroundResource(R.drawable.bt_right_off);
-                }
-            } else if (view == btFilterFree) {
-                if (priceInclude != 0) {
-                    _changes = true;
-                    priceInclude = 0;
-                    btFilterAll.setBackgroundResource(R.drawable.bt_left_off);
-                    btFilterPaid.setBackgroundResource(R.drawable.bt_midle_off);
-                    btFilterFree.setBackgroundResource(R.drawable.bt_right_on);
-                }
-            } else if (view == btFilterPaid) {
-                if (priceInclude != 1) {
-                    _changes = true;
-                    priceInclude = 1;
-                    btFilterAll.setBackgroundResource(R.drawable.bt_left_off);
-                    btFilterPaid.setBackgroundResource(R.drawable.bt_midle_on);
-                    btFilterFree.setBackgroundResource(R.drawable.bt_right_off);
-                }
-            }
-
-            if (_changes) {
-                updateFilter("");
-                updateView();
-            }
-        }
-    };
 
 }

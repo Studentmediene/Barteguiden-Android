@@ -29,5 +29,6 @@
     <string name="p_band">Bare Egil Band</string>
     <string name="p_place">Samfundet</string>
     <string name="p_date">22. Juli</string>
+    <string name="p_time">12:00</string>
 
 </resources>

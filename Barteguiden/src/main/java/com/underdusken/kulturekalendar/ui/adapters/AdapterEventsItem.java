@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,117 +15,106 @@ import com.underdusken.kulturekalendar.utils.SimpleTimeFormat;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: pavelarteev
- * Date: 10/2/12
- * Time: 1:26 PM
- * To change this template use File | Settings | File Templates.
- */
-public class AdapterEventsItem extends ArrayAdapter<EventItem> {
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
-    private Context context = null;
-    private List<EventItem> items;
-    private LayoutInflater vi = null;
+public class AdapterEventsItem extends ArrayAdapter<EventItem> implements StickyListHeadersAdapter {
+
+    private LayoutInflater layoutInflater = null;
+
+    private Typeface roboto;
 
     public AdapterEventsItem(Context context, int textViewResourceId, List<EventItem> objects) {
         super(context, textViewResourceId, objects);
-        this.items = objects;
-        this.context = context;
-        this.vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        roboto = Typeface.createFromAsset(context.getAssets(), "fonts/roboto-li.ttf");
     }
 
+    @Override
+    public View getHeaderView(int i, View view, ViewGroup viewGroup) {
+        HeaderHolder holder;
+        if (view == null) {
+            holder = new HeaderHolder();
+            view = layoutInflater.inflate(R.layout.list_header, null);
+            holder.date = (TextView) view.findViewById(R.id.header_text);
+            holder.date.setTypeface(roboto);
+            view.setTag(holder);
+        } else {
+            holder = (HeaderHolder) view.getTag();
+        }
+        SimpleTimeFormat dateNow = new SimpleTimeFormat(getItem(i).getDateStart());
+        holder.date.setText(dateNow.getUserHeaderDate());
 
-    private static class ViewHolder {
-        FrameLayout headerLayout;
-        TextView tvName;
-        TextView tvDate;
-        TextView tvPrice;
-        TextView tvPlace;
-        ImageView ivPicture;
+        return view;
     }
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
+    public View getView(int position, View view, ViewGroup parent) {
         ViewHolder viewHolder = null;
-
-        if (v == null) {
-            v = vi.inflate(R.layout.events_item, null);
+        if (view == null) {
+            view = layoutInflater.inflate(R.layout.events_item, null);
             viewHolder = new ViewHolder();
-            viewHolder.headerLayout = (FrameLayout) v.findViewById(R.id.events_header);
-            viewHolder.tvName = (TextView) v.findViewById(R.id.events_title);
-            viewHolder.tvDate = (TextView) viewHolder.headerLayout.findViewById(R.id.header_text);
-            viewHolder.tvPrice = (TextView) v.findViewById(R.id.events_price);
-            viewHolder.tvPlace = (TextView) v.findViewById(R.id.events_place);
-            viewHolder.ivPicture = (ImageView) v.findViewById(R.id.events_image);
-            viewHolder.tvDate.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/roboto-li.ttf"));
-            v.setTag(viewHolder);
+            viewHolder.name = (TextView) view.findViewById(R.id.event_title);
+            viewHolder.price = (TextView) view.findViewById(R.id.event_price);
+            viewHolder.place = (TextView) view.findViewById(R.id.event_place);
+            viewHolder.time = (TextView) view.findViewById(R.id.event_time);
+            viewHolder.icon = (ImageView) view.findViewById(R.id.event_image);
+            view.setTag(viewHolder);
         } else {
-            viewHolder = (ViewHolder) v.getTag();
+            viewHolder = (ViewHolder) view.getTag();
         }
+        EventItem item = getItem(position);
 
-        if (position >= 0 && position < items.size()) {
+        /**
+         * Sets the icon.
+         */
+        int iconRes = 0;
+        String category = item.getCategoryID();
+        if (category.equals("SPORT"))
+            iconRes = (R.drawable.category_sport);
+        else if (category.equals("PERFORMANCES"))
+            iconRes = (R.drawable.category_performances);
+        else if (category.equals("MUSIC"))
+            iconRes = (R.drawable.category_music);
+        else if (category.equals("EXHIBITIONS"))
+            iconRes = (R.drawable.category_exhibitions);
+        else if (category.equals("NIGHTLIFE"))
+            iconRes = (R.drawable.category_nightlife);
+        else if (category.equals("PRESENTATIONS"))
+            iconRes = (R.drawable.category_presentations);
+        else if (category.equals("DEBATE"))
+            iconRes = (R.drawable.category_debate);
+        else if (category.equals("OTHER"))
+            iconRes = (R.drawable.category_other);
+        viewHolder.icon.setImageResource(iconRes);
 
-            final EventItem eventItem = items.get(items.size() - position - 1);
+        /**
+         * Sets the rest of the fields.
+         */
+        viewHolder.name.setText(item.getTitle());
+        viewHolder.place.setText(item.getPlaceName());
+        SimpleTimeFormat time = new SimpleTimeFormat(item.getDateStart());
+        viewHolder.time.setText(time.getUserTimeDate());
+        String cost = item.getPrice() <= 0 ? "Free" : ((int) item.getPrice()) + " kr";
+        viewHolder.price.setText(cost);
 
-            String datePrevHeader = "";
-            SimpleTimeFormat dateNow = null;
-            String dateNowHeader = "";
+        return view;
+    }
 
-            // Set group header (Date)
-            boolean _header;
-            dateNow = new SimpleTimeFormat(eventItem.getDateStart());
-            dateNowHeader = dateNow.getUserHeaderDate();
-            if (position == 0) {
-                _header = true;
-            } else {
-                EventItem eventItemPrev = items.get(items.size() - position);
-                datePrevHeader = new SimpleTimeFormat(eventItemPrev.getDateStart()).getUserHeaderDate();
-                if (datePrevHeader != null)
-                    _header = !datePrevHeader.equalsIgnoreCase(dateNowHeader);
-                else _header = false;
-            }
+    @Override
+    public long getHeaderId(int i) {
+        return getItem(i).getDateStartDay().hashCode();
+    }
 
-            if (_header) {
-                viewHolder.headerLayout.setVisibility(View.VISIBLE);
-                viewHolder.tvDate.setText(dateNowHeader);
-            } else {
-                viewHolder.headerLayout.setVisibility(View.GONE);
-            }
+    private static class HeaderHolder {
+        TextView date;
+    }
 
-
-            viewHolder.tvName.setText(eventItem.getTitle());
-
-            // Set price for event
-            if (eventItem.getPrice() == 0) {
-                viewHolder.tvPrice.setText("Free");
-            } else {
-                viewHolder.tvPrice.setText((int) (eventItem.getPrice()) + " Kr");
-            }
-
-            // Set events place
-            viewHolder.tvPlace.setText(dateNow.getUserTimeDate() + "  " + eventItem.getPlaceName());
-
-            if (eventItem.getCategoryID().equals("SPORT"))
-                viewHolder.ivPicture.setImageResource(R.drawable.category_sport);
-            else if (eventItem.getCategoryID().equals("PERFORMANCES"))
-                viewHolder.ivPicture.setImageResource(R.drawable.category_performances);
-            else if (eventItem.getCategoryID().equals("MUSIC"))
-                viewHolder.ivPicture.setImageResource(R.drawable.category_music);
-            else if (eventItem.getCategoryID().equals("EXHIBITIONS"))
-                viewHolder.ivPicture.setImageResource(R.drawable.category_exhibitions);
-            else if (eventItem.getCategoryID().equals("NIGHTLIFE"))
-                viewHolder.ivPicture.setImageResource(R.drawable.category_nightlife);
-            else if (eventItem.getCategoryID().equals("PRESENTATIONS"))
-                viewHolder.ivPicture.setImageResource(R.drawable.category_presentations);
-            else if (eventItem.getCategoryID().equals("DEBATE"))
-                viewHolder.ivPicture.setImageResource(R.drawable.category_debate);
-            else if (eventItem.getCategoryID().equals("OTHER"))
-                viewHolder.ivPicture.setImageResource(R.drawable.category_other);
-        }
-
-        return v;
+    private static class ViewHolder {
+        TextView name;
+        TextView time;
+        TextView price;
+        TextView place;
+        ImageView icon;
     }
 }

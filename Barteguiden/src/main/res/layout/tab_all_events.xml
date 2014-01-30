@@ -1,99 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
-
-    <!--Filter Region-->
-
-
-    <LinearLayout
-            android:id="@+id/tab2_filter_region"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/bg_nav_bar"
-            android:gravity="center"
-            android:weightSum="3">
-
-        <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-
-
-                >
-
-            <Button
-                    android:id="@+id/tab2_button_all"
-
-                    android:layout_height="match_parent"
-                    android:layout_width="80dp"
-
-                    android:textColor="#c8c8c8"
-                    android:shadowColor="#000"
-                    android:shadowRadius="1"
-                    android:shadowDy="-1"
-
-                    android:background="@drawable/bt_left_on"
-
-                    android:text="All"/>
-
-            <Button
-                    android:id="@+id/tab2_button_paid"
-                    android:layout_toRightOf="@id/tab2_button_all"
-                    android:layout_height="match_parent"
-                    android:layout_width="80dp"
-
-                    android:textColor="#c8c8c8"
-                    android:shadowColor="#000"
-                    android:shadowRadius="1"
-                    android:shadowDy="-1"
-
-                    android:background="@drawable/bt_midle_off"
-
-                    android:text="Paid"/>
-
-            <Button
-                    android:id="@+id/tab2_button_free"
-                    android:layout_toRightOf="@id/tab2_button_paid"
-
-                    android:layout_height="match_parent"
-                    android:layout_width="80dp"
-
-                    android:textColor="#c8c8c8"
-                    android:shadowColor="#000"
-                    android:shadowRadius="1"
-                    android:shadowDy="-1"
-
-
-                    android:background="@drawable/bt_right_off"
-
-
-                    android:text="Free"/>
-        </RelativeLayout>
-
-    </LinearLayout>
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
     <TextView
-            android:id="@+id/text_noevents"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
+        android:id="@+id/text_noevents"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:text="@string/no_events"
+        android:gravity="center" />
 
-            android:text="@string/no_events"
-            android:gravity="center"/>
+    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+        android:id="@+id/list_events"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:drawSelectorOnTop="true"
+        android:paddingLeft="@dimen/margin_medium"
+        android:paddingRight="@dimen/margin_medium"
+        android:dividerHeight="@dimen/margin_small" />
 
-    <ListView
-            android:id="@+id/list_events"
-
-            android:layout_height="fill_parent"
-            android:layout_width="fill_parent"
-
-            android:drawSelectorOnTop="true"
-
-            android:paddingLeft="@dimen/margin_medium"
-            android:paddingRight="@dimen/margin_medium"
-            />
 
 </RelativeLayout>
