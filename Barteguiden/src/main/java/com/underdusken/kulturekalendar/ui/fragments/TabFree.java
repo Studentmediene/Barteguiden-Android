@@ -250,7 +250,7 @@ public class TabFree extends Fragment {
         DatabaseManager databaseManager = new DatabaseManager(getActivity());
         try {
             databaseManager.open();
-            List<EventItem> newEventItemList = databaseManager.getAllEventsItemFromId(lastEventsId);
+            List<EventItem> newEventItemList = databaseManager.getAllFutureEventsItem();
 
             if (newEventItemList != null) if (newEventItemList.size() > 0) {
                 //Delete no events title

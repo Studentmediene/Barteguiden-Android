@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventItem;
@@ -24,6 +23,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
 public class TabFeatured extends Fragment {
 
     // UI handlers
@@ -35,32 +36,42 @@ public class TabFeatured extends Fragment {
     private AdapterEventsItem adapterEventsItem = null;
     private List<EventItem> eventItemList = new ArrayList<EventItem>();
 
-    private ListView lvEvents = null;
-
-
-    //data
-    private long lastEventsId = 0;
+    private StickyListHeadersListView eventList = null;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.main, container, false);
+        return inflater.inflate(R.layout.featured, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        lvEvents = (ListView) getActivity().findViewById(R.id.tab1_events_list);
-
-        loadEventsFromDb();
+        eventList = (StickyListHeadersListView) getActivity().findViewById(R.id.list_events);
 
         activityHandler = new Handler();
 
         //Initialization adapter for ListView
-        setListViewAdapter();
+        adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, eventItemList);
+        eventList.setAdapter(adapterEventsItem);
 
+        eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(TabFeatured.this.getActivity(), EventsDescription.class);
+                intent.putExtra("events_id", eventItemList.get(eventItemList.size() - i - 1).getId());
+                startActivityForResult(intent, 1);
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        loadEventsFromDb();
         if (eventItemList.size() == 0) {
             getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
         } else {
@@ -68,29 +79,18 @@ public class TabFeatured extends Fragment {
         }
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
 
-        //updateHistoryView();
-        // Reciever for update notifications
         IntentFilter intentFilterNotificationUpdate = new IntentFilter(BroadcastNames.BROADCAST_NEW_DATA);
-
         getActivity().registerReceiver(notificationUpdateReciever, intentFilterNotificationUpdate);
-
-        if (eventItemList.size() == 0) {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
-        } else {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
-        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
         getActivity().unregisterReceiver(notificationUpdateReciever);
-
     }
 
 
@@ -98,44 +98,23 @@ public class TabFeatured extends Fragment {
         DatabaseManager databaseManager = new DatabaseManager(getActivity());
         try {
             databaseManager.open();
-            List<EventItem> newEventItemList = databaseManager.getAllEventsItemFromId(lastEventsId);
+            List<EventItem> newEventItemList = databaseManager.getAllFutureEventsItem();
+            databaseManager.close();
 
-            if (newEventItemList != null) if (newEventItemList.size() > 0) {
-                //Delete no events title
-                getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
-
-                lastEventsId = newEventItemList.get(newEventItemList.size() - 1).getId();
+            if (newEventItemList != null) {
+                if (newEventItemList.size() <= 0) {
+                    return;
+                }
                 for (EventItem eventItem : newEventItemList) {
                     if (eventItem.getIsRecommended()) {
                         eventItemList.add(eventItem);
                     }
                 }
                 eventItemList = DatabaseManager.sortEventsByDate(eventItemList);
-
             }
-            databaseManager.close();
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
-
-    }
-
-    private void setListViewAdapter() {
-        adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, eventItemList);
-
-        lvEvents.setAdapter(adapterEventsItem);
-        // Open event description
-
-        lvEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(TabFeatured.this.getActivity(), EventsDescription.class);
-
-                intent.putExtra("events_id", eventItemList.get(eventItemList.size() - i - 1).getId());
-
-                startActivityForResult(intent, 1);
-            }
-        });
     }
 
     private void updateView() {

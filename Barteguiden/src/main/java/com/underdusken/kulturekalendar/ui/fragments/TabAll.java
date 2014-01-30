@@ -85,13 +85,6 @@ public class TabAll extends Fragment {
 
         // Set view
         createAdapter();
-
-        if (eventItemList.size() == 0) {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
-        } else {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
-        }
-
     }
 
     @Override
@@ -167,19 +160,9 @@ public class TabAll extends Fragment {
         DatabaseManager databaseManager = new DatabaseManager(getActivity());
         try {
             databaseManager.open();
-            List<EventItem> newEventItemList = databaseManager.getAllEventsItemFromId(lastEventsId);
-
-            if (newEventItemList != null) if (newEventItemList.size() > 0) {
-                //Delete no events title
-                getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
-
-                lastEventsId = newEventItemList.get(newEventItemList.size() - 1).getId();
-                for (EventItem eventItem : newEventItemList) {
-                    eventItemList.add(eventItem);
-                }
-                eventItemList = DatabaseManager.sortEventsByDate(eventItemList);
-            }
+            List<EventItem> newEventItemList = databaseManager.getAllFutureEventsItem();
             databaseManager.close();
+            eventItemList = DatabaseManager.sortEventsByDate(newEventItemList);
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

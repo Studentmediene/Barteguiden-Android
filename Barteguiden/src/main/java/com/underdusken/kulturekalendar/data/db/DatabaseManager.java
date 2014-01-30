@@ -16,7 +16,10 @@ import java.util.Date;
 import java.util.List;
 
 public class DatabaseManager {
+    private static final String TAG = "DatabaseManager";
+
     private static List<EventItem> cachedEventList = null;
+    private static boolean hasChanged = true;
     // Database fields
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
@@ -35,20 +38,6 @@ public class DatabaseManager {
         dbHelper = new MySQLiteHelper(context);
     }
 
-    public static List<EventItem> sortEventsByDate(List<EventItem> eventItemList) {
-        Collections.sort(eventItemList, new EventsItemComparator("getDateStartMS"));
-        return eventItemList;
-    }
-
-    public void updateCachedEventList() {
-        cachedEventList = getAllFutureEventsItem();
-        Collections.sort(cachedEventList, new EventsItemComparator("getDateStartMS"));
-    }
-
-    public List<EventItem> getCachedEventList() {
-        return cachedEventList;
-    }
-
     public void open() throws SQLException {
         database = dbHelper.getWritableDatabase();
     }
@@ -59,6 +48,16 @@ public class DatabaseManager {
 
     public boolean isLockedByAnotherThread() {
         return database.isDbLockedByOtherThreads();
+    }
+
+    public static List<EventItem> sortEventsByDate(List<EventItem> eventItemList) {
+        Collections.sort(eventItemList, new EventsItemComparator("getDateStartMS"));
+        return eventItemList;
+    }
+
+    public void updateCachedEventList() {
+        cachedEventList = getAllFutureEventsItem();
+        Collections.sort(cachedEventList, new EventsItemComparator("getDateStartMS"));
     }
 
     // Convert from Cursor to EventItem
@@ -90,9 +89,13 @@ public class DatabaseManager {
     }
 
     // Get All Events from Data Base
-    public List<EventItem> getAllEventsItem() {
+    public synchronized List<EventItem> getAllEventsItem() {
+        if (!hasChanged) {
+            Log.d(TAG, "EventList was cached. ");
+            return cachedEventList;
+        }
+        Log.d(TAG, "EventList was not cached. Need to get from DB.");
         List<EventItem> eventItemList = new ArrayList<EventItem>();
-
         Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS, allColumnsEvents, null, null, null, null,
                 null);
 
@@ -104,6 +107,9 @@ public class DatabaseManager {
         }
         // Make sure to close the cursor
         cursor.close();
+
+        cachedEventList = eventItemList;
+        hasChanged = false;
 
         return eventItemList;
     }
@@ -121,7 +127,6 @@ public class DatabaseManager {
         return eventItemList;
     }
 
-    // Get All Events from Data Base from Id
     public List<EventItem> getAllEventsFavorites() {
         List<EventItem> eventItemList = new ArrayList<EventItem>();
 
@@ -162,6 +167,7 @@ public class DatabaseManager {
     }
 
     // Get All Events from Data Base from Id
+    @Deprecated
     public List<EventItem> getAllEventsItemFromId(long id) {
         List<EventItem> eventItemList = new ArrayList<EventItem>();
 
@@ -177,8 +183,6 @@ public class DatabaseManager {
         // Make sure to close the cursor
         cursor.close();
 
-        Log.i("Database",
-                String.format("Returning a list of %d elements from ID %d", eventItemList.size(), id));
         return eventItemList;
     }
 
@@ -275,6 +279,7 @@ public class DatabaseManager {
         values.put(MySQLiteHelper.COLUMN_EVENTS_NOTIFICATION_ID, eventItem.getNotificationId());
         database.update(MySQLiteHelper.TABLE_EVENTS, values,
                 MySQLiteHelper.COLUMN_EVENTS_ID + " = '" + eventItem.getEventsId() + "'", null);
+        hasChanged = true;
     }
 
     public void updateEventsItem(long id, EventItem eventItem) {
@@ -301,6 +306,7 @@ public class DatabaseManager {
 
         database.update(MySQLiteHelper.TABLE_EVENTS, values, MySQLiteHelper.COLUMN_ID + " = '" + id + "'",
                 null);
+        hasChanged = true;
     }
 
     public EventItem updateEventsItemCalendar(long id, int notificationId) {
@@ -335,7 +341,6 @@ public class DatabaseManager {
         cursor.moveToFirst();
 
         EventItem checkEventItem = cursorToEventsItem(cursor);
-
         cursor.close();
 
         return checkEventItem;
