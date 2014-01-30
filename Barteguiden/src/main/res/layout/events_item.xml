@@ -40,7 +40,8 @@
         android:textSize="@dimen/text_small"
         android:textStyle="bold"
         android:layout_alignTop="@+id/event_image"
-        android:layout_toRightOf="@+id/event_image" />
+        android:layout_toRightOf="@+id/event_image"
+        android:layout_toLeftOf="@+id/event_price" />
 
     <TextView
         android:id="@+id/event_place"
@@ -52,7 +53,8 @@
         android:textSize="@dimen/text_micro"
         android:layout_alignTop="@+id/event_time"
         android:layout_toRightOf="@+id/event_time"
-        android:layout_marginLeft="@dimen/margin_small" />
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_toLeftOf="@+id/event_price" />
 
     <TextView
         android:id="@+id/event_time"
