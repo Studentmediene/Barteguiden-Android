@@ -8,4 +8,5 @@
     <color name="grey_light">#aaaaaa</color>
     <color name="grey_lighter">#d0d0d0</color>
     <color name="grey_dark">#555555</color>
+    <color name="transparent">#00000000</color>
 </resources>
