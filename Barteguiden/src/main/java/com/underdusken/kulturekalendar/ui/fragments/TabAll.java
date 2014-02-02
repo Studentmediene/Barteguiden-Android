@@ -5,9 +5,14 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,7 +33,7 @@ import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-public class TabAll extends Fragment {
+public class TabAll extends Fragment implements SearchView.OnQueryTextListener {
     private static final String TAG = "TabAll";
     // private receivers
     private NotificationUpdateReceiver notificationUpdateReceiver = null;
@@ -39,6 +44,12 @@ public class TabAll extends Fragment {
     private List<EventItem> filterEventItem = new ArrayList<EventItem>();
 
     private ProgressBar progressBar;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     // ui
     private int priceInclude = -1;          // -1 all 0 free 1 paid
@@ -74,7 +85,7 @@ public class TabAll extends Fragment {
         });
 
         // TODO: change this back
-        adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, eventItemList);
+        adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, filterEventItem);
         lvEvents.setAdapter(adapterEventsItem);
         // Open event description
 
@@ -185,4 +196,25 @@ public class TabAll extends Fragment {
         adapterEventsItem.notifyDataSetChanged();
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(this);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        updateFilter(s.toLowerCase());
+        updateView();
+        return false;
+    }
 }

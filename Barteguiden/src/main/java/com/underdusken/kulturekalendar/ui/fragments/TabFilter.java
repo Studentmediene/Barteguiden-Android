@@ -5,9 +5,14 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -30,14 +35,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: pavelarteev
- * Date: 9/25/12
- * Time: 8:09 PM
- * To change this template use File | Settings | File Templates.
- */
-public class TabFilter extends Fragment {
+public class TabFilter extends Fragment implements SearchView.OnQueryTextListener {
 
     // private receivers
     private NotificationUpdateReceiver notificationUpdateReceiver = null;
@@ -57,6 +55,12 @@ public class TabFilter extends Fragment {
     private long lastEventsId = -1;      // for getting only new events
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.tab_filter, container, false);
@@ -73,7 +77,7 @@ public class TabFilter extends Fragment {
         } else {
             getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
         }
-        updateFilter();
+        updateFilter("");
         updateView();
     }
 
@@ -107,7 +111,7 @@ public class TabFilter extends Fragment {
             @Override
             public void doSomething() {
                 loadEventsFromDb();
-                updateFilter();
+                updateFilter("");
                 updateView();
             }
         });
@@ -134,7 +138,7 @@ public class TabFilter extends Fragment {
         IntentFilter intentFilterNotificationUpdate = new IntentFilter(BroadcastNames.BROADCAST_NEW_DATA);
         getActivity().registerReceiver(notificationUpdateReceiver, intentFilterNotificationUpdate);
 
-        updateFilter();
+        updateFilter("");
         updateView();
 
         if (eventItemList.size() == 0) {
@@ -159,7 +163,7 @@ public class TabFilter extends Fragment {
 
         @Override
         public void afterTextChanged(Editable s) {
-            updateFilter();
+            updateFilter("");
             updateView();
         }
     };
@@ -197,9 +201,8 @@ public class TabFilter extends Fragment {
     /**
      * Update filter list by search name
      */
-    private void updateFilter() {
+    private void updateFilter(String searchText) {
         getUserFilters();
-        String searchText = etSearch.getText().toString().toLowerCase();
         filterEventItem.clear();
         if (eventItemList != null) {
             for (EventItem eventItem : eventItemList) {
@@ -274,4 +277,25 @@ public class TabFilter extends Fragment {
         adapterEventsItem.notifyDataSetChanged();
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(this);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        updateFilter(s.toLowerCase());
+        updateView();
+        return false;
+    }
 }
