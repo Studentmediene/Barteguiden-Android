@@ -59,10 +59,23 @@ public class TabFilter extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.tab_my_events, container, false);
+        return inflater.inflate(R.layout.tab_filter, container, false);
 
     }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        loadEventsFromDb();
+        if (eventItemList.size() == 0) {
+            getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
+        } else {
+            getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
+        }
+        updateFilter();
+        updateView();
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -88,10 +101,8 @@ public class TabFilter extends Fragment {
             }
         });
 
-        //text change listener for search
         etSearch.addTextChangedListener(filterTextWatcher);
 
-        // Create new notification receiver
         notificationUpdateReceiver = new NotificationUpdateReceiver(new Handler(), new ToDo() {
             @Override
             public void doSomething() {
@@ -101,21 +112,17 @@ public class TabFilter extends Fragment {
             }
         });
 
+        adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, filterEventItem);
+        lvEvents.setAdapter(adapterEventsItem);
 
-        // Load events from Data Base
-        loadEventsFromDb();
-
-        // Update Filter list
-        updateFilter();
-
-        // Set view
-        createAdapter();
-
-        if (eventItemList.size() == 0) {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
-        } else {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
-        }
+        lvEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(TabFilter.this.getActivity(), EventsDescription.class);
+                intent.putExtra("events_id", filterEventItem.get(i).getId());
+                startActivityForResult(intent, 1);
+            }
+        });
 
     }
 
@@ -173,7 +180,6 @@ public class TabFilter extends Fragment {
 
     private void getUserFilters() {
         UserFilterPreference userFilterPreference = new UserFilterPreference(getActivity());
-
         _cat1 = userFilterPreference.isChk1();
         _cat2 = userFilterPreference.isChk2();
         _cat3 = userFilterPreference.isChk3();
@@ -182,7 +188,6 @@ public class TabFilter extends Fragment {
         _cat6 = userFilterPreference.isChk6();
         _cat7 = userFilterPreference.isChk7();
         _cat8 = userFilterPreference.isChk8();
-
         _myAge = userFilterPreference.getMyAge();
         _ageLimit = userFilterPreference.getAgeLimit();
         _price = userFilterPreference.getPrice();
@@ -194,7 +199,6 @@ public class TabFilter extends Fragment {
      */
     private void updateFilter() {
         getUserFilters();
-
         String searchText = etSearch.getText().toString().toLowerCase();
         filterEventItem.clear();
         if (eventItemList != null) {
@@ -213,9 +217,6 @@ public class TabFilter extends Fragment {
                     // age limit
                     if (_ageLimit == 1) if (eventItem.getAgeLimit() > _myAge) continue;
 
-                    //"SPORT", "PERFORMANCES", "MUSIC", "EXHIBITIONS", "NIGHTLIFE", "PRESENTATIONS",
-                    // "DEBATE", "OTHER"
-                    // categories
                     String eventType = eventItem.getCategoryID();
                     if (eventType.equals("SPORT")) {
                         if (!_cat1) continue;
@@ -243,49 +244,29 @@ public class TabFilter extends Fragment {
         }
     }
 
-    /**
-     * Load data from DataBase (all)
-     */
     private void loadEventsFromDb() {
         DatabaseManager databaseManager = new DatabaseManager(getActivity());
         try {
             databaseManager.open();
             List<EventItem> newEventItemList = databaseManager.getAllFutureEventsItem();
-
-            if (newEventItemList != null) if (newEventItemList.size() > 0) {
-                //Delete no events title
-                getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
-
-                lastEventsId = newEventItemList.get(newEventItemList.size() - 1).getId();
-                for (EventItem eventItem : newEventItemList) {
-                    eventItemList.add(eventItem);
-                }
-                eventItemList = DatabaseManager.sortEventsByDate(eventItemList);
-
-            }
             databaseManager.close();
+
+            if (newEventItemList == null) {
+                return;
+            }
+            if (newEventItemList.size() <= 0) {
+                return;
+            }
+
+            eventItemList.clear();
+            for (EventItem eventItem : newEventItemList) {
+                eventItemList.add(eventItem);
+            }
+            eventItemList = DatabaseManager.sortEventsByDate(eventItemList);
+
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-
-    }
-
-    /**
-     * Create new list Adapter
-     */
-    private void createAdapter() {
-        adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, filterEventItem);
-        lvEvents.setAdapter(adapterEventsItem);
-        // Open event description
-
-        lvEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(TabFilter.this.getActivity(), EventsDescription.class);
-                intent.putExtra("events_id", filterEventItem.get(filterEventItem.size() - i - 1).getId());
-                startActivityForResult(intent, 1);
-            }
-        });
     }
 
     // update view

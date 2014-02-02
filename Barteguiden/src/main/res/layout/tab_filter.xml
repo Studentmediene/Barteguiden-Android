@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+
+    >
+
+
+    <!--Search region-->
+    <RelativeLayout
+        android:id="@+id/tab3_search_region"
+        android:layout_width="fill_parent"
+        android:layout_height="43dp"
+        android:background="#333333"
+        android:padding="5dp">
+
+        <Button
+            android:id="@+id/tab3_user_filter"
+
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+
+            android:background="@drawable/bt_black"
+
+            android:layout_alignParentRight="true"
+
+            android:text="Filter"
+            android:textColor="#c8c8c8"
+            android:shadowColor="#000"
+            android:shadowRadius="1"
+            android:shadowDy="-1" />
+
+
+        <EditText
+            android:id="@+id/tab3_search_field"
+
+            android:layout_toLeftOf="@id/tab3_user_filter"
+
+            android:layout_marginRight="10dp"
+
+            android:layout_height="30dp"
+            android:layout_width="fill_parent"
+            android:paddingLeft="35dp"
+
+            android:paddingRight="25dp"
+            android:singleLine="true"
+
+            android:background="@drawable/bg_search"
+
+            />
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_height="18dp"
+            android:layout_width="20dp"
+            android:src="@drawable/ic_search" />
+
+        <Button
+            android:id="@+id/tab3_search_clear"
+
+            android:layout_height="40dp"
+            android:layout_width="40dp"
+            android:visibility="gone"
+            android:layout_toLeftOf="@id/tab3_user_filter" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/text_noevents"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+
+        android:text="@string/no_events"
+        android:gravity="center" />
+
+    <ListView
+        android:id="@+id/tab3_events_list"
+
+        android:layout_below="@id/tab3_search_region"
+
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+
+        android:drawSelectorOnTop="false"
+
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0px"
+
+        android:padding="0dip"
+        android:layout_margin="0dip"
+
+        />
+
+
+    <!--When the list is empty we use this textView to inform about this-->
+    <TextView
+        android:id="@+id/tab3_text"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+
+        android:layout_below="@id/tab3_search_region"
+
+        android:gravity="center"
+        android:visibility="gone"
+
+        android:text="TAB3" />
+
+</RelativeLayout>
