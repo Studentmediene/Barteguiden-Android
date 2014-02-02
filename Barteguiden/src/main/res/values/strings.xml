@@ -23,12 +23,13 @@
     <string name="tab4">Favorites</string>
     <string name="tab5">Settings</string>
 
-
+    <!-- Placeholder strings -->
     <string name="app_name">Barteguiden</string>
     <string name="p_price">100 kr</string>
     <string name="p_band">Bare Egil Band</string>
     <string name="p_place">Samfundet</string>
     <string name="p_date">22. Juli</string>
     <string name="p_time">12:00</string>
+    <string name="p_age">15+</string>
 
 </resources>
