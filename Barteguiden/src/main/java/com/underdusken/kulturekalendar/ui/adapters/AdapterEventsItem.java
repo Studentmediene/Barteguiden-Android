@@ -50,7 +50,7 @@ public class AdapterEventsItem extends ArrayAdapter<EventItem> implements Sticky
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder;
         if (view == null) {
             view = layoutInflater.inflate(R.layout.events_item, null);
             viewHolder = new ViewHolder();

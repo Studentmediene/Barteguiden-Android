@@ -27,14 +27,8 @@ import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-/**
- * Created with IntelliJ IDEA.
- * User: pavelarteev
- * Date: 9/25/12
- * Time: 8:09 PM
- * To change this template use File | Settings | File Templates.
- */
 public class TabAll extends Fragment {
+    private static final String TAG = "TabAll";
     // private receivers
     private NotificationUpdateReceiver notificationUpdateReceiver = null;
 
@@ -63,8 +57,7 @@ public class TabAll extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        lvEvents = (StickyListHeadersListView) getActivity().findViewById(R.id.list_events);
-
+        lvEvents = (StickyListHeadersListView) getActivity().findViewById(R.id.list_events_all);
 
         // Create new notification receiver
         notificationUpdateReceiver = new NotificationUpdateReceiver(new Handler(), new ToDo() {
@@ -76,36 +69,44 @@ public class TabAll extends Fragment {
             }
         });
 
+        // TODO: change this back
+        adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, eventItemList);
+        lvEvents.setAdapter(adapterEventsItem);
+        // Open event description
 
-        // Load events from Data Base
+        lvEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(TabAll.this.getActivity(), EventsDescription.class);
+                intent.putExtra("events_id", filterEventItem.get(i).getId());
+                startActivityForResult(intent, 1);
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         loadEventsFromDb();
-
-        // Update Filter list
         updateFilter("");
-
-        // Set view
-        createAdapter();
+        if (filterEventItem.size() == 0) {
+            getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
+        } else {
+            getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
+        }
+        updateView();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        // Reciever for update notifications
         IntentFilter intentFilterNotificationUpdate = new IntentFilter(BroadcastNames.BROADCAST_NEW_DATA);
         getActivity().registerReceiver(notificationUpdateReceiver, intentFilterNotificationUpdate);
-
-        if (eventItemList.size() == 0) {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
-        } else {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
-        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        // unregister reciever
         getActivity().unregisterReceiver(notificationUpdateReceiver);
     }
 
@@ -136,17 +137,19 @@ public class TabAll extends Fragment {
     private void updateFilter(String filter) {
         String searchText = filter.toLowerCase();
         filterEventItem.clear();
-        if (eventItemList != null) if (searchText.equals("") && priceInclude == -1) {
-            filterEventItem.addAll(eventItemList);
-        } else {
-            for (EventItem eventItem : eventItemList) {
-                if (eventItem.getTitle().toLowerCase().contains(searchText)) {
-                    if (priceInclude == -1) {
-                        filterEventItem.add(eventItem);
-                    } else if (priceInclude == 0) {
-                        if (eventItem.getPrice() == 0) filterEventItem.add(eventItem);
-                    } else if (priceInclude == 1) {
-                        if (eventItem.getPrice() > 0) filterEventItem.add(eventItem);
+        if (eventItemList != null) {
+            if (searchText.equals("") && priceInclude == -1) {
+                filterEventItem.addAll(eventItemList);
+            } else {
+                for (EventItem eventItem : eventItemList) {
+                    if (eventItem.getTitle().toLowerCase().contains(searchText)) {
+                        if (priceInclude == -1) {
+                            filterEventItem.add(eventItem);
+                        } else if (priceInclude == 0) {
+                            if (eventItem.getPrice() == 0) filterEventItem.add(eventItem);
+                        } else if (priceInclude == 1) {
+                            if (eventItem.getPrice() > 0) filterEventItem.add(eventItem);
+                        }
                     }
                 }
             }
@@ -162,31 +165,15 @@ public class TabAll extends Fragment {
             databaseManager.open();
             List<EventItem> newEventItemList = databaseManager.getAllFutureEventsItem();
             databaseManager.close();
-            eventItemList = DatabaseManager.sortEventsByDate(newEventItemList);
+            eventItemList.clear();
+            for (EventItem e : newEventItemList) {
+                eventItemList.add(e);
+            }
+            DatabaseManager.sortEventsByDate(eventItemList);
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-
-    }
-
-    /**
-     * Create new list Adapter
-     */
-    private void createAdapter() {
-        adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, filterEventItem);
-        lvEvents.setAdapter(adapterEventsItem);
-        // Open event description
-
-        lvEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(TabAll.this.getActivity(), EventsDescription.class);
-
-                intent.putExtra("events_id", filterEventItem.get(filterEventItem.size() - i - 1).getId());
-
-                startActivityForResult(intent, 1);
-            }
-        });
+        updateView();
     }
 
     // update view

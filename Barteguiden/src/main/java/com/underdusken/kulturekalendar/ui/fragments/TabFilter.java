@@ -37,7 +37,7 @@ import java.util.List;
  * Time: 8:09 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TabFree extends Fragment {
+public class TabFilter extends Fragment {
 
     // private receivers
     private NotificationUpdateReceiver notificationUpdateReceiver = null;
@@ -83,7 +83,7 @@ public class TabFree extends Fragment {
         btSetup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(TabFree.this.getActivity(), UserFilter.class);
+                Intent intent = new Intent(TabFilter.this.getActivity(), UserFilter.class);
                 startActivity(intent);
             }
         });
@@ -95,7 +95,7 @@ public class TabFree extends Fragment {
         notificationUpdateReceiver = new NotificationUpdateReceiver(new Handler(), new ToDo() {
             @Override
             public void doSomething() {
-                loadEventsFromDb();
+                //loadEventsFromDb();
                 updateFilter();
                 updateView();
             }
@@ -103,7 +103,7 @@ public class TabFree extends Fragment {
 
 
         // Load events from Data Base
-        loadEventsFromDb();
+        //loadEventsFromDb();
 
         // Update Filter list
         updateFilter();
@@ -281,7 +281,7 @@ public class TabFree extends Fragment {
         lvEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(TabFree.this.getActivity(), EventsDescription.class);
+                Intent intent = new Intent(TabFilter.this.getActivity(), EventsDescription.class);
                 intent.putExtra("events_id", filterEventItem.get(filterEventItem.size() - i - 1).getId());
                 startActivityForResult(intent, 1);
             }

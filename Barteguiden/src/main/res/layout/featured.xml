@@ -11,8 +11,8 @@
         android:text="@string/no_events"
         android:gravity="center" />
 
-    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
-        android:id="@+id/list_events"
+    <ListView
+        android:id="@+id/list_events_featured"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
         android:drawSelectorOnTop="true"

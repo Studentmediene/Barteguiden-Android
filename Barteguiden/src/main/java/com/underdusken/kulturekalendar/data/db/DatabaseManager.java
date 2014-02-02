@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.underdusken.kulturekalendar.data.EventItem;
 import com.underdusken.kulturekalendar.utils.EventsItemComparator;
@@ -55,11 +54,6 @@ public class DatabaseManager {
         return eventItemList;
     }
 
-    public void updateCachedEventList() {
-        cachedEventList = getAllFutureEventsItem();
-        Collections.sort(cachedEventList, new EventsItemComparator("getDateStartMS"));
-    }
-
     // Convert from Cursor to EventItem
     private EventItem cursorToEventsItem(Cursor cursor) {
         EventItem eventItem = new EventItem();
@@ -91,10 +85,8 @@ public class DatabaseManager {
     // Get All Events from Data Base
     public synchronized List<EventItem> getAllEventsItem() {
         if (!hasChanged) {
-            Log.d(TAG, "EventList was cached. ");
-            return cachedEventList;
+            return new ArrayList<EventItem>(cachedEventList);
         }
-        Log.d(TAG, "EventList was not cached. Need to get from DB.");
         List<EventItem> eventItemList = new ArrayList<EventItem>();
         Cursor cursor = database.query(MySQLiteHelper.TABLE_EVENTS, allColumnsEvents, null, null, null, null,
                 null);
@@ -110,8 +102,7 @@ public class DatabaseManager {
 
         cachedEventList = eventItemList;
         hasChanged = false;
-
-        return eventItemList;
+        return new ArrayList<EventItem>(cachedEventList);
     }
 
     // Get All Events from Data Base

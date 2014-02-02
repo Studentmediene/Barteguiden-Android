@@ -7,10 +7,12 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventItem;
@@ -23,10 +25,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
-
 public class TabFeatured extends Fragment {
 
+    private static final String TAG = "TabFeatured";
     // UI handlers
     private Handler activityHandler = null;
     // private recievers
@@ -36,7 +37,7 @@ public class TabFeatured extends Fragment {
     private AdapterEventsItem adapterEventsItem = null;
     private List<EventItem> eventItemList = new ArrayList<EventItem>();
 
-    private StickyListHeadersListView eventList = null;
+    private ListView eventList = null;
 
 
     @Override
@@ -49,7 +50,7 @@ public class TabFeatured extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        eventList = (StickyListHeadersListView) getActivity().findViewById(R.id.list_events);
+        eventList = (ListView) getActivity().findViewById(R.id.list_events_featured);
 
         activityHandler = new Handler();
 
@@ -61,7 +62,7 @@ public class TabFeatured extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(TabFeatured.this.getActivity(), EventsDescription.class);
-                intent.putExtra("events_id", eventItemList.get(eventItemList.size() - i - 1).getId());
+                intent.putExtra("events_id", eventItemList.get(i).getId());
                 startActivityForResult(intent, 1);
             }
         });
@@ -70,19 +71,18 @@ public class TabFeatured extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
         loadEventsFromDb();
         if (eventItemList.size() == 0) {
             getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
         } else {
             getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
         }
+        updateView();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
         IntentFilter intentFilterNotificationUpdate = new IntentFilter(BroadcastNames.BROADCAST_NEW_DATA);
         getActivity().registerReceiver(notificationUpdateReciever, intentFilterNotificationUpdate);
     }
@@ -93,25 +93,26 @@ public class TabFeatured extends Fragment {
         getActivity().unregisterReceiver(notificationUpdateReciever);
     }
 
-
     private void loadEventsFromDb() {
         DatabaseManager databaseManager = new DatabaseManager(getActivity());
         try {
             databaseManager.open();
             List<EventItem> newEventItemList = databaseManager.getAllFutureEventsItem();
             databaseManager.close();
-
-            if (newEventItemList != null) {
-                if (newEventItemList.size() <= 0) {
-                    return;
-                }
-                for (EventItem eventItem : newEventItemList) {
-                    if (eventItem.getIsRecommended()) {
-                        eventItemList.add(eventItem);
-                    }
-                }
-                eventItemList = DatabaseManager.sortEventsByDate(eventItemList);
+            if (newEventItemList == null) {
+                throw new IllegalStateException("DatabaseManager.getAllFutureEventsItem returned null.");
             }
+            if (newEventItemList.size() <= 0) {
+                Log.w(TAG, "DatabaseManager.getAllFutureEventsItem returned an empty list. ");
+                return;
+            }
+            eventItemList.clear();
+            for (EventItem eventItem : newEventItemList) {
+                if (eventItem.getIsRecommended()) {
+                    eventItemList.add(eventItem);
+                }
+            }
+            DatabaseManager.sortEventsByDate(eventItemList);
         } catch (SQLException e) {
             e.printStackTrace();
         }

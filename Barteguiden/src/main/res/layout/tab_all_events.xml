@@ -13,7 +13,8 @@
         android:gravity="center" />
 
     <se.emilsjolander.stickylistheaders.StickyListHeadersListView
-        android:id="@+id/list_events"
+        android:id="@+id/list_events_all"
+        android:background="@color/black"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
         android:drawSelectorOnTop="true"

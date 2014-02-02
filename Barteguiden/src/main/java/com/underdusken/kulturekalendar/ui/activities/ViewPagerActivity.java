@@ -1,9 +1,7 @@
 package com.underdusken.kulturekalendar.ui.activities;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
@@ -11,11 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TabHost;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.underdusken.kulturekalendar.R;
@@ -24,7 +17,7 @@ import com.underdusken.kulturekalendar.sharedpreference.UserFilterPreference;
 import com.underdusken.kulturekalendar.ui.fragments.TabAll;
 import com.underdusken.kulturekalendar.ui.fragments.TabFavorite;
 import com.underdusken.kulturekalendar.ui.fragments.TabFeatured;
-import com.underdusken.kulturekalendar.ui.fragments.TabFree;
+import com.underdusken.kulturekalendar.ui.fragments.TabFilter;
 import com.underdusken.kulturekalendar.ui.fragments.TabSetup;
 
 import java.util.ArrayList;
@@ -35,6 +28,7 @@ import java.util.List;
  */
 public class ViewPagerActivity extends ActionBarActivity {
     private static final int UPDATE_SECONDS_DELAY = 30 * 60;
+    private static final String TAG = "ViewPagerActivity";
 
     private PageAdapter pagerAdapter;
     private ViewPager viewPager;
@@ -96,7 +90,7 @@ public class ViewPagerActivity extends ActionBarActivity {
 
         tab = actionBar.newTab().setText(R.string.tab3).setTabListener(tabListener);
         actionBar.addTab(tab);
-        pagerAdapter.addFragment(new TabFree());
+        pagerAdapter.addFragment(new TabFilter());
 
         tab = actionBar.newTab().setText(R.string.tab4).setTabListener(tabListener);
         actionBar.addTab(tab);
