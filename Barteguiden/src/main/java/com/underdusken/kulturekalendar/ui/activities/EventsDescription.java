@@ -27,16 +27,16 @@ public class EventsDescription extends Activity {
     private static final String TAG = "EventsDescription";
     private ImageLoader imageLoader;
 
-    // UI
-    private ImageView ivEventImage;
-    private TextView tvTitle;
-    private TextView tvPlaceName;
-    private TextView tvAgeLimit;
-    private ImageView ivCategoryId;
-    private TextView tvPrice;
-    private TextView tvDate;
-    private ImageView ivFavorite;
-    private TextView tvDescriptition;
+    private ImageView image;
+    private TextView title;
+    private TextView place;
+    private TextView age;
+    private ImageView category;
+    private TextView price;
+    private TextView date;
+    private ImageView favoriteIcon;
+    private TextView description;
+
     private RelativeLayout btMap;
     private RelativeLayout btWeb;
     private RelativeLayout btCalendar;
@@ -106,32 +106,19 @@ public class EventsDescription extends Activity {
 
     // initialization UI
     private void initUI() {
-        // Button add to favorite
-
-
-        /*
-        Button btNotification = (Button) findViewById(R.id.bt_add_notifications);
-        btNotification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addToCalendar();
-        }});
-          */
-
-
-        ivEventImage = (ImageView) findViewById(R.id.event_image);
-        tvTitle = (TextView) findViewById(R.id.event_title);
-        tvPlaceName = (TextView) findViewById(R.id.event_place_name);
-        tvAgeLimit = (TextView) findViewById(R.id.event_age);
-        ivCategoryId = (ImageView) findViewById(R.id.event_category_id);
-        tvPrice = (TextView) findViewById(R.id.event_price);
-        tvDate = (TextView) findViewById(R.id.event_date);
-        ivFavorite = (ImageView) findViewById(R.id.add_to_favorite);
-        tvDescriptition = (TextView) findViewById(R.id.event_description);
+        image = (ImageView) findViewById(R.id.event_image);
+        title = (TextView) findViewById(R.id.event_title);
+        place = (TextView) findViewById(R.id.event_place_name);
+        age = (TextView) findViewById(R.id.event_age);
+        category = (ImageView) findViewById(R.id.event_category_id);
+        price = (TextView) findViewById(R.id.event_price);
+        date = (TextView) findViewById(R.id.event_date);
+        favoriteIcon = (ImageView) findViewById(R.id.add_to_favorite);
+        description = (TextView) findViewById(R.id.event_description);
         btMap = (RelativeLayout) findViewById(R.id.bt_map);
         btWeb = (RelativeLayout) findViewById(R.id.bt_web);
 
-        ivFavorite.setOnClickListener(new View.OnClickListener() {
+        favoriteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!eventItem.getFavorite()) {
@@ -158,10 +145,10 @@ public class EventsDescription extends Activity {
 
                 }
                 if (eventItem.getFavorite()) {
-                    ivFavorite.setImageResource(R.drawable.fav_hurt_on);
+                    favoriteIcon.setImageResource(R.drawable.fav_hurt_on);
                     if (new UserFilterPreference(EventsDescription.this).isAutoAddToCalendar())
                         addToCalendar();
-                } else ivFavorite.setImageResource(R.drawable.fav_hurt_off);
+                } else favoriteIcon.setImageResource(R.drawable.fav_hurt_off);
                 Intent i = new Intent(BroadcastNames.BROADCAST_NEW_DATA);
                 EventsDescription.this.sendBroadcast(i);
             }
@@ -179,9 +166,9 @@ public class EventsDescription extends Activity {
 
     // set data to UI
     private void setData(final EventItem eventItem) {
-        tvTitle.setText(eventItem.getTitle());
-        tvPlaceName.setText(eventItem.getPlaceName());
-        tvAgeLimit.setText("" + eventItem.getAgeLimit() + "+");
+        title.setText(eventItem.getTitle());
+        place.setText(eventItem.getPlaceName());
+        age.setText("" + eventItem.getAgeLimit() + "+");
 
         String category = eventItem.getCategoryID();
         int imageResource = 0;
@@ -201,26 +188,25 @@ public class EventsDescription extends Activity {
             imageResource = R.drawable.category_debate_big;
         else if (category.equals("OTHER"))
             imageResource = R.drawable.category_other_big;
-        ivCategoryId.setImageResource(imageResource);
+        this.category.setImageResource(imageResource);
 
         int price = (int) eventItem.getPrice();
         if (price >= 0) {
-            if (price == 0) tvPrice.setText("Free");
-            else tvPrice.setText("" + price + " kr");
+            if (price == 0) this.price.setText("Free");
+            else this.price.setText("" + price + " kr");
         }
 
 
         SimpleTimeFormat stf = new SimpleTimeFormat(eventItem.getDateStart());
-        tvDate.setText(stf.getUserHeaderDate());
+        date.setText(stf.getUserHeaderDate());
 
         if (eventItem.getFavorite()) {
-            ivFavorite.setImageResource(R.drawable.fav_hurt_on);
-        }
-        else {
-            ivFavorite.setImageResource(R.drawable.fav_hurt_off);
+            favoriteIcon.setImageResource(R.drawable.fav_hurt_on);
+        } else {
+            favoriteIcon.setImageResource(R.drawable.fav_hurt_off);
         }
 
-        imageLoader.setImageViewResource(ivEventImage, eventItem.getImageURL());
+        imageLoader.setImageViewResourceAlphaAnimated(image, eventItem.getImageURL());
         Log.d(TAG, "ImageURL: " + eventItem.getImageURL());
 
         // Web button
@@ -277,7 +263,7 @@ public class EventsDescription extends Activity {
             }
         }
 
-        tvDescriptition.setText(globalEventText);
+        description.setText(globalEventText);
     }
 
     private void addToCalendar() {

@@ -1,9 +1,11 @@
 package com.underdusken.kulturekalendar.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -64,12 +66,31 @@ public class ImageLoader {
                 super.onPostExecute(bitmap);
                 synchronized (cache) {
                     cache.put(imageURL, bitmap);
-                    Log.d(TAG, "Bitmap put in cache.");
                 }
                 imageView.setImageBitmap(bitmap);
             }
         }.execute(imageURL);
 
+    }
+
+    public void setImageViewResourceAlphaAnimated(final ImageView imageView, final String imageURL) {
+        if (Build.VERSION.SDK_INT < 12) {
+            setImageViewResource(imageView, imageURL);
+            return;
+        }
+        new AsyncImageLoader() {
+            @SuppressLint("NewApi")
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+                super.onPostExecute(bitmap);
+                synchronized (cache) {
+                    cache.put(imageURL, bitmap);
+                }
+                imageView.setAlpha(0F);
+                imageView.setImageBitmap(bitmap);
+                imageView.animate().alpha(0.7F).setDuration(1000).start();
+            }
+        }.execute(imageURL);
     }
 
     private class AsyncImageLoader extends AsyncTask<String, Void, Bitmap> {
@@ -79,7 +100,6 @@ public class ImageLoader {
             // The cache
             Bitmap bitmap = cache.get(imageURL);
             if (bitmap != null) {
-                Log.d(TAG, "Found bitmap " + imageURL + " in cache.");
                 return bitmap;
             }
             // From file
