@@ -17,14 +17,10 @@
 
         <Button
             android:id="@+id/tab3_user_filter"
-
             android:layout_width="50dp"
             android:layout_height="30dp"
-
-            android:background="@drawable/bt_black"
-
+            android:background="@color/black"
             android:layout_alignParentRight="true"
-
             android:text="Filter"
             android:textColor="#c8c8c8"
             android:shadowColor="#000"
@@ -34,19 +30,14 @@
 
         <EditText
             android:id="@+id/tab3_search_field"
-
             android:layout_toLeftOf="@id/tab3_user_filter"
-
             android:layout_marginRight="10dp"
-
             android:layout_height="30dp"
             android:layout_width="fill_parent"
             android:paddingLeft="35dp"
-
             android:paddingRight="25dp"
             android:singleLine="true"
-
-            android:background="@drawable/bg_search"
+            android:background="@color/black"
 
             />
 
@@ -55,7 +46,7 @@
             android:layout_marginLeft="10dp"
             android:layout_height="18dp"
             android:layout_width="20dp"
-            android:src="@drawable/ic_search" />
+            android:src="@drawable/ic_action_search" />
 
         <Button
             android:id="@+id/tab3_search_clear"
