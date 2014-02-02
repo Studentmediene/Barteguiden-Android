@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -162,6 +163,12 @@ public class EventsDescription extends Activity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.desc_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     // set data to UI

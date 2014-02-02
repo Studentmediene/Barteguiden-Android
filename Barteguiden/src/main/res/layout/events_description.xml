@@ -72,7 +72,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:lines="2"
                 android:maxLines="2"
                 android:text="@string/p_band"
                 android:textColor="@color/abs_white"
@@ -85,7 +84,7 @@
                 android:id="@+id/event_category_id"
                 android:layout_width="@dimen/icon_height"
                 android:layout_height="@dimen/icon_height"
-                android:src="@drawable/category_music_big"
+                android:src="@drawable/category_music"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true" />
 
@@ -99,7 +98,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/desc_imageArea"
-        android:background="#fff"
+        android:background="@drawable/white_box"
         android:paddingLeft="@dimen/margin_large"
         android:paddingRight="@dimen/margin_large"
         android:paddingTop="@dimen/margin_medium"
@@ -158,33 +157,46 @@
     <ScrollView
         android:id="@+id/desc_description"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_large">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingTop="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium">
 
-            <TextView
-                android:id="@+id/title_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/white_box"
+                android:padding="@dimen/margin_medium">
 
-                android:text="Description"
-                android:textColor="#000"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/title_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
-            <TextView
-                android:id="@+id/event_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                    android:text="Description"
+                    android:textColor="@color/grey_dark"
+                    android:textSize="@dimen/text_medium" />
 
-                android:layout_below="@id/title_description"
+                <TextView
+                    android:id="@+id/event_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
 
-                android:layout_marginTop="5dp"
+                    android:layout_below="@id/title_description"
 
-                android:textColor="#000" />
+                    android:layout_marginTop="5dp"
+
+                    android:textColor="@color/black"
+                    android:text="@string/p_band"
+                    android:textIsSelectable="false"
+                    android:textSize="@dimen/text_small" />
+            </LinearLayout>
 
             <!--Buttons-->
             <RelativeLayout
@@ -195,15 +207,6 @@
                 android:layout_marginTop="25dp"
                 android:background="@drawable/bt_white"
                 android:clickable="true">
-
-                <ImageView
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-
-                    android:layout_centerVertical="true"
-
-                    android:layout_marginLeft="15dp"
-                    android:src="@drawable/ic_safari" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -227,15 +230,6 @@
                 android:background="@drawable/bt_white"
                 android:clickable="true">
 
-                <ImageView
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-
-                    android:layout_centerVertical="true"
-
-                    android:layout_marginLeft="15dp"
-                    android:src="@drawable/ic_on_map" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -257,15 +251,6 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bt_white"
                 android:clickable="true">
-
-                <ImageView
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-
-                    android:layout_centerVertical="true"
-
-                    android:layout_marginLeft="15dp"
-                    android:src="@drawable/ic_share" />
 
                 <TextView
                     android:layout_width="wrap_content"
