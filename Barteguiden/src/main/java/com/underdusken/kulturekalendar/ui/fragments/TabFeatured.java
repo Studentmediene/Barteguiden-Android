@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventItem;
@@ -33,11 +34,10 @@ public class TabFeatured extends Fragment {
     // private recievers
     private NotificationUpdateReciever notificationUpdateReciever = new NotificationUpdateReciever();
 
-
     private AdapterEventsItem adapterEventsItem = null;
     private List<EventItem> eventItemList = new ArrayList<EventItem>();
-
-    private ListView eventList = null;
+    private ListView eventList;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -51,10 +51,10 @@ public class TabFeatured extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         eventList = (ListView) getActivity().findViewById(R.id.list_events_featured);
+        progressBar = (ProgressBar) getActivity().findViewById(R.id.featured_progress);
 
         activityHandler = new Handler();
 
-        //Initialization adapter for ListView
         adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, eventItemList);
         eventList.setAdapter(adapterEventsItem);
 
@@ -72,10 +72,10 @@ public class TabFeatured extends Fragment {
     public void onStart() {
         super.onStart();
         loadEventsFromDb();
-        if (eventItemList.size() == 0) {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
+        if (eventItemList.size() <= 0) {
+            progressBar.setVisibility(View.VISIBLE);
         } else {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
         }
         updateView();
     }

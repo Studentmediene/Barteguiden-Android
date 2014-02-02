@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-
-    <TextView
-        android:id="@+id/text_noevents"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:text="@string/no_events"
-        android:gravity="center" />
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
 
     <ListView
         android:id="@+id/list_events_featured"
-        android:layout_height="fill_parent"
         android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:divider="@color/transparent"
+        android:dividerHeight="@dimen/margin_small"
         android:drawSelectorOnTop="true"
         android:paddingLeft="@dimen/margin_medium"
-        android:paddingRight="@dimen/margin_medium"
-        android:divider="@color/transparent"
-        android:dividerHeight="@dimen/margin_small" />
+        android:paddingRight="@dimen/margin_medium" />
+
+    <ProgressBar
+        android:id="@+id/featured_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>
 

@@ -95,7 +95,7 @@ public class TabFilter extends Fragment {
         notificationUpdateReceiver = new NotificationUpdateReceiver(new Handler(), new ToDo() {
             @Override
             public void doSomething() {
-                //loadEventsFromDb();
+                loadEventsFromDb();
                 updateFilter();
                 updateView();
             }
@@ -103,7 +103,7 @@ public class TabFilter extends Fragment {
 
 
         // Load events from Data Base
-        //loadEventsFromDb();
+        loadEventsFromDb();
 
         // Update Filter list
         updateFilter();

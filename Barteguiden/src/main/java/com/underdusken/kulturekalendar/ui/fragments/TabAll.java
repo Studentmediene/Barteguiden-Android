@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ProgressBar;
 
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventItem;
@@ -37,6 +38,8 @@ public class TabAll extends Fragment {
     private List<EventItem> eventItemList = new ArrayList<EventItem>();
     private List<EventItem> filterEventItem = new ArrayList<EventItem>();
 
+    private ProgressBar progressBar;
+
     // ui
     private int priceInclude = -1;          // -1 all 0 free 1 paid
 
@@ -58,6 +61,7 @@ public class TabAll extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         lvEvents = (StickyListHeadersListView) getActivity().findViewById(R.id.list_events_all);
+        progressBar = (ProgressBar) getActivity().findViewById(R.id.all_progress);
 
         // Create new notification receiver
         notificationUpdateReceiver = new NotificationUpdateReceiver(new Handler(), new ToDo() {
@@ -89,10 +93,10 @@ public class TabAll extends Fragment {
         super.onStart();
         loadEventsFromDb();
         updateFilter("");
-        if (filterEventItem.size() == 0) {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
+        if (eventItemList.size() <= 0) {
+            progressBar.setVisibility(View.VISIBLE);
         } else {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
         }
         updateView();
     }
