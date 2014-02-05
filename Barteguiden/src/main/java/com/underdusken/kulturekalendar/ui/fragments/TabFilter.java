@@ -80,7 +80,7 @@ public class TabFilter extends Fragment implements SearchView.OnQueryTextListene
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        lvEvents = (ListView) getActivity().findViewById(R.id.tab3_events_list);
+        lvEvents = (ListView) getActivity().findViewById(R.id.list_events_filter);
 
         notificationUpdateReceiver = new NotificationUpdateReceiver(new Handler(), new ToDo() {
             @Override

@@ -12,25 +12,14 @@
         android:gravity="center" />
 
     <ListView
-        android:id="@+id/tab3_events_list"
-        android:layout_height="fill_parent"
+        android:id="@+id/list_events_filter"
         android:layout_width="fill_parent"
-        android:drawSelectorOnTop="false"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0px"
-        android:padding="0dip"
-        android:layout_margin="0dip"
-
-        />
-
-
-    <!--When the list is empty we use this textView to inform about this-->
-    <TextView
-        android:id="@+id/tab3_text"
         android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
-        android:gravity="center"
-        android:visibility="gone"
-        android:text="TAB3" />
+        android:divider="@color/transparent"
+        android:dividerHeight="@dimen/margin_small"
+        android:drawSelectorOnTop="true"
+        android:paddingLeft="@dimen/margin_medium"
+        android:paddingRight="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_medium" />
 
 </RelativeLayout>
