@@ -9,6 +9,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,7 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.TextView;
 
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventItem;
@@ -32,8 +33,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
 public class TabFilter extends Fragment implements SearchView.OnQueryTextListener {
 
+    private static final String TAG = "TabFilter";
     // private receivers
     private NotificationUpdateReceiver notificationUpdateReceiver = null;
 
@@ -42,9 +46,10 @@ public class TabFilter extends Fragment implements SearchView.OnQueryTextListene
     private List<EventItem> eventItemList = new ArrayList<EventItem>();
     private List<EventItem> filterEventItem = new ArrayList<EventItem>();
 
+    private TextView emptyList;
 
     // ui
-    private ListView lvEvents = null;
+    private StickyListHeadersListView lvEvents = null;
 
     //data
     private long lastEventsId = -1;      // for getting only new events
@@ -67,10 +72,11 @@ public class TabFilter extends Fragment implements SearchView.OnQueryTextListene
     public void onStart() {
         super.onStart();
         loadEventsFromDb();
-        if (eventItemList.size() == 0) {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
+        if (eventItemList.size() <= 0) {
+            Log.d(TAG, eventItemList.size() + "");
+            emptyList.setVisibility(View.VISIBLE);
         } else {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
+            emptyList.setVisibility(View.GONE);
         }
         updateFilter("");
         updateView();
@@ -80,7 +86,8 @@ public class TabFilter extends Fragment implements SearchView.OnQueryTextListene
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        lvEvents = (ListView) getActivity().findViewById(R.id.list_events_filter);
+        lvEvents = (StickyListHeadersListView) getActivity().findViewById(R.id.list_events_filter);
+        emptyList = (TextView) getActivity().findViewById(R.id.text_no_events_msg);
 
         notificationUpdateReceiver = new NotificationUpdateReceiver(new Handler(), new ToDo() {
             @Override
@@ -108,19 +115,9 @@ public class TabFilter extends Fragment implements SearchView.OnQueryTextListene
     @Override
     public void onResume() {
         super.onResume();
-
         // Reciever for update notifications
         IntentFilter intentFilterNotificationUpdate = new IntentFilter(BroadcastNames.BROADCAST_NEW_DATA);
         getActivity().registerReceiver(notificationUpdateReceiver, intentFilterNotificationUpdate);
-
-        updateFilter("");
-        updateView();
-
-        if (eventItemList.size() == 0) {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
-        } else {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
-        }
     }
 
     /**
@@ -212,8 +209,6 @@ public class TabFilter extends Fragment implements SearchView.OnQueryTextListene
                         if (!_cat7) continue;
                     } else if (eventType.equals("OTHER")) {
                         if (!_cat8) continue;
-                    } else {
-                        continue;
                     }
 
                     filterEventItem.add(eventItem);

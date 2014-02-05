@@ -2,16 +2,10 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@color/white">
 
-    <TextView
-        android:id="@+id/text_noevents"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:text="@string/no_events"
-        android:gravity="center" />
-
-    <ListView
+    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
         android:id="@+id/list_events_filter"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -19,7 +13,14 @@
         android:dividerHeight="@dimen/margin_small"
         android:drawSelectorOnTop="true"
         android:paddingLeft="@dimen/margin_medium"
-        android:paddingRight="@dimen/margin_medium"
-        android:paddingTop="@dimen/margin_medium" />
+        android:paddingRight="@dimen/margin_medium" />
+
+    <TextView
+        android:id="@+id/text_no_events_msg"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:text="@string/no_events"
+        android:visibility="gone"
+        android:gravity="center" />
 
 </RelativeLayout>

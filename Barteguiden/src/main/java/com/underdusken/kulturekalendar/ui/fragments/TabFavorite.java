@@ -89,9 +89,9 @@ public class TabFavorite extends Fragment {
         createAdapter();
 
         if (eventItemList.size() == 0) {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
+            getActivity().findViewById(R.id.text_no_events).setVisibility(View.VISIBLE);
         } else {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.text_no_events).setVisibility(View.GONE);
         }
 
     }
@@ -105,9 +105,9 @@ public class TabFavorite extends Fragment {
         updateView();
 
         if (eventItemList.size() == 0) {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.VISIBLE);
+            getActivity().findViewById(R.id.text_no_events).setVisibility(View.VISIBLE);
         } else {
-            getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.text_no_events).setVisibility(View.GONE);
         }
     }
 
@@ -171,7 +171,7 @@ public class TabFavorite extends Fragment {
             if (newEventItemList != null) {
                 if (newEventItemList.size() > 0) {
                     //Delete no events title
-                    getActivity().findViewById(R.id.text_noevents).setVisibility(View.GONE);
+                    getActivity().findViewById(R.id.text_no_events).setVisibility(View.GONE);
 
                     lastEventsId = newEventItemList.get(newEventItemList.size() - 1).getId();
 
