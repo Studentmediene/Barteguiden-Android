@@ -12,7 +12,8 @@
         android:dividerHeight="@dimen/margin_small"
         android:drawSelectorOnTop="true"
         android:paddingLeft="@dimen/margin_medium"
-        android:paddingRight="@dimen/margin_medium" />
+        android:paddingRight="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_medium" />
 
     <ProgressBar
         android:id="@+id/featured_progress"

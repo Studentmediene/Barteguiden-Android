@@ -34,5 +34,8 @@
     <string name="action_search">Search</string>
     <string name="search_current_tab">Search this tab</string>
     <string name="join_me">join me</string>
+    <string name="share">Share</string>
+    <string name="goto_web">Goto the web page</string>
+    <string name="open_map">Open map</string>
 
 </resources>
