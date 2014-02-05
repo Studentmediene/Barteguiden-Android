@@ -16,8 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import com.underdusken.kulturekalendar.R;
@@ -26,7 +24,6 @@ import com.underdusken.kulturekalendar.data.db.DatabaseManager;
 import com.underdusken.kulturekalendar.mainhandler.BroadcastNames;
 import com.underdusken.kulturekalendar.sharedpreference.UserFilterPreference;
 import com.underdusken.kulturekalendar.ui.activities.EventsDescription;
-import com.underdusken.kulturekalendar.ui.activities.UserFilter;
 import com.underdusken.kulturekalendar.ui.adapters.AdapterEventsItem;
 import com.underdusken.kulturekalendar.ui.receivers.NotificationUpdateReceiver;
 import com.underdusken.kulturekalendar.utils.ToDo;
@@ -48,8 +45,6 @@ public class TabFilter extends Fragment implements SearchView.OnQueryTextListene
 
     // ui
     private ListView lvEvents = null;
-    private EditText etSearch = null;
-
 
     //data
     private long lastEventsId = -1;      // for getting only new events
@@ -86,26 +81,6 @@ public class TabFilter extends Fragment implements SearchView.OnQueryTextListene
         super.onActivityCreated(savedInstanceState);
 
         lvEvents = (ListView) getActivity().findViewById(R.id.tab3_events_list);
-        etSearch = (EditText) getActivity().findViewById(R.id.tab3_search_field);
-
-        Button btClear = (Button) getActivity().findViewById(R.id.tab3_search_clear);
-        btClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                etSearch.setText("");
-            }
-        });
-
-        Button btSetup = (Button) getActivity().findViewById(R.id.tab3_user_filter);
-        btSetup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(TabFilter.this.getActivity(), UserFilter.class);
-                startActivity(intent);
-            }
-        });
-
-        etSearch.addTextChangedListener(filterTextWatcher);
 
         notificationUpdateReceiver = new NotificationUpdateReceiver(new Handler(), new ToDo() {
             @Override
