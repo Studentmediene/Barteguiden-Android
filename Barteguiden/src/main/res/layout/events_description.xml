@@ -136,28 +136,26 @@
                 android:id="@+id/add_to_calendar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:background="@drawable/bg_list_white"
-                android:clickable="true">
+                android:clickable="true"
+                android:paddingRight="@dimen/margin_small">
 
                 <ImageView
                     android:id="@+id/ic_calendar"
                     android:layout_width="@dimen/icon_height"
                     android:layout_height="@dimen/icon_height"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_calendar_off"
-                    android:layout_marginRight="@dimen/margin_medium" />
+                    android:src="@drawable/ic_action_event" />
 
                 <TextView
                     android:id="@+id/event_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/ic_calendar"
-                    android:text="adsfasdfalksdjf"
+                    android:text="@string/p_date"
                     android:textColor="#000"
                     android:textStyle="bold"
 
-                    />
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/ic_calendar" />
 
                 <TextView
                     android:id="@+id/calendar_text"
