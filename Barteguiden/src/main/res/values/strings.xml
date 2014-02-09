@@ -31,6 +31,14 @@
     <string name="p_date">22. Juli</string>
     <string name="p_time">12:00</string>
     <string name="p_age">15+</string>
+    <string name="action_search">Search</string>
+    <string name="search_current_tab">Search this tab</string>
+    <string name="join_me">join me</string>
+    <string name="share">Share</string>
+    <string name="goto_web">Goto the web page</string>
+    <string name="open_map">Open map</string>
+    <string name="description">Description</string>
+    <string name="add_calendar">Add to calendar</string>
     <string name="filter_options">Filter</string>
     <string name="pref_title_filter_options">Filter age</string>
     <string name="pref_summary_filter_age">Filter out events you can\'t attend</string>

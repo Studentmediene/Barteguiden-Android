@@ -5,9 +5,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.underdusken.kulturekalendar.R;
@@ -36,11 +37,6 @@ public class EventsDescription extends Activity {
     private TextView date;
     private ImageView favoriteIcon;
     private TextView description;
-
-    private RelativeLayout btMap;
-    private RelativeLayout btWeb;
-    private RelativeLayout btCalendar;
-
 
     private EventItem eventItem = null;
 
@@ -86,21 +82,6 @@ public class EventsDescription extends Activity {
 
         setData(eventItem);
 
-        findViewById(R.id.bt_share).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                sharingIntent.setType("text/plain");
-                String shareBody = "Join me at " + eventItem.getTitle();
-                if (eventItem.getEventURL().length() > 0) {
-                    shareBody += " (" + eventItem.getEventURL() + ")";
-                }
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Event in Trondheim");
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                startActivity(Intent.createChooser(sharingIntent, "Share via"));
-            }
-        });
-
 
     }
 
@@ -115,8 +96,6 @@ public class EventsDescription extends Activity {
         date = (TextView) findViewById(R.id.event_date);
         favoriteIcon = (ImageView) findViewById(R.id.add_to_favorite);
         description = (TextView) findViewById(R.id.event_description);
-        btMap = (RelativeLayout) findViewById(R.id.bt_map);
-        btWeb = (RelativeLayout) findViewById(R.id.bt_web);
 
         favoriteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,23 +124,21 @@ public class EventsDescription extends Activity {
 
                 }
                 if (eventItem.getFavorite()) {
-                    favoriteIcon.setImageResource(R.drawable.fav_hurt_on);
+                    favoriteIcon.setImageResource(R.drawable.ic_action_important);
                     if (new UserFilterPreference(EventsDescription.this).isAutoAddToCalendar())
                         addToCalendar();
-                } else favoriteIcon.setImageResource(R.drawable.fav_hurt_off);
+                } else favoriteIcon.setImageResource(R.drawable.ic_action_not_important);
                 Intent i = new Intent(BroadcastNames.BROADCAST_NEW_DATA);
                 EventsDescription.this.sendBroadcast(i);
             }
         });
 
-        btCalendar = (RelativeLayout) findViewById(R.id.add_to_calendar);
-        btCalendar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addToCalendar();
-            }
-        });
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.desc_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     // set data to UI
@@ -173,21 +150,21 @@ public class EventsDescription extends Activity {
         String category = eventItem.getCategoryID();
         int imageResource = 0;
         if (category.equals("SPORT"))
-            imageResource = R.drawable.category_sport_big;
+            imageResource = R.drawable.category_sport;
         else if (category.equals("PERFORMANCES"))
-            imageResource = R.drawable.category_performances_big;
+            imageResource = R.drawable.category_performances;
         else if (category.equals("MUSIC"))
-            imageResource = R.drawable.category_music_big;
+            imageResource = R.drawable.category_music;
         else if (category.equals("EXHIBITIONS"))
-            imageResource = R.drawable.category_exhibitions_big;
+            imageResource = R.drawable.category_exhibitions;
         else if (category.equals("NIGHTLIFE"))
-            imageResource = R.drawable.category_nightlife_big;
+            imageResource = R.drawable.category_nightlife;
         else if (category.equals("PRESENTATIONS"))
-            imageResource = R.drawable.category_presentations_big;
+            imageResource = R.drawable.category_presentations;
         else if (category.equals("DEBATE"))
-            imageResource = R.drawable.category_debate_big;
+            imageResource = R.drawable.category_debate;
         else if (category.equals("OTHER"))
-            imageResource = R.drawable.category_other_big;
+            imageResource = R.drawable.category_other;
         this.category.setImageResource(imageResource);
 
         int price = (int) eventItem.getPrice();
@@ -201,45 +178,14 @@ public class EventsDescription extends Activity {
         date.setText(stf.getUserHeaderDate());
 
         if (eventItem.getFavorite()) {
-            favoriteIcon.setImageResource(R.drawable.fav_hurt_on);
+            favoriteIcon.setImageResource(R.drawable.ic_action_important);
         } else {
-            favoriteIcon.setImageResource(R.drawable.fav_hurt_off);
+            favoriteIcon.setImageResource(R.drawable.ic_action_not_important);
         }
 
         imageLoader.setImageViewResourceAlphaAnimated(image, eventItem.getImageURL());
         Log.d(TAG, "ImageURL: " + eventItem.getImageURL());
 
-        // Web button
-        if (eventItem.getEventURL().length() > 1) {
-            btWeb.setVisibility(View.VISIBLE);
-            btWeb.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(eventItem.getEventURL())));
-                }
-            });
-        } else {
-            btWeb.setVisibility(View.GONE);
-        }
-
-        // Map button
-        if (eventItem.getIsGeo()) {
-            btMap.setVisibility(View.VISIBLE);
-            btMap.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(EventsDescription.this, EventsMap.class);
-                    intent.putExtra("events_latitude", eventItem.getGeoLatitude());
-                    intent.putExtra("events_longitude", eventItem.getGeoLongitude());
-                    intent.putExtra("events_title", eventItem.getTitle());
-                    intent.putExtra("events_place_name", eventItem.getPlaceName());
-
-                    startActivity(intent);
-                }
-            });
-        } else {
-            btMap.setVisibility(View.GONE);
-        }
 
         if (eventItem.getNotificationId() != 0) {
             ImageView iv = (ImageView) findViewById(R.id.ic_calendar);
@@ -300,5 +246,38 @@ public class EventsDescription extends Activity {
         }
     }
 
+    private void share() {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+
+        String shareBody = getString(R.string.join_me) + eventItem.getTitle();
+        if (eventItem.getEventURL().length() > 0) {
+            shareBody += " (" + eventItem.getEventURL() + ")";
+        }
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.id.event_in_trondheim));
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
+    }
+
+    public void onMenuItemClick(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.desc_share:
+                share();
+                break;
+            case R.id.desc_web:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(eventItem.getEventURL())));
+                break;
+            case R.id.desc_map:
+                Intent intent = new Intent(EventsDescription.this, EventsMap.class);
+                intent.putExtra("events_latitude", eventItem.getGeoLatitude());
+                intent.putExtra("events_longitude", eventItem.getGeoLongitude());
+                intent.putExtra("events_title", eventItem.getTitle());
+                intent.putExtra("events_place_name", eventItem.getPlaceName());
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
+    }
 
 }
