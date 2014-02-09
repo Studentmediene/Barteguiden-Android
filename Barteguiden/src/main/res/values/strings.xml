@@ -43,5 +43,6 @@
     <string name="pref_title_filter_options">Filter age</string>
     <string name="pref_summary_filter_age">Filter out events you can\'t attend</string>
     <string name="pref_title_categories">Visible categories</string>
+    <string name="filter">Filter</string>
 
 </resources>

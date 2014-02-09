@@ -1,5 +1,6 @@
 package com.underdusken.kulturekalendar.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -131,6 +133,17 @@ public class ViewPagerActivity extends ActionBarActivity {
             Toast.makeText(this.getApplicationContext(), "Loading ...", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    public boolean onMenuItemClick(MenuItem item) {
+        Log.d(TAG, "id: " + item.getItemId());
+        if (item.getItemId() == R.id.action_filter) {
+            Log.d(TAG, "start preference");
+            Intent intent = new Intent(this, PrefsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return false;
     }
 
     private class PageAdapter extends FragmentPagerAdapter{

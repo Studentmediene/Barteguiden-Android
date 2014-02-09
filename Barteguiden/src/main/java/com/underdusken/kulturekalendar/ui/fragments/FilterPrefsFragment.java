@@ -8,10 +8,10 @@ import android.preference.PreferenceFragment;
 import com.underdusken.kulturekalendar.R;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class PrefsFragment extends PreferenceFragment {
+public class FilterPrefsFragment extends PreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences);
+        addPreferencesFromResource(R.xml.filter_prefs);
     }
 }
