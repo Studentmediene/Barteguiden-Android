@@ -37,5 +37,7 @@
     <string name="share">Share</string>
     <string name="goto_web">Goto the web page</string>
     <string name="open_map">Open map</string>
+    <string name="description">Description</string>
+    <string name="add_calendar">Add to calendar</string>
 
 </resources>

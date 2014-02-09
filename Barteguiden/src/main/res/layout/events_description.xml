@@ -151,7 +151,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/p_date"
-                    android:textColor="#000"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
 
                     android:layout_alignParentTop="true"
@@ -163,8 +163,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/event_date"
                     android:layout_toRightOf="@id/ic_calendar"
-                    android:text="Add to calendar"
-                    android:textSize="11sp" />
+                    android:text="@string/add_calendar"
+                    android:textSize="@dimen/text_micro"
+                    android:textColor="@color/black" />
 
             </RelativeLayout>
 
@@ -190,10 +191,10 @@
                     android:id="@+id/title_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:text="Description"
-                    android:textColor="@color/grey_dark"
-                    android:textSize="@dimen/text_medium" />
+                    android:text="@string/description"
+                    android:textColor="@color/grey_light"
+                    android:textSize="@dimen/text_medium"
+                    android:textStyle="italic" />
 
                 <TextView
                     android:id="@+id/event_description"
