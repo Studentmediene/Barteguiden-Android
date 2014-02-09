@@ -2,13 +2,12 @@ package com.underdusken.kulturekalendar.ui.fragments;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -78,7 +77,7 @@ public class TabAll extends Fragment implements SearchView.OnQueryTextListener {
         notificationUpdateReceiver = new NotificationUpdateReceiver(new Handler(), new ToDo() {
             @Override
             public void doSomething() {
-                loadEventsFromDb();
+                new DatabaseTask().execute();
                 updateFilter("");
                 updateView();
             }
@@ -102,14 +101,7 @@ public class TabAll extends Fragment implements SearchView.OnQueryTextListener {
     @Override
     public void onStart() {
         super.onStart();
-        loadEventsFromDb();
-        updateFilter("");
-        if (eventItemList.size() <= 0) {
-            progressBar.setVisibility(View.VISIBLE);
-        } else {
-            progressBar.setVisibility(View.GONE);
-        }
-        updateView();
+        new DatabaseTask().execute();
     }
 
     @Override
@@ -125,30 +117,6 @@ public class TabAll extends Fragment implements SearchView.OnQueryTextListener {
         getActivity().unregisterReceiver(notificationUpdateReceiver);
     }
 
-    /**
-     * callback update search information
-     */
-    private TextWatcher filterTextWatcher = new TextWatcher() {
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            updateFilter("");
-            updateView();
-        }
-    };
-
-
-    /**
-     * Update filter list by search name
-     */
     private void updateFilter(String filter) {
         String searchText = filter.toLowerCase();
         filterEventItem.clear();
@@ -171,29 +139,13 @@ public class TabAll extends Fragment implements SearchView.OnQueryTextListener {
         }
     }
 
-    /**
-     * Load data from DataBase (all)
-     */
-    private void loadEventsFromDb() {
-        DatabaseManager databaseManager = new DatabaseManager(getActivity());
-        try {
-            databaseManager.open();
-            List<EventItem> newEventItemList = databaseManager.getAllFutureEventsItem();
-            databaseManager.close();
-            eventItemList.clear();
-            for (EventItem e : newEventItemList) {
-                eventItemList.add(e);
-            }
-            DatabaseManager.sortEventsByDate(eventItemList);
-        } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        updateView();
-    }
-
-    // update view
     private void updateView() {
         adapterEventsItem.notifyDataSetChanged();
+        if (eventItemList.size() <= 0) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -216,5 +168,37 @@ public class TabAll extends Fragment implements SearchView.OnQueryTextListener {
         updateFilter(s.toLowerCase());
         updateView();
         return false;
+    }
+
+    private class DatabaseTask extends AsyncTask<Void, Void, List<EventItem>> {
+
+        @Override
+        protected void onPostExecute(List<EventItem> eventItems) {
+            super.onPostExecute(eventItems);
+            eventItemList = eventItems;
+            updateFilter("");
+            updateView();
+        }
+
+        @Override
+        protected List<EventItem> doInBackground(Void... params) {
+            List<EventItem> list = new ArrayList<EventItem>();
+            DatabaseManager databaseManager = new DatabaseManager(getActivity());
+            try {
+                databaseManager.open();
+                list = databaseManager.getAllFutureEventsItem();
+                databaseManager.close();
+                if (list == null) {
+                    throw new IllegalStateException("DatabaseManager.getAllFutureEventsItem returned null.");
+                }
+                if (list.size() <= 0) {
+                    return null;
+                }
+                DatabaseManager.sortEventsByDate(list);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return list;
+        }
     }
 }

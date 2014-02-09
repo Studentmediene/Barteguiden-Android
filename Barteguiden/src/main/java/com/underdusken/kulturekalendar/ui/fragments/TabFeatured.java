@@ -4,10 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,12 +71,7 @@ public class TabFeatured extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        loadEventsFromDb();
-        if (eventItemList.size() <= 0) {
-            progressBar.setVisibility(View.VISIBLE);
-        } else {
-            progressBar.setVisibility(View.GONE);
-        }
+        new DatabaseTask().execute();
         updateView();
     }
 
@@ -93,33 +88,13 @@ public class TabFeatured extends Fragment {
         getActivity().unregisterReceiver(notificationUpdateReciever);
     }
 
-    private void loadEventsFromDb() {
-        DatabaseManager databaseManager = new DatabaseManager(getActivity());
-        try {
-            databaseManager.open();
-            List<EventItem> newEventItemList = databaseManager.getAllFutureEventsItem();
-            databaseManager.close();
-            if (newEventItemList == null) {
-                throw new IllegalStateException("DatabaseManager.getAllFutureEventsItem returned null.");
-            }
-            if (newEventItemList.size() <= 0) {
-                Log.w(TAG, "DatabaseManager.getAllFutureEventsItem returned an empty list. ");
-                return;
-            }
-            eventItemList.clear();
-            for (EventItem eventItem : newEventItemList) {
-                if (eventItem.getIsRecommended()) {
-                    eventItemList.add(eventItem);
-                }
-            }
-            DatabaseManager.sortEventsByDate(eventItemList);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void updateView() {
         adapterEventsItem.notifyDataSetChanged();
+        if (eventItemList.size() <= 0) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
 
@@ -130,11 +105,49 @@ public class TabFeatured extends Fragment {
                 @Override
                 public void run() {
                     // update screen information
-                    loadEventsFromDb();
+                    new DatabaseTask().execute();
                     updateView();
                 }
             });
         }
     }
+
+    private class DatabaseTask extends AsyncTask<Void, Void, List<EventItem>> {
+
+        @Override
+        protected void onPostExecute(List<EventItem> eventItems) {
+            super.onPostExecute(eventItems);
+            adapterEventsItem.clear();
+            adapterEventsItem.addAll(eventItems);
+            updateView();
+        }
+
+        @Override
+        protected List<EventItem> doInBackground(Void... params) {
+            List<EventItem> list = new ArrayList<EventItem>();
+            DatabaseManager databaseManager = new DatabaseManager(getActivity());
+            try {
+                databaseManager.open();
+                List<EventItem> newEventItemList = databaseManager.getAllFutureEventsItem();
+                databaseManager.close();
+                if (newEventItemList == null) {
+                    throw new IllegalStateException("DatabaseManager.getAllFutureEventsItem returned null.");
+                }
+                if (newEventItemList.size() <= 0) {
+                    return null;
+                }
+                for (EventItem eventItem : newEventItemList) {
+                    if (eventItem.getIsRecommended()) {
+                        list.add(eventItem);
+                    }
+                }
+                DatabaseManager.sortEventsByDate(list);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return list;
+        }
+    }
+
 
 }
