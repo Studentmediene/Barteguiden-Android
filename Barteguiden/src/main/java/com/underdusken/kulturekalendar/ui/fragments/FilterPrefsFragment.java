@@ -9,6 +9,8 @@ import com.underdusken.kulturekalendar.R;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class FilterPrefsFragment extends PreferenceFragment {
+    private static final String TAG = "FilterPrefsFragment";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

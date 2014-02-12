@@ -15,7 +15,6 @@ import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventItem;
 import com.underdusken.kulturekalendar.data.db.DatabaseManager;
 import com.underdusken.kulturekalendar.mainhandler.BroadcastNames;
-import com.underdusken.kulturekalendar.sharedpreference.UserFilterPreference;
 import com.underdusken.kulturekalendar.utils.ImageLoader;
 import com.underdusken.kulturekalendar.utils.SimpleTimeFormat;
 
@@ -125,8 +124,6 @@ public class EventsDescription extends Activity {
                 }
                 if (eventItem.getFavorite()) {
                     favoriteIcon.setImageResource(R.drawable.ic_action_important);
-                    if (new UserFilterPreference(EventsDescription.this).isAutoAddToCalendar())
-                        addToCalendar();
                 } else favoriteIcon.setImageResource(R.drawable.ic_action_not_important);
                 Intent i = new Intent(BroadcastNames.BROADCAST_NEW_DATA);
                 EventsDescription.this.sendBroadcast(i);

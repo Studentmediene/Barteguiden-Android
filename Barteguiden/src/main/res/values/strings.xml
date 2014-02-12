@@ -44,5 +44,9 @@
     <string name="pref_summary_filter_age">Filter out events you can\'t attend</string>
     <string name="pref_title_categories">Visible categories</string>
     <string name="filter">Filter</string>
+    <string name="pref_title_set_age">Age</string>
+    <string name="pref_summary_set_age">Set your age</string>
+    <string name="pref_title_filter_free">Only free</string>
+    <string name="pref_summary_filter_free">Only show free events</string>
 
 </resources>

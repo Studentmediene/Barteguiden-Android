@@ -16,23 +16,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.underdusken.kulturekalendar.R;
-import com.underdusken.kulturekalendar.mainhandler.MainHandler;
-import com.underdusken.kulturekalendar.sharedpreference.UserFilterPreference;
 import com.underdusken.kulturekalendar.ui.fragments.TabAll;
 import com.underdusken.kulturekalendar.ui.fragments.TabFavorite;
 import com.underdusken.kulturekalendar.ui.fragments.TabFeatured;
 import com.underdusken.kulturekalendar.ui.fragments.TabFilter;
-import com.underdusken.kulturekalendar.ui.fragments.TabSetup;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- */
 public class ViewPagerActivity extends ActionBarActivity {
     private static final int UPDATE_SECONDS_DELAY = 30 * 60;
     private static final String TAG = "ViewPagerActivity";
@@ -103,10 +96,6 @@ public class ViewPagerActivity extends ActionBarActivity {
         actionBar.addTab(tab);
         pagerAdapter.addFragment(new TabFavorite());
 
-        tab = actionBar.newTab().setText(R.string.tab5).setTabListener(tabListener);
-        actionBar.addTab(tab);
-        pagerAdapter.addFragment(new TabSetup());
-
     }
 
     @Override
@@ -121,20 +110,6 @@ public class ViewPagerActivity extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        long curTime = System.currentTimeMillis();
-
-        if (curTime > new UserFilterPreference(this).getLastUpdate() + UPDATE_SECONDS_DELAY * 1000) {
-            new UserFilterPreference(this).setLastUpdate(curTime);
-            MainHandler.getInstance(this.getApplicationContext()).onStartApplication();
-            Toast.makeText(this.getApplicationContext(), "Loading ...", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
     public boolean onMenuItemClick(MenuItem item) {
         Log.d(TAG, "id: " + item.getItemId());
         if (item.getItemId() == R.id.action_filter) {
@@ -146,7 +121,7 @@ public class ViewPagerActivity extends ActionBarActivity {
         return false;
     }
 
-    private class PageAdapter extends FragmentPagerAdapter{
+    private class PageAdapter extends FragmentPagerAdapter {
         List<Fragment> fragments;
 
         public PageAdapter(FragmentManager fm) {
@@ -154,18 +129,18 @@ public class ViewPagerActivity extends ActionBarActivity {
             fragments = new ArrayList<Fragment>();
         }
 
-        public void addFragment(Fragment f){
+        public void addFragment(Fragment f) {
             fragments.add(f);
             notifyDataSetChanged();
         }
 
-         @Override
-        public Fragment getItem(int index){
-             return fragments.get(index);
-         }
+        @Override
+        public Fragment getItem(int index) {
+            return fragments.get(index);
+        }
 
         @Override
-        public int getCount(){
+        public int getCount() {
             return fragments.size();
         }
     }

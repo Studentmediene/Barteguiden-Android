@@ -2,8 +2,10 @@ package com.underdusken.kulturekalendar.ui.fragments;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
@@ -23,7 +25,6 @@ import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventItem;
 import com.underdusken.kulturekalendar.data.db.DatabaseManager;
 import com.underdusken.kulturekalendar.mainhandler.BroadcastNames;
-import com.underdusken.kulturekalendar.sharedpreference.UserFilterPreference;
 import com.underdusken.kulturekalendar.ui.activities.EventsDescription;
 import com.underdusken.kulturekalendar.ui.adapters.AdapterEventsItem;
 import com.underdusken.kulturekalendar.ui.receivers.NotificationUpdateReceiver;
@@ -32,6 +33,7 @@ import com.underdusken.kulturekalendar.utils.ToDo;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -140,79 +142,34 @@ public class TabFilter extends Fragment implements SearchView.OnQueryTextListene
         }
     };
 
-    private boolean _cat1 = false;
-    private boolean _cat2 = false;
-    private boolean _cat3 = false;
-    private boolean _cat4 = false;
-    private boolean _cat5 = false;
-    private boolean _cat6 = false;
-    private boolean _cat7 = false;
-    private boolean _cat8 = false;
-
-    private int _myAge = 0;
-    private int _ageLimit = 0;
-    private int _price = 0;
-
-
-    private void getUserFilters() {
-        UserFilterPreference userFilterPreference = new UserFilterPreference(getActivity());
-        _cat1 = userFilterPreference.isChk1();
-        _cat2 = userFilterPreference.isChk2();
-        _cat3 = userFilterPreference.isChk3();
-        _cat4 = userFilterPreference.isChk4();
-        _cat5 = userFilterPreference.isChk5();
-        _cat6 = userFilterPreference.isChk6();
-        _cat7 = userFilterPreference.isChk7();
-        _cat8 = userFilterPreference.isChk8();
-        _myAge = userFilterPreference.getMyAge();
-        _ageLimit = userFilterPreference.getAgeLimit();
-        _price = userFilterPreference.getPrice();
-
-    }
-
-    /**
-     * Update filter list by search name
-     */
     private void updateFilter(String searchText) {
-        getUserFilters();
         filterEventItem.clear();
         if (eventItemList != null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            Set<String> categories = prefs.getStringSet("categories", null);
+            boolean filterAge = prefs.getBoolean("filter_age", false);
+            int age = 0;
+            if (filterAge) {
+                age = Integer.parseInt(prefs.getString("age", ""));
+            }
+            boolean freeOnly = prefs.getBoolean("filter_free", false);
+
+            Log.d(TAG, categories.toString());
             for (EventItem eventItem : eventItemList) {
-                if (eventItem.getTitle().toLowerCase().contains(searchText) || searchText.equals("")) {
-                    // start user filters
-                    // price
-                    switch (_price) {
-                        case 1:
-                            if (eventItem.getPrice() == 0) continue;
-                            break;
-                        case 2:
-                            if (eventItem.getPrice() != 0) continue;
-                            break;
-                    }
-                    // age limit
-                    if (_ageLimit == 1) if (eventItem.getAgeLimit() > _myAge) continue;
-
-                    String eventType = eventItem.getCategoryID();
-                    if (eventType.equals("SPORT")) {
-                        if (!_cat1) continue;
-                    } else if (eventType.equals("PERFORMANCES")) {
-                        if (!_cat2) continue;
-                    } else if (eventType.equals("MUSIC")) {
-                        if (!_cat3) continue;
-                    } else if (eventType.equals("EXHIBITIONS")) {
-                        if (!_cat4) continue;
-                    } else if (eventType.equals("NIGHTLIFE")) {
-                        if (!_cat5) continue;
-                    } else if (eventType.equals("PRESENTATIONS")) {
-                        if (!_cat6) continue;
-                    } else if (eventType.equals("DEBATE")) {
-                        if (!_cat7) continue;
-                    } else if (eventType.equals("OTHER")) {
-                        if (!_cat8) continue;
-                    }
-
-                    filterEventItem.add(eventItem);
+                // Finner alle muligheter for at eventen IKKE skal med:
+                if (!categories.contains(eventItem.getCategoryID().toLowerCase())) {
+                    continue;
                 }
+                if (filterAge && age < eventItem.getAgeLimit()) {
+                    continue;
+                }
+                if (freeOnly && eventItem.getPrice() > 0) {
+                    continue;
+                }
+                if (!eventItem.getTitle().contains(searchText)) {
+                    continue;
+                }
+                filterEventItem.add(eventItem);
             }
         }
     }

@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/filter">
 
     <SwitchPreference
         android:key="filter_age"
         android:title="@string/pref_title_filter_options"
+        android:defaultValue="false"
         android:summary="@string/pref_summary_filter_age" />
+
+    <EditTextPreference
+        android:key="age"
+        android:title="@string/pref_title_set_age"
+        android:defaultValue="0"
+        android:summary="@string/pref_summary_set_age" />
+
 
     <MultiSelectListPreference
         android:key="categories"
-        android:entryValues="@array/categories"
+        android:entryValues="@array/categories_lower"
+        android:entries="@array/categories"
         android:title="@string/pref_title_categories" />
+
+    <SwitchPreference
+        android:key="filter_free"
+        android:title="@string/pref_title_filter_free"
+        android:defaultValue="false"
+        android:summary="@string/pref_summary_filter_free" />
 
 </PreferenceScreen>
