@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,6 +118,11 @@ public class TabFeatured extends Fragment {
         @Override
         protected void onPostExecute(List<EventItem> eventItems) {
             super.onPostExecute(eventItems);
+            progressBar.setVisibility(View.GONE);
+            if (eventItems == null) {
+                Log.w(TAG, "Failed to update. EventItems is null.");
+                return;
+            }
             adapterEventsItem.clear();
             adapterEventsItem.addAll(eventItems);
             updateView();

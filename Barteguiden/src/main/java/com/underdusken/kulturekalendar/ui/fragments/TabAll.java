@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -175,6 +176,11 @@ public class TabAll extends Fragment implements SearchView.OnQueryTextListener {
         @Override
         protected void onPostExecute(List<EventItem> eventItems) {
             super.onPostExecute(eventItems);
+            progressBar.setVisibility(View.GONE);
+            if (eventItems == null) {
+                Log.w(TAG, "Failed to update. EventItems is null.");
+                return;
+            }
             eventItemList = eventItems;
             updateFilter("");
             updateView();
@@ -192,6 +198,7 @@ public class TabAll extends Fragment implements SearchView.OnQueryTextListener {
                     throw new IllegalStateException("DatabaseManager.getAllFutureEventsItem returned null.");
                 }
                 if (list.size() <= 0) {
+                    Log.w(TAG, "getAllFutureEventsItem() returned an empty list");
                     return null;
                 }
                 DatabaseManager.sortEventsByDate(list);

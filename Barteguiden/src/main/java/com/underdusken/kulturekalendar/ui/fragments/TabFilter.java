@@ -154,10 +154,9 @@ public class TabFilter extends Fragment implements SearchView.OnQueryTextListene
             }
             boolean freeOnly = prefs.getBoolean("filter_free", false);
 
-            Log.d(TAG, categories.toString());
             for (EventItem eventItem : eventItemList) {
                 // Finner alle muligheter for at eventen IKKE skal med:
-                if (!categories.contains(eventItem.getCategoryID().toLowerCase())) {
+                if (categories != null && !categories.contains(eventItem.getCategoryID().toLowerCase())) {
                     continue;
                 }
                 if (filterAge && age < eventItem.getAgeLimit()) {

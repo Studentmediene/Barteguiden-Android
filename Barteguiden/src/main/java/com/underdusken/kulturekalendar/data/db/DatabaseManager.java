@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.underdusken.kulturekalendar.data.EventItem;
 import com.underdusken.kulturekalendar.utils.EventsItemComparator;
@@ -100,9 +101,15 @@ public class DatabaseManager {
         // Make sure to close the cursor
         cursor.close();
 
-        cachedEventList = eventItemList;
-        hasChanged = false;
-        return new ArrayList<EventItem>(cachedEventList);
+
+        if (eventItemList.size() > 0) {
+            cachedEventList = eventItemList;
+            hasChanged = false;
+
+            return new ArrayList<EventItem>(cachedEventList);
+        }
+        Log.w(TAG, "Couldn't update the database.");
+        return null;
     }
 
     // Get All Events from Data Base
