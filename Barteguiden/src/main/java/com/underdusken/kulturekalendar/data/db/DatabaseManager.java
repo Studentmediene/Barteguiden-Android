@@ -109,7 +109,7 @@ public class DatabaseManager {
             return new ArrayList<EventItem>(cachedEventList);
         }
         Log.w(TAG, "Couldn't update the database.");
-        return null;
+        return new ArrayList<EventItem>();
     }
 
     // Get All Events from Data Base
