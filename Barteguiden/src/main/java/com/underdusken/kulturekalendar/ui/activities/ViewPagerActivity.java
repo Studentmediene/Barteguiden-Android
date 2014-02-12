@@ -1,7 +1,9 @@
 package com.underdusken.kulturekalendar.ui.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -18,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.underdusken.kulturekalendar.R;
+import com.underdusken.kulturekalendar.mainhandler.MainHandler;
 import com.underdusken.kulturekalendar.ui.fragments.TabAll;
 import com.underdusken.kulturekalendar.ui.fragments.TabFavorite;
 import com.underdusken.kulturekalendar.ui.fragments.TabFeatured;
@@ -95,6 +98,22 @@ public class ViewPagerActivity extends ActionBarActivity {
         tab = actionBar.newTab().setText(R.string.tab4).setTabListener(tabListener);
         actionBar.addTab(tab);
         pagerAdapter.addFragment(new TabFavorite());
+
+    }
+
+    private static final long UPDATE_INTERVAL = 1000 * 60 * 60 * 24;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        long time = System.currentTimeMillis();
+        long lastUpdate = prefs.getLong("last_update", 0);
+        if (time > lastUpdate + UPDATE_INTERVAL) {
+            MainHandler.getInstance(this.getApplicationContext()).onStartApplication();
+            prefs.edit().putLong("last_update", time).commit();
+            Log.d(TAG, "Updating DB");
+        }
 
     }
 

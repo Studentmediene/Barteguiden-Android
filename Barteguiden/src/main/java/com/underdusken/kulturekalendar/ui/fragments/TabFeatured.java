@@ -118,7 +118,6 @@ public class TabFeatured extends Fragment {
         @Override
         protected void onPostExecute(List<EventItem> eventItems) {
             super.onPostExecute(eventItems);
-            progressBar.setVisibility(View.GONE);
             if (eventItems == null) {
                 Log.w(TAG, "Failed to update. EventItems is null.");
                 return;
