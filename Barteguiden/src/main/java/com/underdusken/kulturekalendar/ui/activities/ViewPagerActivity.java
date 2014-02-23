@@ -59,12 +59,10 @@ public class ViewPagerActivity extends ActionBarActivity {
 
             @Override
             public void onTabUnselected(Tab tab, FragmentTransaction fragmentTransaction) {
-                return;
             }
 
             @Override
             public void onTabReselected(Tab tab, FragmentTransaction fragmentTransaction) {
-                return;
             }
         };
 

@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-   <style
-        name="Barteguiden.Theme"
-        parent="Theme.AppCompat.Light">
-    </style>
+    <style name="Barteguiden.Theme" parent="Theme.AppCompat.Light"></style>
 
     <style name="desc_textview_shadowed">
         <item name="android:shadowColor">@color/black</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">3</item>
+    </style>
+
+    <style name="stickyliststyle">
+        <item name="android:divider">@color/transparent</item>
+        <item name="android:dividerHeight">@dimen/margin_small</item>
+        <item name="android:drawSelectorOnTop">true</item>
+        <item name="android:paddingLeft">@dimen/margin_medium</item>
+        <item name="android:paddingRight">@dimen/margin_medium</item>
+        <item name="android:scrollbarStyle">insideOverlay</item>
+        <item name="android:fastScrollEnabled">true</item>
     </style>
 </resources>

@@ -5,14 +5,10 @@
     android:orientation="vertical">
 
     <ListView
+        style="@style/stickyliststyle"
         android:id="@+id/list_events_featured"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:divider="@color/transparent"
-        android:dividerHeight="@dimen/margin_small"
-        android:drawSelectorOnTop="true"
-        android:paddingLeft="@dimen/margin_medium"
-        android:paddingRight="@dimen/margin_medium"
         android:paddingTop="@dimen/margin_medium" />
 
     <ProgressBar

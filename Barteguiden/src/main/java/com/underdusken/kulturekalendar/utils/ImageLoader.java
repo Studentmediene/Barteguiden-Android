@@ -73,6 +73,14 @@ public class ImageLoader {
 
     }
 
+    /**
+     * Its dumb to do this as a seperate method; a better solution would be to
+     * make clients create an anonymous class, and override a method, which
+     * gets the image in as a parameter.
+     *
+     * @param imageView
+     * @param imageURL
+     */
     public void setImageViewResourceAlphaAnimated(final ImageView imageView, final String imageURL) {
         if (Build.VERSION.SDK_INT < 12) {
             setImageViewResource(imageView, imageURL);
@@ -88,7 +96,7 @@ public class ImageLoader {
                 }
                 imageView.setAlpha(0F);
                 imageView.setImageBitmap(bitmap);
-                imageView.animate().alpha(0.7F).setDuration(1000).start();
+                imageView.animate().alpha(0.9F).setDuration(1000).start();
             }
         }.execute(imageURL);
     }
