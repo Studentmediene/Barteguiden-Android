@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -181,8 +180,6 @@ public class EventsDescription extends Activity {
         }
 
         imageLoader.setImageViewResourceAlphaAnimated(image, eventItem.getImageURL());
-        Log.d(TAG, "ImageURL: " + eventItem.getImageURL());
-
 
         if (eventItem.getNotificationId() != 0) {
             ImageView iv = (ImageView) findViewById(R.id.ic_calendar);
