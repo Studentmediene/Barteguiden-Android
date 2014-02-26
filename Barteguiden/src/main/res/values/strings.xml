@@ -49,5 +49,7 @@
     <string name="pref_title_filter_free">Only free</string>
     <string name="pref_summary_filter_free">Only show free events</string>
     <string name="calendar_added">Added to calendar!</string>
+    <string name="list_empty_header">Your list is empty!</string>
+    <string name="list_empty_desc">Favorite something!!</string>
 
 </resources>
