@@ -48,5 +48,6 @@
     <string name="pref_summary_set_age">Set your age</string>
     <string name="pref_title_filter_free">Only free</string>
     <string name="pref_summary_filter_free">Only show free events</string>
+    <string name="calendar_added">Added to calendar!</string>
 
 </resources>

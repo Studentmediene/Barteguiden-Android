@@ -9,4 +9,6 @@
     <color name="grey_lighter">#d0d0d0</color>
     <color name="grey_dark">#555555</color>
     <color name="transparent">#00000000</color>
+
+    <color name="green">#99CC00</color>
 </resources>

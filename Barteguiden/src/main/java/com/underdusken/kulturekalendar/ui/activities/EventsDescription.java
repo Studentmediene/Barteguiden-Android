@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.underdusken.kulturekalendar.R;
@@ -18,7 +19,6 @@ import com.underdusken.kulturekalendar.utils.ImageLoader;
 import com.underdusken.kulturekalendar.utils.SimpleTimeFormat;
 
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.Locale;
 
 public class EventsDescription extends Activity {
@@ -41,6 +41,8 @@ public class EventsDescription extends Activity {
     private boolean isNorwegianPhone = true;
     private String globalEventText = "";
 
+    private RelativeLayout calendarButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,10 +60,7 @@ public class EventsDescription extends Activity {
         if (extras == null) {
             finish();
         }
-
-
         long eventsId = extras.getLong("events_id");
-
 
         DatabaseManager databaseManager = new DatabaseManager(this);
         try {
@@ -72,15 +71,9 @@ public class EventsDescription extends Activity {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
-        if (eventItem == null) finish();
-        // initialization UI
         initUI();
 
-        // set data to UI
-
         setData(eventItem);
-
-
     }
 
     // initialization UI
@@ -128,7 +121,13 @@ public class EventsDescription extends Activity {
                 EventsDescription.this.sendBroadcast(i);
             }
         });
-
+        calendarButton = (RelativeLayout) findViewById(R.id.add_to_calendar);
+        calendarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addToCalendar();
+            }
+        });
     }
 
     @Override
@@ -182,11 +181,10 @@ public class EventsDescription extends Activity {
         imageLoader.setImageViewResourceAlphaAnimated(image, eventItem.getImageURL());
 
         if (eventItem.getNotificationId() != 0) {
-            ImageView iv = (ImageView) findViewById(R.id.ic_calendar);
-            iv.setImageResource(R.drawable.ic_calendar_on);
-            findViewById(R.id.calendar_text).setVisibility(View.GONE);
+            TextView calText = (TextView) findViewById(R.id.calendar_text);
+            calText.setText(R.string.calendar_added);
+            calText.setTextColor(getResources().getColor(R.color.green));
         }
-
 
         // Get correct language text
         if (isNorwegianPhone) {
@@ -211,32 +209,27 @@ public class EventsDescription extends Activity {
 
             eventItem.setNotificationId(1);
 
-
             long eventStartTime = new SimpleTimeFormat(eventItem.getDateStart()).getMs();
-            Calendar cal = Calendar.getInstance();
-            Intent intent = new Intent(Intent.ACTION_EDIT);
+            Intent intent = new Intent(Intent.ACTION_INSERT);
             intent.setType("vnd.android.cursor.item/event");
             intent.putExtra("beginTime", eventStartTime);
             intent.putExtra("endTime", eventStartTime + 1000 * 60 * 60);
             intent.putExtra("title", eventItem.getTitle());
             intent.putExtra("eventLocation", eventItem.getPlaceName());
             intent.putExtra("description", globalEventText);
-            try {
-                startActivity(intent);
-                DatabaseManager databaseManager = new DatabaseManager(EventsDescription.this);
-                try {
-                    databaseManager.open();
-                    EventItem testEventItem = databaseManager.updateEventsItemCalendar(eventItem.getId(),
-                            eventItem.getNotificationId());
-                    databaseManager.close();
-                } catch (SQLException e) {
-                }
-                ImageView iv = (ImageView) findViewById(R.id.ic_calendar);
-                iv.setImageResource(R.drawable.ic_calendar_on);
-                findViewById(R.id.calendar_text).setVisibility(View.GONE);
-            } catch (Exception e) {
 
+            startActivity(intent);
+            DatabaseManager databaseManager = new DatabaseManager(EventsDescription.this);
+            try {
+                databaseManager.open();
+                databaseManager.updateEventsItemCalendar(eventItem.getId(),
+                        eventItem.getNotificationId());
+                databaseManager.close();
+            } catch (SQLException e) {
             }
+            TextView calText = (TextView) findViewById(R.id.calendar_text);
+            calText.setText(R.string.calendar_added);
+            calText.setTextColor(getResources().getColor(R.color.green));
         }
     }
 
