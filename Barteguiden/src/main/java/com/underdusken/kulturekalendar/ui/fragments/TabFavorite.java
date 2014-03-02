@@ -67,8 +67,7 @@ public class TabFavorite extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        View emptyView = getActivity().getLayoutInflater().inflate(R.layout.list_emptyview, null);
-        ((ViewGroup) getActivity().findViewById(R.id.favorite_root_layout)).addView(emptyView);
+        View emptyView = getActivity().findViewById(R.id.list_empty_view);
         lvEvents.setEmptyView(emptyView);
     }
 
