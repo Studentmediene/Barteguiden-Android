@@ -11,7 +11,7 @@
     </style>
 
     <style name="stickylist">
-    <item name="android:divider">@color/transparent</item>
+        <item name="android:divider">@color/transparent</item>
         <item name="android:dividerHeight">@dimen/margin_small</item>
         <item name="android:drawSelectorOnTop">true</item>
         <item name="android:paddingLeft">@dimen/margin_medium</item>
@@ -28,5 +28,10 @@
         <item name="android:textSize">@dimen/text_small</item>
         <item name="android:textStyle">bold</item>
         <item name="android:background">@drawable/header</item>
+    </style>
+
+    <style name="listitem">
+        <item name="android:padding">@dimen/margin_small</item>
+        <item name="android:background">@drawable/white_box</item>
     </style>
 </resources>
