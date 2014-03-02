@@ -75,7 +75,6 @@ public class TabFavorite extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         loadEventsFromDb();
         updateView();
     }
@@ -92,12 +91,10 @@ public class TabFavorite extends Fragment {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        updateView();
     }
 
     private void updateView() {
         adapterEventsItem.notifyDataSetChanged();
-        lvEvents.invalidate();
     }
 
 }
