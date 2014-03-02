@@ -51,5 +51,6 @@
     <string name="calendar_added">Added to calendar!</string>
     <string name="list_empty_header">Your list is empty!</string>
     <string name="list_empty_desc">Favorite something!!</string>
+    <string name="list_empty_desc_cont">What did you really expect?</string>
 
 </resources>
