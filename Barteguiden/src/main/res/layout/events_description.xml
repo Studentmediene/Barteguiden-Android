@@ -8,8 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
 
         <RelativeLayout
@@ -116,7 +115,6 @@
             android:id="@+id/desc_calendarBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/desc_imageArea"
             android:background="@drawable/white_box"
             android:paddingLeft="@dimen/margin_large"
             android:paddingRight="@dimen/margin_large"
@@ -172,46 +170,35 @@
 
         </RelativeLayout>
 
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/margin_medium"
-            android:paddingTop="@dimen/margin_medium"
-            android:paddingRight="@dimen/margin_medium">
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/white_box"
+            android:layout_margin="@dimen/margin_medium"
+            android:padding="@dimen/margin_medium">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@drawable/white_box"
-                android:padding="@dimen/margin_medium">
+            <TextView
+                android:id="@+id/title_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:textColor="@color/grey_light"
+                android:textSize="@dimen/text_medium"
+                android:textStyle="italic" />
 
-                <TextView
-                    android:id="@+id/title_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/description"
-                    android:textColor="@color/grey_light"
-                    android:textSize="@dimen/text_medium"
-                    android:textStyle="italic" />
-
-                <TextView
-                    android:id="@+id/event_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:layout_below="@id/title_description"
-
-                    android:layout_marginTop="5dp"
-
-                    android:textColor="@color/black"
-                    android:text="@string/p_band"
-                    android:textIsSelectable="false"
-                    android:textSize="@dimen/text_small" />
-            </LinearLayout>
-
+            <TextView
+                android:id="@+id/event_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:text="@string/p_band"
+                android:textIsSelectable="false"
+                android:textSize="@dimen/text_small" />
         </LinearLayout>
+
 
     </LinearLayout>
 
