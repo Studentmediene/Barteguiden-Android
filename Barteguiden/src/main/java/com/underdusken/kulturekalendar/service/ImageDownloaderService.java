@@ -4,7 +4,6 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 
 import com.underdusken.kulturekalendar.data.EventItem;
 import com.underdusken.kulturekalendar.data.db.DatabaseManager;
@@ -53,8 +52,7 @@ public class ImageDownloaderService extends IntentService {
         int i = 0;
         while (ni.isConnected() && i < url.length) {
             if (i % 10 == 0)
-                Log.d(TAG, i + "/" + url.length + " images. ");
-            il.downloadImage(url[i++]);
+                il.downloadImage(url[i++]);
         }
     }
 }

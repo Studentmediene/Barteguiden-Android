@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.data.EventItem;
@@ -21,15 +22,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
-
 public class TabFavorite extends Fragment {
+    private static final String TAG = "TabFavorite";
     private NotificationUpdateReceiver notificationUpdateReceiver = null;
 
     private AdapterEventsItem adapterEventsItem = null;
     private List<EventItem> eventItemList = new ArrayList<EventItem>();
 
-    private StickyListHeadersListView lvEvents = null;
+    private ListView lvEvents = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class TabFavorite extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        lvEvents = (StickyListHeadersListView) getActivity().findViewById(R.id.list_events_favorites);
+        lvEvents = (ListView) getActivity().findViewById(R.id.list_events_favorites);
 
         notificationUpdateReceiver = new NotificationUpdateReceiver(new Handler(), new ToDo() {
             @Override
@@ -50,10 +50,6 @@ public class TabFavorite extends Fragment {
                 updateView();
             }
         });
-
-        View emptyView = getActivity().getLayoutInflater().inflate(R.layout.list_emptyview, null);
-        ((ViewGroup) getView().getParent()).addView(emptyView);
-        lvEvents.setEmptyView(emptyView);
 
         adapterEventsItem = new AdapterEventsItem(this.getActivity(), 0, eventItemList);
         lvEvents.setAdapter(adapterEventsItem);
@@ -66,6 +62,14 @@ public class TabFavorite extends Fragment {
                 startActivityForResult(intent, 1);
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        View emptyView = getActivity().getLayoutInflater().inflate(R.layout.list_emptyview, null);
+        ((ViewGroup) getActivity().findViewById(R.id.favorite_root_layout)).addView(emptyView);
+        lvEvents.setEmptyView(emptyView);
     }
 
     @Override
@@ -93,6 +97,7 @@ public class TabFavorite extends Fragment {
 
     private void updateView() {
         adapterEventsItem.notifyDataSetChanged();
+        lvEvents.invalidate();
     }
 
 }
