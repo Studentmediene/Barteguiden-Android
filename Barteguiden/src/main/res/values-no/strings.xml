@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--INTERNET-->
+    <string name="internet_connection_error">Tilkoblingsfeil</string>
+
+
+    <string name="map_key_debug">AIzaSyC-Iyyi6EHspS_sRpmIW-wjtmvBBgDkXTo</string>
+    <string name="map_key_release">AIzaSyBG2bWm6gn2ERJmE5R_0YvpqLTmNT_eD-4</string>
+
+    <string name="no_events">Ingen arrangementer</string>
+
+    <string name="tab1">Annbefalt</string>
+    <string name="tab2">Alle</string>
+    <string name="tab3">Filter</string>
+    <string name="tab4">Favoritter</string>
+
+    <!-- Placeholder strings -->
+    <string name="app_name">Barteguiden</string>
+    <string name="p_price">100 kr</string>
+    <string name="p_band">Bare Egil Band</string>
+    <string name="p_place">Samfundet</string>
+    <string name="p_date">22. Juli</string>
+    <string name="p_time">12:00</string>
+    <string name="p_age">15+</string>
+
+    <string name="action_search">Søk</string>
+    <string name="search_current_tab">Søk denne fanen</string>
+    <string name="join_me">Bli med</string>
+    <string name="share">Del</string>
+    <string name="goto_web">Gå til hjemmesiden </string>
+    <string name="open_map">Åpne kart</string>
+    <string name="description">Beskrivelse</string>
+    <string name="add_calendar">Legg til i kalender</string>
+    <string name="filter_options">Filter</string>
+    <string name="pref_title_filter_options">Filtrer alder</string>
+    <string name="pref_summary_filter_age">Filtrer ut arrangementer du ikke kan delta på</string>
+    <string name="pref_title_categories">Synlige kategorier</string>
+    <string name="filter">Filter</string>
+    <string name="pref_title_set_age">Alder</string>
+    <string name="pref_summary_set_age">Sett din alder</string>
+    <string name="pref_title_filter_free">Bare gratis</string>
+    <string name="pref_summary_filter_free">Bare vis gratisarrangementer</string>
+    <string name="calendar_added">Lagt til i kalender!</string>
+    <string name="list_empty_header">Listen er tom!</string>
+    <string name="list_empty_desc">Marker noe som favoritt!!</string>
+    <string name="list_empty_desc_cont">Hva forventet du egentlig?</string>
+
+</resources>
