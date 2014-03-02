@@ -36,7 +36,6 @@ public class AdapterEventsItem extends ArrayAdapter<EventItem> implements Sticky
             holder = new HeaderHolder();
             view = layoutInflater.inflate(R.layout.list_header, null);
             holder.date = (TextView) view.findViewById(R.id.header_text);
-            holder.date.setTypeface(roboto);
             view.setTag(holder);
         } else {
             holder = (HeaderHolder) view.getTag();

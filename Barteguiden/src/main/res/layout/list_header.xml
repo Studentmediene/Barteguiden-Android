@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-        >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
-            android:id="@+id/header_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/margin_medium"
-            android:paddingTop="@dimen/margin_large"
-            android:text="@string/p_date"
-            android:textColor="@color/grey_light"
-            android:textSize="@dimen/text_large"
-            android:background="@color/white"/>
+        style="@style/stickyheader"
+        android:id="@+id/header_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/p_date" />
 </FrameLayout>

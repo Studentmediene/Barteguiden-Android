@@ -6,14 +6,10 @@
     android:background="@color/white">
 
     <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+        style="@style/stickylist"
         android:id="@+id/list_events_all"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:divider="@color/transparent"
-        android:dividerHeight="@dimen/margin_small"
-        android:drawSelectorOnTop="true"
-        android:paddingLeft="@dimen/margin_medium"
-        android:paddingRight="@dimen/margin_medium" />
+        android:layout_height="fill_parent" />
 
     <ProgressBar
         android:id="@+id/all_progress"

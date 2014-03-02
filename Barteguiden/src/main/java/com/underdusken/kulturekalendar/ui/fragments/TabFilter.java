@@ -150,7 +150,7 @@ public class TabFilter extends Fragment implements SearchView.OnQueryTextListene
             boolean filterAge = prefs.getBoolean("filter_age", false);
             int age = 0;
             if (filterAge) {
-                age = Integer.parseInt(prefs.getString("age", ""));
+                age = Integer.parseInt(prefs.getString("age", "99"));
             }
             boolean freeOnly = prefs.getBoolean("filter_free", false);
 

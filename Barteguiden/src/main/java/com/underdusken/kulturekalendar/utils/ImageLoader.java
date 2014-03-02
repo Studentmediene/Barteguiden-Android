@@ -34,7 +34,7 @@ public class ImageLoader {
     private static final String TAG = "ImageLoader";
     // Cache for holding all images fetched so far.
     private final static Map<String, Bitmap> cache = new HashMap<String, Bitmap>();
-    ;
+
     private final File cacheDir;
 
     public ImageLoader(Context context) {
@@ -67,12 +67,23 @@ public class ImageLoader {
                 synchronized (cache) {
                     cache.put(imageURL, bitmap);
                 }
+                if (imageView == null) {
+                    return;
+                }
                 imageView.setImageBitmap(bitmap);
             }
         }.execute(imageURL);
 
     }
 
+    /**
+     * Its dumb to do this as a seperate method; a better solution would be to
+     * make clients create an anonymous class, and override a method, which
+     * gets the image in as a parameter.
+     *
+     * @param imageView
+     * @param imageURL
+     */
     public void setImageViewResourceAlphaAnimated(final ImageView imageView, final String imageURL) {
         if (Build.VERSION.SDK_INT < 12) {
             setImageViewResource(imageView, imageURL);
@@ -88,9 +99,21 @@ public class ImageLoader {
                 }
                 imageView.setAlpha(0F);
                 imageView.setImageBitmap(bitmap);
-                imageView.animate().alpha(0.7F).setDuration(1000).start();
+                imageView.animate().alpha(0.9F).setDuration(1000).start();
             }
         }.execute(imageURL);
+    }
+
+    public void downloadImage(String url) {
+        // Needs to check if image already is downloaded
+        Bitmap b = getBitmapFromFile(String.valueOf(url.hashCode()));
+        if (b != null) return;
+
+        b = getBitmapFromWeb(url);
+        if (b == null) {
+            return;
+        }
+        saveBitmapToFile(b, String.valueOf(url.hashCode()));
     }
 
     private class AsyncImageLoader extends AsyncTask<String, Void, Bitmap> {
@@ -100,16 +123,23 @@ public class ImageLoader {
             // The cache
             Bitmap bitmap = cache.get(imageURL);
             if (bitmap != null) {
+                Log.d(TAG, "Got bitmap from cache");
                 return bitmap;
             }
             // From file
             bitmap = getBitmapFromFile(String.valueOf(imageURL.hashCode()));
             if (bitmap != null) {
+                Log.d(TAG, "Got bitmap from file");
                 return bitmap;
             }
+            /**
+             * After the ImageDownloaderService, this is almost exception handling.
+             * There should never be a request for an image that isn't downloaded.
+             */
             // From web
             bitmap = getBitmapFromWeb(imageURL);
             if (bitmap != null) {
+                Log.d(TAG, "Got bitmap from web");
                 return bitmap;
             }
             return null;
@@ -123,26 +153,26 @@ public class ImageLoader {
      * @return the Bitmap in the file.
      */
     private Bitmap getBitmapFromFile(String fileName) {
-        Log.d(TAG, "getBitmapFromFile: " + fileName);
         File file = new File(cacheDir, fileName);
         try {
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(file));
-            return b;
+            return BitmapFactory.decodeStream(new FileInputStream(file));
         } catch (FileNotFoundException e) {
-            Log.d(TAG, "File " + file.toString() + " could not be found");
             return null;
         }
     }
 
     private Bitmap getBitmapFromWeb(String url) {
-        Log.d(TAG, "getBitmapFromWeb: " + url);
         InputStream is = null;
         URLConnection connection;
         try {
             URL aURL = new URL(url);
             connection = aURL.openConnection();
             connection.addRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml");
-            is = connection.getInputStream();
+            try {
+                is = connection.getInputStream();
+            } catch (FileNotFoundException e) {
+
+            }
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;

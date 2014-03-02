@@ -15,7 +15,6 @@
         android:defaultValue="0"
         android:summary="@string/pref_summary_set_age" />
 
-
     <MultiSelectListPreference
         android:key="categories"
         android:entryValues="@array/categories_lower"
