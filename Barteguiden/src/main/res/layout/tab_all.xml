@@ -6,7 +6,7 @@
     android:background="@color/white">
 
     <se.emilsjolander.stickylistheaders.StickyListHeadersListView
-        style="@style/stickyliststyle"
+        style="@style/stickylist"
         android:id="@+id/list_events_all"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />

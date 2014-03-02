@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <ListView
-        style="@style/stickyliststyle"
+        style="@style/stickylist"
         android:id="@+id/list_events_featured"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

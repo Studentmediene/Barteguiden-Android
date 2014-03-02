@@ -4,15 +4,9 @@
     android:layout_height="match_parent">
 
     <TextView
+        style="@style/stickyheader"
         android:id="@+id/header_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/margin_medium"
-        android:paddingBottom="@dimen/margin_medium"
-        android:paddingTop="@dimen/margin_large"
-        android:text="@string/p_date"
-        android:textColor="@color/blue"
-        android:textSize="@dimen/text_small"
-        android:textStyle="bold"
-        android:background="@drawable/header" />
+        android:text="@string/p_date" />
 </FrameLayout>
