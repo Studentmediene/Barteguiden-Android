@@ -58,7 +58,6 @@ public class DatabaseManager {
     // Convert from Cursor to EventItem
     private EventItem cursorToEventsItem(Cursor cursor) {
         EventItem eventItem = new EventItem();
-
         eventItem.setId(cursor.getLong(0));
         eventItem.setEventsId(cursor.getString(1));
         eventItem.setTitle(cursor.getString(2));
@@ -79,12 +78,12 @@ public class DatabaseManager {
         eventItem.setEventURL(cursor.getString(17));
         eventItem.setisRecomended(cursor.getInt(18) != 0);
         eventItem.setNotificationId(cursor.getInt(19));
-
         return eventItem;
     }
 
     // Get All Events from Data Base
     public synchronized List<EventItem> getAllEventsItem() {
+        Log.d(TAG, "getAllEventsItem");
         if (!hasChanged) {
             return new ArrayList<EventItem>(cachedEventList);
         }
@@ -105,7 +104,7 @@ public class DatabaseManager {
         if (eventItemList.size() > 0) {
             cachedEventList = eventItemList;
             hasChanged = false;
-
+            Log.d(TAG, "return getAllEventsItem()");
             return new ArrayList<EventItem>(cachedEventList);
         }
         Log.w(TAG, "Couldn't update the database.");

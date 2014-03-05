@@ -52,5 +52,7 @@
     <string name="list_empty_header">Your list is empty!</string>
     <string name="list_empty_desc">Favorite something!!</string>
     <string name="list_empty_desc_cont">What did you really expect?</string>
+    <string name="event_in_trondheim">Event in Trondheim</string>
+    <string name="update_db">Updating the database. This might take a few seconds...</string>
 
 </resources>

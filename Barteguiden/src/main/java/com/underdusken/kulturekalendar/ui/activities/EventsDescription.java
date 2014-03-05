@@ -241,8 +241,7 @@ public class EventsDescription extends Activity {
         if (eventItem.getEventURL().length() > 0) {
             shareBody += " (" + eventItem.getEventURL() + ")";
         }
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.id.event_in_trondheim));
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.event_in_trondheim));
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 

@@ -44,6 +44,7 @@ public class TabFeatured extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.d(TAG, "onCreateView");
         return inflater.inflate(R.layout.featured, container, false);
     }
 
@@ -96,6 +97,7 @@ public class TabFeatured extends Fragment {
         } else {
             progressBar.setVisibility(View.GONE);
         }
+        Log.d(TAG, "View is updated");
     }
 
 
@@ -105,7 +107,6 @@ public class TabFeatured extends Fragment {
             activityHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    // update screen information
                     new DatabaseTask().execute();
                     updateView();
                 }
@@ -122,6 +123,7 @@ public class TabFeatured extends Fragment {
                 Log.w(TAG, "Failed to update. EventItems is null.");
                 return;
             }
+            Log.d(TAG, "onPostExecute");
             adapterEventsItem.clear();
             adapterEventsItem.addAll(eventItems);
             updateView();
@@ -129,6 +131,7 @@ public class TabFeatured extends Fragment {
 
         @Override
         protected List<EventItem> doInBackground(Void... params) {
+            Log.d(TAG, "Starting doInBackground");
             List<EventItem> list = new ArrayList<EventItem>();
             DatabaseManager databaseManager = new DatabaseManager(getActivity());
             try {

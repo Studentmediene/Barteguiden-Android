@@ -69,10 +69,10 @@ public class MainHandler {
     }
 
 
-    private class UpdateDataThread extends AsyncTask<Void, EventItem, Boolean> {
+    private class UpdateDataThread extends AsyncTask<Void, Void, List<EventItem>> {
 
         @Override
-        protected Boolean doInBackground(Void... voids) {
+        protected List<EventItem> doInBackground(Void... voids) {
             // For test internet connection
             NetworkRequest networkRequest = new NetworkRequest();
             NetworkRequest.setActivity(context);
@@ -80,38 +80,25 @@ public class MainHandler {
 
             if (result != null) {
                 List<EventItem> newEventsList = JsonParseEvents.parse(result);
-                if (newEventsList != null) {
-                    for (EventItem eventItem : newEventsList) {              // add information to DB
-                        onProgressUpdate(eventItem);
-                    }
-                }
-                return true;
+                return newEventsList;
             }
-            return false;
-        }
-
-
-        @Override
-        protected void onProgressUpdate(EventItem... values) {
-            if (values.length > 0) {
-                DatabaseManager databaseManager = new DatabaseManager(context);
-                try {
-                    databaseManager.open();
-                    databaseManager.addEventItem(values[0]);
-                    databaseManager.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File
-                    // Templates.
-                }
-            }
+            return null;
         }
 
         @Override
-        protected void onPostExecute(Boolean isNewData) {
-            if (isNewData) {
-                Intent i = new Intent(BroadcastNames.BROADCAST_NEW_DATA);
-                context.sendBroadcast(i);
+        protected void onPostExecute(List<EventItem> list) {
+            DatabaseManager databaseManager = new DatabaseManager(context);
+            try {
+                databaseManager.open();
+                for (EventItem e : list) {
+                    databaseManager.addEventItem(e);
+                }
+                databaseManager.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
+            Intent i = new Intent(BroadcastNames.BROADCAST_NEW_DATA);
+            context.sendBroadcast(i);
         }
 
     }

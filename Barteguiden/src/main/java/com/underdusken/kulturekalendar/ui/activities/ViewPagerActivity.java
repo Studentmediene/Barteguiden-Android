@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.mainhandler.MainHandler;
@@ -43,7 +44,7 @@ public class ViewPagerActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.d(TAG, "App is starting");
         setContentView(R.layout.view_pager);
 
         pagerAdapter = new PageAdapter(getSupportFragmentManager());
@@ -87,6 +88,7 @@ public class ViewPagerActivity extends ActionBarActivity {
         Tab tab = actionBar.newTab().setText(R.string.tab1).setTabListener(tabListener);
         actionBar.addTab(tab);
         pagerAdapter.addFragment(new TabFeatured());
+        Log.d(TAG, "Tab is added.");
 
         tab = actionBar.newTab().setText(R.string.tab2).setTabListener(tabListener);
         actionBar.addTab(tab);
@@ -122,6 +124,7 @@ public class ViewPagerActivity extends ActionBarActivity {
         if (time > lastUpdate + UPDATE_INTERVAL) {
             MainHandler.getInstance(this.getApplicationContext()).onStartApplication();
             prefs.edit().putLong("last_update", time).commit();
+            Toast.makeText(this, R.string.update_db, Toast.LENGTH_LONG).show();
             Log.d(TAG, "Updating DB");
         }
     }
