@@ -39,7 +39,7 @@ public class SetupActivity extends Activity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0, R.anim.abc_slide_out_top);
+        overridePendingTransition(R.anim.go_left_in, R.anim.go_left_out);
     }
 
     @Override
