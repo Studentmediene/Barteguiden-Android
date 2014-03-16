@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         minSdkVersion 8
-        targetSdkVersion 19
+        targetSdkVersion 18
     }
     lintOptions{
         abortOnError false
@@ -26,8 +26,8 @@ android {
 }
 
 dependencies {
-    compile "com.android.support:support-v4:18.0.+"         // Support v4
-    compile "com.android.support:appcompat-v7:18.0.+"       // For AcionBar
-    compile "com.google.android.gms:play-services:3.1.36"   // For maps
+    compile "com.android.support:support-v4:19.+"         // Support v4
+    compile "com.android.support:appcompat-v7:19.+"       // For AcionBar
+    compile "com.google.android.gms:play-services:4.+"   // For maps
     compile "se.emilsjolander:stickylistheaders:2.+"
 }
