@@ -44,7 +44,7 @@ public class ViewPagerActivity extends ActionBarActivity {
         Log.d(TAG, "App is starting");
         setContentView(R.layout.view_pager);
 
-        SharedPreferences sp = getPreferences(MODE_PRIVATE);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         if (sp.getBoolean("needSetup", true)) {
             Intent i = new Intent(ViewPagerActivity.this, SetupActivity.class);
             startActivity(i);

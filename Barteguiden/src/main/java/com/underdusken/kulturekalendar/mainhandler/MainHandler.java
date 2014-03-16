@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.underdusken.kulturekalendar.data.EventItem;
 import com.underdusken.kulturekalendar.data.db.DatabaseManager;
@@ -69,24 +70,22 @@ public class MainHandler {
     }
 
 
-    private class UpdateDataThread extends AsyncTask<Void, Void, List<EventItem>> {
+    private class UpdateDataThread extends AsyncTask<Void, Void, Void> {
 
         @Override
-        protected List<EventItem> doInBackground(Void... voids) {
+        protected Void doInBackground(Void... voids) {
             // For test internet connection
+            Log.d("HANDLER", "Start");
             NetworkRequest networkRequest = new NetworkRequest();
             NetworkRequest.setActivity(context);
             String result = networkRequest.getInputStreamFromUrl(NetworkLinks.JSON_DATA);
 
-            if (result != null) {
-                List<EventItem> newEventsList = JsonParseEvents.parse(result);
-                return newEventsList;
+            Log.d("HANDLER", "end URL");
+            if (result == null) {
+                return null;
             }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(List<EventItem> list) {
+            List<EventItem> list = JsonParseEvents.parse(result);
+            Log.d("HANDLER", "end JSON");
             DatabaseManager databaseManager = new DatabaseManager(context);
             try {
                 databaseManager.open();
@@ -97,6 +96,12 @@ public class MainHandler {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            Log.d("HANDLER", "end");
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void hurr) {
             Intent i = new Intent(BroadcastNames.BROADCAST_NEW_DATA);
             context.sendBroadcast(i);
         }
