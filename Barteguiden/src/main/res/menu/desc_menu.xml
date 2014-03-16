@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/desc_share"
+        android:title="@string/share"
+        android:icon="@drawable/ic_action_share"
+        android:onClick="onMenuItemClick"
+        android:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/desc_web"
+        android:title="@string/goto_web"
+        android:icon="@drawable/ic_action_web_site"
+        android:onClick="onMenuItemClick"
+        android:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/desc_map"
+        android:title="@string/open_map"
+        android:icon="@drawable/ic_action_place"
+        android:onClick="onMenuItemClick"
+        android:showAsAction="ifRoom" />
+
+</menu>

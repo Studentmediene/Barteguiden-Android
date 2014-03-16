@@ -1,2 +1,2 @@
-Kulturkalender-Android
-======================
+Kulturkalender for Android
+==========================

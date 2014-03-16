@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="categories">
+        <item>Sport</item>
+        <item>Performances</item>
+        <item>Music</item>
+        <item>Exhibitions</item>
+        <item>Nightlife</item>
+        <item>Presentations</item>
+        <item>Debate</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="categories_lower">
+        <item>sport</item>
+        <item>performances</item>
+        <item>music</item>
+        <item>exhibitions</item>
+        <item>nightlife</item>
+        <item>presentations</item>
+        <item>debate</item>
+        <item>other</item>
+    </string-array>
+</resources>

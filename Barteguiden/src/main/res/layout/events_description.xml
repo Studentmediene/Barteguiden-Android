@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:id="@+id/desc_imageArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black">
+
+            <ImageView
+                android:id="@+id/event_image"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/image_height"
+                android:alpha="1"
+                android:scaleType="centerCrop"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="false" />
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/image_height"
+                android:layout_alignTop="@+id/event_image"
+                android:layout_alignBottom="@+id/event_image"
+                android:layout_alignLeft="@+id/event_image"
+                android:layout_alignRight="@+id/event_image"
+                android:padding="@dimen/margin_medium">
+
+                <!-- Price -->
+                <TextView
+                    style="@style/desc_textview_shadowed"
+                    android:id="@+id/event_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:text="@string/p_price"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:padding="@dimen/margin_small" />
+
+                <!-- Age -->
+                <TextView
+                    style="@style/desc_textview_shadowed"
+                    android:id="@+id/event_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/p_age"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:padding="@dimen/margin_small" />
+
+                <!-- Location -->
+                <TextView
+                    style="@style/desc_textview_shadowed"
+                    android:id="@+id/event_place_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:text="@string/p_place"
+                    android:layout_below="@+id/event_title"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:padding="@dimen/margin_small" />
+
+                <!-- Title -->
+                <TextView
+                    style="@style/desc_textview_shadowed"
+                    android:id="@+id/event_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@string/p_band"
+                    android:textColor="@color/abs_white"
+                    android:textSize="@dimen/text_large"
+                    android:textStyle="bold"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:padding="@dimen/margin_small" />
+
+                <ImageView
+                    android:id="@+id/event_category_id"
+                    android:layout_width="@dimen/icon_height"
+                    android:layout_height="@dimen/icon_height"
+                    android:src="@drawable/category_music"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true" />
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/desc_calendarBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/white_box"
+            android:paddingLeft="@dimen/margin_large"
+            android:paddingRight="@dimen/margin_large"
+            android:paddingTop="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_medium">
+
+            <ImageView
+                android:id="@+id/add_to_favorite"
+                android:layout_width="@dimen/icon_height"
+                android:layout_height="@dimen/icon_height"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:src="@drawable/ic_action_important" />
+
+            <RelativeLayout
+                android:id="@+id/add_to_calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_list_white"
+                android:clickable="true"
+                android:paddingRight="@dimen/margin_small">
+
+                <ImageView
+                    android:id="@+id/ic_calendar"
+                    android:layout_width="@dimen/icon_height"
+                    android:layout_height="@dimen/icon_height"
+                    android:src="@drawable/ic_action_event" />
+
+                <TextView
+                    android:id="@+id/event_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/p_date"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/ic_calendar" />
+
+                <TextView
+                    android:id="@+id/calendar_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/event_date"
+                    android:layout_toRightOf="@id/ic_calendar"
+                    android:text="@string/add_calendar"
+                    android:textSize="@dimen/text_micro"
+                    android:textColor="@color/black" />
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/white_box"
+            android:layout_margin="@dimen/margin_medium"
+            android:padding="@dimen/margin_medium">
+
+            <TextView
+                android:id="@+id/title_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:textColor="@color/grey_light"
+                android:textSize="@dimen/text_medium"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/event_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:text="@string/p_band"
+                android:textIsSelectable="false"
+                android:textSize="@dimen/text_small" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>

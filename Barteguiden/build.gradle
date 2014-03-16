@@ -1,0 +1,33 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.7.+'
+    }
+}
+apply plugin: 'android'
+
+repositories {
+    mavenCentral()
+}
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.0.3"
+
+    defaultConfig {
+        minSdkVersion 8
+        targetSdkVersion 18
+    }
+    lintOptions{
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile "com.android.support:support-v4:19.+"         // Support v4
+    compile "com.android.support:appcompat-v7:19.+"       // For AcionBar
+    compile "com.google.android.gms:play-services:4.+"   // For maps
+    compile "se.emilsjolander:stickylistheaders:2.+"
+}

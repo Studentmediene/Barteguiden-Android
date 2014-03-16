@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/margin_medium"
+    android:paddingRight="@dimen/margin_medium">
+
+    <TextView
+        style="@style/stickyheader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_empty_header"
+        android:paddingTop="@dimen/margin_large"
+        android:text="@string/list_empty_header" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/listitem"
+        android:paddingLeft="@dimen/margin_large">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_empty_desc"
+            android:textSize="@dimen/text_small"
+            android:padding="@dimen/margin_small"
+            android:text="@string/list_empty_desc" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey_lighter"
+            android:textSize="@dimen/text_micro"
+            android:gravity="right"
+            android:text="@string/list_empty_desc_cont"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/list_empty_desc" />
+    </RelativeLayout>
+
+</LinearLayout>
