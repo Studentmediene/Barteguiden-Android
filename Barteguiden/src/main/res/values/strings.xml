@@ -54,5 +54,8 @@
     <string name="list_empty_desc_cont">What did you really expect?</string>
     <string name="event_in_trondheim">Event in Trondheim</string>
     <string name="update_db">Updating the database. This might take a few seconds...</string>
+    <string name="setup_title">Setup</string>
+    <string name="setup_desc1">Barteguiden need to initialize itself</string>
+    <string name="setup_desc2">Don\'t wory; this will only take a few seconds, and an internet connection</string>
 
 </resources>

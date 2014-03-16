@@ -2,8 +2,6 @@ package com.underdusken.kulturekalendar.ui.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -24,7 +22,6 @@ import android.widget.Toast;
 
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.mainhandler.MainHandler;
-import com.underdusken.kulturekalendar.service.ImageDownloaderService;
 import com.underdusken.kulturekalendar.ui.fragments.TabAll;
 import com.underdusken.kulturekalendar.ui.fragments.TabFavorite;
 import com.underdusken.kulturekalendar.ui.fragments.TabFeatured;
@@ -46,6 +43,12 @@ public class ViewPagerActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "App is starting");
         setContentView(R.layout.view_pager);
+
+        SharedPreferences sp = getPreferences(MODE_PRIVATE);
+        if (sp.getBoolean("needSetup", true)) {
+            Intent i = new Intent(ViewPagerActivity.this, SetupActivity.class);
+            startActivity(i);
+        }
 
         pagerAdapter = new PageAdapter(getSupportFragmentManager());
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -103,14 +106,17 @@ public class ViewPagerActivity extends ActionBarActivity {
         pagerAdapter.addFragment(new TabFavorite());
 
 
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-        if (ni.isConnected()) {
-            Intent i = new Intent(this, ImageDownloaderService.class);
-            startService(i);
-        }
-
+        /**
+         * Kanskje ikke ??
+         *
+         *
+         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+         NetworkInfo ni = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+         if (ni.isConnected()) {
+         Intent i = new Intent(this, ImageDownloaderService.class);
+         startService(i);
+         }
+         */
     }
 
     private static final long UPDATE_INTERVAL = 1000 * 60 * 60 * 24;
