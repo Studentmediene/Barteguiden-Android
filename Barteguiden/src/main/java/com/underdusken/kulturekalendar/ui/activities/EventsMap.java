@@ -3,7 +3,6 @@ package com.underdusken.kulturekalendar.ui.activities;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,11 +33,7 @@ public class EventsMap extends FragmentActivity {
             finish();
         }
 
-        try {
-            MapsInitializer.initialize(this);
-        } catch (GooglePlayServicesNotAvailableException e) {
-            e.printStackTrace();
-        }
+        MapsInitializer.initialize(this);
 
         latitude = extras.getFloat("events_latitude");
         longitude = extras.getFloat("events_longitude");
