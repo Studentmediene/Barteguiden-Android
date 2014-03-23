@@ -47,6 +47,7 @@ public class ViewPagerActivity extends ActionBarActivity {
         if (sp.getBoolean("needSetup", true)) {
             Intent i = new Intent(ViewPagerActivity.this, SetupActivity.class);
             startActivity(i);
+            overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
         }
 
         pagerAdapter = new PageAdapter(getSupportFragmentManager());
