@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_medium"
             android:gravity="center"
-            android:textColor="@color/black"
+            android:textColor="@color/grey_dark"
             android:text="@string/setup_desc1"
             android:id="@+id/setup_desc1" />
 
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_small"
             android:gravity="center"
-            android:textColor="@color/black"
+            android:textColor="@color/grey_light"
             android:text="@string/setup_desc2"
             android:id="@+id/setup_desc2" />
     </LinearLayout>
