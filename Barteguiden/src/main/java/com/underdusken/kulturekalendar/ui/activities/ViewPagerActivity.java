@@ -18,7 +18,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.underdusken.kulturekalendar.R;
 import com.underdusken.kulturekalendar.mainhandler.MainHandler;
@@ -31,8 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewPagerActivity extends ActionBarActivity {
-    private static final int UPDATE_SECONDS_DELAY = 30 * 60;
     private static final String TAG = "ViewPagerActivity";
+    private static final long UPDATE_INTERVAL = 1000 * 60 * 60 * 24;
 
     private PageAdapter pagerAdapter;
     private ViewPager viewPager;
@@ -105,21 +104,8 @@ public class ViewPagerActivity extends ActionBarActivity {
         actionBar.addTab(tab);
         pagerAdapter.addFragment(new TabFavorite());
 
-
-        /**
-         * Kanskje ikke ??
-         *
-         *
-         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-         NetworkInfo ni = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-         if (ni.isConnected()) {
-         Intent i = new Intent(this, ImageDownloaderService.class);
-         startService(i);
-         }
-         */
     }
 
-    private static final long UPDATE_INTERVAL = 1000 * 60 * 60 * 24;
 
     @Override
     protected void onResume() {
@@ -130,7 +116,6 @@ public class ViewPagerActivity extends ActionBarActivity {
         if (time > lastUpdate + UPDATE_INTERVAL) {
             MainHandler.getInstance(this.getApplicationContext()).onStartApplication();
             prefs.edit().putLong("last_update", time).commit();
-            Toast.makeText(this, R.string.update_db, Toast.LENGTH_LONG).show();
             Log.d(TAG, "Updating DB");
         }
     }
