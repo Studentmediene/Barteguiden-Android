@@ -24,6 +24,7 @@ import java.util.Locale;
 public class EventsDescription extends Activity {
 
     private static final String TAG = "EventsDescription";
+    private final int CODE_insert = 69;
     private ImageLoader imageLoader;
 
     private ImageView image;
@@ -207,8 +208,6 @@ public class EventsDescription extends Activity {
     private void addToCalendar() {
         if (eventItem.getNotificationId() == 0) {
 
-            eventItem.setNotificationId(1);
-
             long eventStartTime = new SimpleTimeFormat(eventItem.getDateStart()).getMs();
             Intent intent = new Intent(Intent.ACTION_INSERT);
             intent.setType("vnd.android.cursor.item/event");
@@ -218,19 +217,29 @@ public class EventsDescription extends Activity {
             intent.putExtra("eventLocation", eventItem.getPlaceName());
             intent.putExtra("description", globalEventText);
 
-            startActivity(intent);
-            DatabaseManager databaseManager = new DatabaseManager(EventsDescription.this);
-            try {
-                databaseManager.open();
-                databaseManager.updateEventsItemCalendar(eventItem.getId(),
-                        eventItem.getNotificationId());
-                databaseManager.close();
-            } catch (SQLException e) {
-            }
-            TextView calText = (TextView) findViewById(R.id.calendar_text);
-            calText.setText(R.string.calendar_added);
-            calText.setTextColor(getResources().getColor(R.color.green));
+            startActivityForResult(intent, CODE_insert);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode != CODE_insert) return;
+        /**
+         * This isn't really working, because resultCode is always 0 (for some reason).
+         */
+        eventItem.setNotificationId(1);
+        DatabaseManager databaseManager = new DatabaseManager(EventsDescription.this);
+        try {
+            databaseManager.open();
+            databaseManager.updateEventsItemCalendar(eventItem.getId(),
+                    eventItem.getNotificationId());
+            databaseManager.close();
+        } catch (SQLException e) {
+        }
+        TextView calText = (TextView) findViewById(R.id.calendar_text);
+        calText.setText(R.string.calendar_added);
+        calText.setTextColor(getResources().getColor(R.color.green));
     }
 
     private void share() {
