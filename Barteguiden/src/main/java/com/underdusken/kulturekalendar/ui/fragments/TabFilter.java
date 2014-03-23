@@ -165,7 +165,7 @@ public class TabFilter extends Fragment implements SearchView.OnQueryTextListene
                 if (freeOnly && eventItem.getPrice() > 0) {
                     continue;
                 }
-                if (!eventItem.getTitle().contains(searchText)) {
+                if (!eventItem.getTitle().toLowerCase().contains(searchText.toLowerCase())) {
                     continue;
                 }
                 filterEventItem.add(eventItem);
