@@ -206,10 +206,12 @@ public class TabFilter extends Fragment implements SearchView.OnQueryTextListene
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.filter, menu);
+        inflater.inflate(R.menu.actionbar_menu, menu);
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         if (searchView != null) {
+            searchView.setQueryHint(getString(R.string.search_current_tab));
             searchView.setOnQueryTextListener(this);
         }
         super.onCreateOptionsMenu(menu, inflater);

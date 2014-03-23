@@ -8,15 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.underdusken.kulturekalendar.R;
@@ -119,18 +115,6 @@ public class ViewPagerActivity extends ActionBarActivity {
             prefs.edit().putLong("last_update", time).commit();
             Log.d(TAG, "Updating DB");
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.actionbar_menu, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        if (searchView != null) {
-            searchView.setQueryHint(getString(R.string.search_current_tab));
-        }
-        return super.onCreateOptionsMenu(menu);
     }
 
     public boolean onMenuItemClick(MenuItem item) {

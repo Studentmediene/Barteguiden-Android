@@ -151,10 +151,12 @@ public class TabAll extends Fragment implements SearchView.OnQueryTextListener {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.actionbar_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         if (searchView != null) {
             searchView.setOnQueryTextListener(this);
+            searchView.setQueryHint(getString(R.string.search_current_tab));
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
