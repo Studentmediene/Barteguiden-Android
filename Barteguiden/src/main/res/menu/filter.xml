@@ -4,7 +4,7 @@
     xmlns:yourapp="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_filter"
-        android:icon="@drawable/ic_action_web_site"
+        android:icon="@drawable/ic_action_filter"
         android:title="@string/filter"
         android:onClick="onMenuItemClick"
         yourapp:showAsAction="ifRoom" />
