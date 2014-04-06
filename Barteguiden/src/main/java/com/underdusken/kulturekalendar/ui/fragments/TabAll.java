@@ -121,21 +121,23 @@ public class TabAll extends Fragment implements SearchView.OnQueryTextListener {
     private void updateFilter(String filter) {
         String searchText = filter.toLowerCase();
         filterEventItem.clear();
-        if (eventItemList != null) {
-            if (searchText.equals("") && priceInclude == -1) {
-                filterEventItem.addAll(eventItemList);
-            } else {
-                for (EventItem eventItem : eventItemList) {
-                    if (eventItem.getTitle().toLowerCase().contains(searchText)) {
-                        if (priceInclude == -1) {
-                            filterEventItem.add(eventItem);
-                        } else if (priceInclude == 0) {
-                            if (eventItem.getPrice() == 0) filterEventItem.add(eventItem);
-                        } else if (priceInclude == 1) {
-                            if (eventItem.getPrice() > 0) filterEventItem.add(eventItem);
-                        }
-                    }
-                }
+        if (eventItemList == null) {
+            return;
+        }
+        if (searchText.equals("") && priceInclude == -1) {
+            filterEventItem.addAll(eventItemList);
+            return;
+        }
+        for (EventItem eventItem : eventItemList) {
+            if (!eventItem.getTitle().toLowerCase().contains(searchText)) {
+                continue;
+            }
+            if (priceInclude == -1) {
+                filterEventItem.add(eventItem);
+            } else if (priceInclude == 0) {
+                if (eventItem.getPrice() == 0) filterEventItem.add(eventItem);
+            } else if (priceInclude == 1) {
+                if (eventItem.getPrice() > 0) filterEventItem.add(eventItem);
             }
         }
     }

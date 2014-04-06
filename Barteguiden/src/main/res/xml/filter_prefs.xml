@@ -19,6 +19,7 @@
         android:key="categories"
         android:entryValues="@array/categories_lower"
         android:entries="@array/categories"
+        android:defaultValue="true"
         android:title="@string/pref_title_categories" />
 
     <SwitchPreference
