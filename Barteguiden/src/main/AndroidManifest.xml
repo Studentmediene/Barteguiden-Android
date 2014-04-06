@@ -64,19 +64,17 @@
 
 
         <!--Adding Google Maps Certificate-->
-        <!--Debug certificate -->
+        <!--Debug certificate
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/map_key_debug" />
+            -->
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <!--Release certificate
         <meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
-                android:value="@string/map_key_release" /> -->
-
-
+                android:value="@string/map_key_release" />
     </application>
 </manifest>
