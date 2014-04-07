@@ -122,6 +122,12 @@ public class TabFilter extends Fragment implements SearchView.OnQueryTextListene
         getActivity().registerReceiver(notificationUpdateReceiver, intentFilterNotificationUpdate);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unRegisterReceiver(notificationUpdateReceiver);
+    }
+
     /**
      * callback update search information
      */
