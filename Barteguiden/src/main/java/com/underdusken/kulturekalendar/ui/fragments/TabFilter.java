@@ -125,7 +125,7 @@ public class TabFilter extends Fragment implements SearchView.OnQueryTextListene
     @Override
     public void onPause() {
         super.onPause();
-        getActivity().unRegisterReceiver(notificationUpdateReceiver);
+        getActivity().unregisterReceiver(notificationUpdateReceiver);
     }
 
     /**
