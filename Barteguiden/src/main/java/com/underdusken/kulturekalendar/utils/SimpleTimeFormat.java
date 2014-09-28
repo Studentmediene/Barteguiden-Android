@@ -18,7 +18,7 @@ public class SimpleTimeFormat {
     // Tuesday, 23. may 2013, 13:45
     public static String userDateFullFormat = "EEEE, dd. MMMM yyyy, HH:mm";
     // 24. may 2013
-    public static String userDateHeadFormat = "dd. MMMM yyyy";
+    public static String userDateHeadFormat = "EEEE dd. MMMM yyyy";
     // 23:14
     public static String userDateTimeFormat = "HH:mm";
 
