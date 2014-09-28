@@ -41,7 +41,8 @@ public class AdapterEventsItem extends ArrayAdapter<EventItem> implements Sticky
             holder = (HeaderHolder) view.getTag();
         }
         SimpleTimeFormat dateNow = new SimpleTimeFormat(getItem(i).getDateStart());
-        holder.date.setText(dateNow.getUserHeaderDate());
+        String date = dateNow.getUserHeaderDate();
+        holder.date.setText(Character.toUpperCase(date.charAt(0)) + date.substring(1));
 
         return view;
     }
