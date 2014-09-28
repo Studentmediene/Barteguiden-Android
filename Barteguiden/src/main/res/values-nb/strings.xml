@@ -37,6 +37,7 @@
     <string name="pref_summary_filter_age">Filtrer ut arrangementer du ikke kan delta på</string>
     <string name="pref_title_categories">Synlige kategorier</string>
     <string name="filter">Filter</string>
+    <string name="free">Gratis</string>
     <string name="pref_title_set_age">Alder</string>
     <string name="pref_summary_set_age">Sett din alder</string>
     <string name="pref_title_filter_free">Bare gratis</string>
@@ -45,5 +46,7 @@
     <string name="list_empty_header">Listen er tom!</string>
     <string name="list_empty_desc">Marker noe som favoritt!!</string>
     <string name="list_empty_desc_cont">Hva forventet du egentlig?</string>
-
+    <string name="setup_title">Oppsett</string>
+    <string name="setup_desc1">Barteguiden må sette opp seg selv</string>
+    <string name="setup_desc2">Slapp av; dette vil bare ta et par sekunder, og en internettilkonling.</string>
 </resources>

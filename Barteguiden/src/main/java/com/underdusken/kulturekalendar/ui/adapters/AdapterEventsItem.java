@@ -94,7 +94,8 @@ public class AdapterEventsItem extends ArrayAdapter<EventItem> implements Sticky
         viewHolder.place.setText(item.getPlaceName());
         SimpleTimeFormat time = new SimpleTimeFormat(item.getDateStart());
         viewHolder.time.setText(time.getUserTimeDate());
-        String cost = item.getPrice() <= 0 ? "Free" : ((int) item.getPrice()) + " kr";
+        String free = getContext().getString(R.string.free);
+        String cost = item.getPrice() <= 0 ? free : ((int) item.getPrice()) + " kr";
         viewHolder.price.setText(cost);
 
         return view;
