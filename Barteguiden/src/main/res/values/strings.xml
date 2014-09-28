@@ -4,12 +4,6 @@
     <!--INTERNET-->
     <string name="internet_connection_error">Internet Connection Error</string>
 
-    <string name="tab2_check_all_events">All</string>
-    <string name="tab2_check_my_events">My</string>
-
-    <!--WELCOME PAGE-->
-    <string name="str_welcome_page">WELCOME!!!</string>
-
 
     <string name="map_key_debug">AIzaSyC-Iyyi6EHspS_sRpmIW-wjtmvBBgDkXTo</string>
     <string name="map_key_release">AIzaSyAWyFvnFOEi00BGtIwCzCIHI4I7q4k6MEA</string>
@@ -21,7 +15,6 @@
     <string name="tab2">All</string>
     <string name="tab3">Filter</string>
     <string name="tab4">Favorites</string>
-    <string name="tab5">Settings</string>
 
     <!-- Placeholder strings -->
     <string name="app_name">Barteguiden</string>
@@ -53,7 +46,6 @@
     <string name="list_empty_header">Your list is empty!</string>
     <string name="list_empty_desc">Favorite something!!</string>
     <string name="list_empty_desc_cont">What did you really expect?</string>
-    <string name="event_in_trondheim">Event in Trondheim</string>
     <string name="update_db">Updating the database. This might take a few seconds...</string>
     <string name="setup_title">Setup</string>
     <string name="setup_desc1">Barteguiden needs to initialize itself</string>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="categories">
+        <item>Sport</item>
+        <item>Opptredener</item>
+        <item>Musikk</item>
+        <item>Utstillinger</item>
+        <item>Nattliv</item>
+        <item>Presentasjon</item>
+        <item>Debatt</item>
+        <item>Annet</item>
+    </string-array>
+    <string-array name="categories_lower">
+        <item>sport</item>
+        <item>opptredener</item>
+        <item>musikk</item>
+        <item>utstillinger</item>
+        <item>nattliv</item>
+        <item>presentasjon</item>
+        <item>debatt</item>
+        <item>annet</item>
+    </string-array>
+</resources>
