@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.underdusken.kulturekalendar"
-    android:versionCode="5"
-    android:versionName="2.0.1">
+    android:versionCode="6"
+    android:versionName="2.0.2">
 
-    <permission
+<permission
         android:name="com.underdusken.kulturekalendar.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
