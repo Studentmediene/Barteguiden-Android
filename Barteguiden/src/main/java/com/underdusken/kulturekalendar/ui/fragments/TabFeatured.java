@@ -125,7 +125,9 @@ public class TabFeatured extends Fragment {
             }
             Log.d(TAG, "onPostExecute");
             adapterEventsItem.clear();
-            adapterEventsItem.addAll(eventItems);
+            for (EventItem e : eventItems) {
+                adapterEventsItem.add(e);
+            }
             updateView();
         }
 
