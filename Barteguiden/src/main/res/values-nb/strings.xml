@@ -50,4 +50,5 @@
     <string name="setup_desc1">Barteguiden må sette opp seg selv</string>
     <string name="setup_desc2">Slapp av; dette vil bare ta et par sekunder, og en internettilkonling.</string>
     <string name="update_db">Oppdaterer databasen. Dette kan ta et par sekunder...</string>
+    <string name="event_in_trondheim">Event i Trondheim</string>
 </resources>
