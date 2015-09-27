@@ -112,7 +112,7 @@ public class ViewPagerActivity extends ActionBarActivity {
         long lastUpdate = prefs.getLong("last_update", 0);
         if (time > lastUpdate + UPDATE_INTERVAL) {
             MainHandler.getInstance(this.getApplicationContext()).onStartApplication();
-            prefs.edit().putLong("last_update", time).commit();
+            prefs.edit().putLong("last_update", time).apply();
             Log.d(TAG, "Updating DB");
         }
     }

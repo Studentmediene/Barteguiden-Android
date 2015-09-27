@@ -64,12 +64,6 @@ public class MainHandler {
     }
 
 
-    // TODO
-    public void onCloseApplication() {
-        updateDataThread.cancel(true);
-    }
-
-
     private class UpdateDataThread extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -77,7 +71,6 @@ public class MainHandler {
             // For test internet connection
             Log.d("HANDLER", "Start");
             NetworkRequest networkRequest = new NetworkRequest();
-            NetworkRequest.setActivity(context);
             String result = networkRequest.getInputStreamFromUrl(NetworkLinks.JSON_DATA);
 
             Log.d("HANDLER", "end URL");
