@@ -16,12 +16,14 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.underdusken.kulturekalendar.R;
+import com.underdusken.kulturekalendar.data.db.DatabaseManager;
 import com.underdusken.kulturekalendar.mainhandler.MainHandler;
 import com.underdusken.kulturekalendar.ui.fragments.TabAll;
 import com.underdusken.kulturekalendar.ui.fragments.TabFavorite;
 import com.underdusken.kulturekalendar.ui.fragments.TabFeatured;
 import com.underdusken.kulturekalendar.ui.fragments.TabFilter;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,27 @@ public class ViewPagerActivity extends ActionBarActivity {
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         if (sp.getBoolean("needSetup", true)) {
+            Intent i = new Intent(ViewPagerActivity.this, SetupActivity.class);
+            startActivity(i);
+            overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
+        }
+
+        if (sp.getBoolean("deleteData", true)) {
+            /* This is a hack. Server changes made new ids for the events,
+               so there's lots of duplicate events in the app.
+               Clear the database, and jump to SetupActivity, which pulls
+               the data back. */
+
+            DatabaseManager dm = new DatabaseManager(this);
+            try {
+                dm.open();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            dm.deleteAllEvents();
+            dm.close();
+            sp.edit().putBoolean("deleteData", false).apply();
+
             Intent i = new Intent(ViewPagerActivity.this, SetupActivity.class);
             startActivity(i);
             overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);

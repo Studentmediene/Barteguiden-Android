@@ -215,6 +215,11 @@ public class DatabaseManager {
         return eventItem;
     }
 
+    public void deleteAllEvents() {
+        String[] all = {"*"};
+        database.query(MySQLiteHelper.TABLE_EVENTS, all, null, null, null, null, null);
+    }
+
     public void addEventItem(EventItem eventItem) {
         // TODO need to add verification that we have no this event in our DB
         ContentValues values = new ContentValues();
