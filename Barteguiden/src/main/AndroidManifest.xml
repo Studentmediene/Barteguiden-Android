@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.underdusken.kulturekalendar"
     android:versionCode="7"
-    android:versionName="2.0.3">
+    android:versionName="2.0.4">
 
 <permission
         android:name="com.underdusken.kulturekalendar.permission.MAPS_RECEIVE"
