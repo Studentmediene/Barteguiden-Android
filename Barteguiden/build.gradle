@@ -19,7 +19,7 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 23
-        applicationId "com.underdusken.kulturekalender"
+        applicationId "com.underdusken.kulturekalendar"
     }
     lintOptions{
         abortOnError false
